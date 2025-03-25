@@ -1,0 +1,28 @@
+CREATE DATABASE RentApartmentDatabase
+
+CREATE TABLE TestApartments(
+	TestID INT IDENTITY(1,1) PRIMARY KEY,
+    TestName NVARCHAR(255) NOT NULL,
+    TestPrice DECIMAL(10, 2) NOT NULL,
+    TestLocation NVARCHAR(50)
+)
+
+INSERT INTO TestApartments (TestName, TestPrice, TestLocation)
+VALUES 
+    ('Luxury Loft', 1200.50, 'New York'),
+    ('Cozy Studio', 850.00, 'Los Angeles'),
+    ('Modern Apartment', 950.75, 'Chicago'),
+    ('Spacious Condo', 1100.00, 'Miami'),
+    ('Budget Room', 600.00, 'Houston')
+
+
+CREATE TABLE Users (
+    UserID INT IDENTITY(1,1) PRIMARY KEY,
+    UserName NVARCHAR(100) NOT NULL,
+    PhoneNumber NVARCHAR(100)
+)
+
+SELECT * FROM TestApartments
+SELECT * FROM Users
+TRUNCATE TABLE Users
+drop table Users

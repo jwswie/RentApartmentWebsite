@@ -1,0 +1,14 @@
+body.clinic_version .dev-list .widget h3 {
+    display: inline-block;
+    font-size: 20px;
+    line-height: 1 !important;
+    margin: 0 !important;
+    padding: 15px 20px;
+    position: relative;
+    top: -25px;
+}
+body.clinic_version .dev-list .widget small {
+    display: block;
+    margin: -15px 0 -5px;
+    font-size: 16px;
+}
