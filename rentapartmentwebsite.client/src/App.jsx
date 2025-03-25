@@ -5,9 +5,32 @@ import { BrowserRouter as Router, Route, Routes, Link, useLocation, useNavigate 
 import HomePage from './HomePage';
 import AboutPage from './AboutPage';
 import ContactPage from './ContactPage';
+import LoginPage from './LoginPage';
+import SuccessPage from './SuccessPage';
+import ProfilePage from './ProfilePage';
+
+function ProtectedRoute({ user, children }) {
+    if (!user) {
+        return <SuccessPage />
+    }
+    return children;
+}
 
 function App() {
     const location = useLocation();
+    const [user, setUser] = useState(() => {
+        const storedUser = localStorage.getItem("user");
+        return storedUser ? JSON.parse(storedUser) : null;
+    });
+
+    const updateUser = (newUser) => {
+        setUser(newUser);
+        if (newUser) {
+            localStorage.setItem("user", JSON.stringify(newUser));
+        } else {
+            localStorage.removeItem("user");
+        }
+    };
 
     return (
         <div className="App">
@@ -32,6 +55,13 @@ function App() {
                             <li className={location.pathname === "/contact" ? "active" : ""}>
                                 <Link to="/contact">Contact</Link>
                             </li>
+                            <li className={location.pathname === "/login" || location.pathname === "/profile" ? "active" : ""}>
+                                {user ? (
+                                    <Link to="/profile" state={{ user: user }}>{user.userName}</Link>
+                                ) : (
+                                    <Link to="/login">Log In</Link>
+                                )}
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -41,6 +71,9 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
+                <Route path="/login" element={<LoginPage setUser={updateUser} />} />
+                <Route path="/success" element={<SuccessPage />} />
+                <Route path="/profile" element={<ProtectedRoute user={user}><ProfilePage setUser={updateUser} /></ProtectedRoute>} />
             </Routes>
 
             <div className="copyright-area">

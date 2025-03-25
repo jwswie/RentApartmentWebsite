@@ -19,7 +19,7 @@ VALUES
 CREATE TABLE Users (
     UserID INT IDENTITY(1,1) PRIMARY KEY,
     UserName NVARCHAR(100) NOT NULL,
-    PhoneNumber NVARCHAR(100)
+	EmailAddress NVARCHAR(100)
 )
 
 SELECT * FROM TestApartments
