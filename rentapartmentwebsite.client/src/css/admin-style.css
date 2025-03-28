@@ -1,0 +1,145 @@
+.admin-container {
+    display: flex;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+    position: fixed;
+}
+
+    .sidebar .search-input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+
+.menu-item {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #34495e;
+}
+
+.submenu {
+    padding-left: 20px;
+}
+
+    .submenu div {
+        padding: 5px 0;
+    }
+
+/* Main content */
+.content {
+    margin-left: 260px;
+    padding: 20px;
+    width: 100%;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+    .filters input,
+    .filters select {
+        padding: 8px;
+    }
+
+.add-btn {
+    background: green;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+th {
+    background: #f4f4f4;
+}
+
+.edit-btn {
+    background: orange;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background: red;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+
+.sidebar-footer {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+}
+
+.avatar-link {
+    display: block;
+}
+
+.avatar-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin-top: 20px;
+}
+
+    .profile-form label {
+        margin: 5px 0;
+        font-weight: bold;
+    }
+
+    .profile-form input {
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+.save-btn {
+    background: blue;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+    .save-btn:hover {
+        background: darkblue;
+    }

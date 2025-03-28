@@ -36,7 +36,7 @@ function LoginPage({ setUser }) {
             return;
         }
 
-        const userData = { userName: fullName, emailAddress };
+        const userData = { userName: fullName, emailAddress};
 
         try {
             const response = await fetch('/api/users/signup', {

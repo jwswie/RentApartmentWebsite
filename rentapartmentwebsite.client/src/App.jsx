@@ -8,6 +8,8 @@ import ContactPage from './ContactPage';
 import LoginPage from './LoginPage';
 import SuccessPage from './SuccessPage';
 import ProfilePage from './ProfilePage';
+import AdminPanel from './AdminPanel';
+import AdminProfile from './AdminProfile';
 
 function ProtectedRoute({ user, children }) {
     if (!user) {
@@ -18,6 +20,8 @@ function ProtectedRoute({ user, children }) {
 
 function App() {
     const location = useLocation();
+    const isAdminPage = location.pathname.startsWith('/admin');
+
     const [user, setUser] = useState(() => {
         const storedUser = localStorage.getItem("user");
         return storedUser ? JSON.parse(storedUser) : null;
@@ -34,38 +38,40 @@ function App() {
 
     return (
         <div className="App">
-            <nav className="navbar navbar-custom navbar-fixed-top">
-                <div className="top-area">
-                    <div className="container">
-                        <div className="col-sm-6">
-                            <p>Website Header</p>
+            {!isAdminPage && (
+                <nav className="navbar navbar-custom navbar-fixed-top">
+                    <div className="top-area">
+                        <div className="container">
+                            <div className="col-sm-6">
+                                <p>Website Header</p>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="container navigation">
-                    <div className="navbar-collapse navbar-right">
-                        <ul className="nav navbar-nav">
-                            <li className={location.pathname === "/" ? "active" : ""}>
-                                <Link to="/">Home</Link>
-                            </li>
-                            <li className={location.pathname === "/about" ? "active" : ""}>
-                                <Link to="/about">About Us</Link>
-                            </li>
-                            <li className={location.pathname === "/contact" ? "active" : ""}>
-                                <Link to="/contact">Contact</Link>
-                            </li>
-                            <li className={location.pathname === "/login" || location.pathname === "/profile" ? "active" : ""}>
-                                {user ? (
-                                    <Link to="/profile" state={{ user: user }}>{user.userName}</Link>
-                                ) : (
-                                    <Link to="/login">Log In</Link>
-                                )}
-                            </li>
-                        </ul>
+                    <div className="container navigation">
+                        <div className="navbar-collapse navbar-right">
+                            <ul className="nav navbar-nav">
+                                <li className={location.pathname === "/" ? "active" : ""}>
+                                    <Link to="/">Home</Link>
+                                </li>
+                                <li className={location.pathname === "/about" ? "active" : ""}>
+                                    <Link to="/about">About Us</Link>
+                                </li>
+                                <li className={location.pathname === "/contact" ? "active" : ""}>
+                                    <Link to="/contact">Contact</Link>
+                                </li>
+                                <li className={location.pathname === "/login" || location.pathname === "/profile" ? "active" : ""}>
+                                    {user ? (
+                                        <Link to="/profile" state={{ user: user }}>{user.userName}</Link>
+                                    ) : (
+                                        <Link to="/login">Log In</Link>
+                                    )}
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </nav>
+                </nav>
+            )}
 
             <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -73,16 +79,20 @@ function App() {
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/login" element={<LoginPage setUser={updateUser} />} />
                 <Route path="/success" element={<SuccessPage />} />
+                <Route path="/admin" element={<AdminPanel />} />
+                <Route path="/adminprofile" element={<AdminProfile />} />
                 <Route path="/profile" element={<ProtectedRoute user={user}><ProfilePage setUser={updateUser} /></ProtectedRoute>} />
             </Routes>
 
-            <div className="copyright-area">
-                <div className="container">
-                    <div className="col-md-8">
-                        <p>Website Footer</p>
+            {!isAdminPage && (
+                <div className="copyright-area">
+                    <div className="container">
+                        <div className="col-md-8">
+                            <p>Website Footer</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }
