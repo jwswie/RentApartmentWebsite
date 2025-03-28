@@ -88,11 +88,9 @@ function LoginPage({ setUser }) {
                 }
                 return;
             }
-            console.log('userResponse != ok');
 
             const adminResponse = await fetch(`/api/admins/login/${emailAddress}`);
             if (adminResponse.ok) {
-                console.log('adminResponse == ok');
                 setIsAdmin(true);
             }
             return;
