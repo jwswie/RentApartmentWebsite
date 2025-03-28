@@ -19,14 +19,11 @@ function ProfileProtectedRoute({ user, children }) {
 }
 
 function AdminProtectedRoute({ user, children }) {
-    if (typeof user == "object" /*|| !("adminLogin" in user)*/) {
+    if (typeof user == "object") {
         return <SuccessPage />;
     }
     return children;
 }
-
-
-
 
 function App() {
     const location = useLocation();
@@ -89,8 +86,6 @@ function App() {
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/login" element={<LoginPage setUser={updateUser} />} />
                 <Route path="/success" element={<SuccessPage />} />
-                {/*<Route path="/admin" element={<AdminPanel />} />*/}
-                {/*<Route path="/adminprofile" element={<AdminProfile />} />*/}
                 <Route path="/admin" element={<AdminProtectedRoute user={user}><AdminPanel /></AdminProtectedRoute>} />
                 <Route path="/adminprofile" element={<AdminProtectedRoute user={user}><AdminProfile /></AdminProtectedRoute>} />
                 <Route path="/profile" element={<ProfileProtectedRoute user={user}><ProfilePage setUser={updateUser} /></ProfileProtectedRoute>} />

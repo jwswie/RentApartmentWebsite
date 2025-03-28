@@ -65,5 +65,12 @@ namespace RentApartmentWebsite.Server.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult GetAdmins()
+        {
+            var admins = _context.Admins.ToList();
+            return Ok(admins);
+        }
+
     }
 }

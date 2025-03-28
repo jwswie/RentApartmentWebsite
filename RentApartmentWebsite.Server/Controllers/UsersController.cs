@@ -86,5 +86,13 @@ namespace RentApartmentWebsite.Server.Controllers
             var exists = _context.Users.Any(u => u.EmailAddress == emailAddress);
             return Ok(exists);
         }
+
+        [HttpGet]
+        public IActionResult GetUsers()
+        {
+            var users = _context.Users.ToList();
+            return Ok(users);
+        }
+
     }
 }
