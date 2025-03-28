@@ -24,9 +24,7 @@ function ContactPage() {
     return (
         <div className="clinic_version">
             <div className="section" style={{ marginTop: '100px' }}>
-                <div className="heading">
-                    <h2>Contact Page</h2>
-                </div>
+                <h2>Contact Page</h2>
 
                 <div className="contact-section">
                     <div id="googleMap" style={{ width: '100%', height: '450px' }}></div>

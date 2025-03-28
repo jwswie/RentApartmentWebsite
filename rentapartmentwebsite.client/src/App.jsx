@@ -40,7 +40,7 @@ function App() {
         <div className="App">
             {!isAdminPage && (
                 <nav className="navbar navbar-custom navbar-fixed-top">
-                    <div className="top-area">
+                    <div className="top-area" style={{ backgroundColor: '#d44007' }}>
                         <div className="container">
                             <div className="col-sm-6">
                                 <p>Website Header</p>
@@ -85,7 +85,7 @@ function App() {
             </Routes>
 
             {!isAdminPage && (
-                <div className="copyright-area">
+                <div className="copyright-area" style={{ backgroundColor: '#d44007' }}>
                     <div className="container">
                         <div className="col-md-8">
                             <p>Website Footer</p>

@@ -69,7 +69,7 @@ body {
 
 .form a {
     font-size: 16px;
-    color: #1d86df;
+    color: #d44007;
     text-decoration: none;
 }
 
@@ -79,7 +79,7 @@ body {
 
 .form input.button {
     padding: 15px 30px;
-    background: linear-gradient(to right, #1d86df 0%, #39b49a 100%);
+    background: linear-gradient(to right, #d44007 0%, #a85231 100%);
     color: #fff;
     border-radius: 50px;
     margin-top: 10px;
@@ -87,7 +87,7 @@ body {
 }
 
     .form input.button:hover {
-        background: linear-gradient(to right, #39b49a 0%, #1d86df 100%);
+        background: linear-gradient(to right, #a85231 0%, #d44007 100%);
     }
 
 .signup {
@@ -96,7 +96,7 @@ body {
 }
 
     .signup label {
-        color: #1d86df;
+        color: #d44007;
         cursor: pointer;
     }
 

@@ -6,10 +6,12 @@ function LoginPage({ setUser }) {
     const [fullName, setFullName] = useState('');
     const [emailAddress, setEmailAddress] = useState('');
     const [verificationCode, setVerificationCode] = useState('');
+    const [password, setPassword] = useState('');
     const [tempUser, setTempUser] = useState(null);
     const [serverCode, setServerCode] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
     const [isVerifying, setIsVerifying] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
 
     const handleSignup = async (event) => {
@@ -36,7 +38,7 @@ function LoginPage({ setUser }) {
             return;
         }
 
-        const userData = { userName: fullName, emailAddress};
+        const userData = { userName: fullName, emailAddress };
 
         try {
             const response = await fetch('/api/users/signup', {
@@ -72,22 +74,55 @@ function LoginPage({ setUser }) {
     const handleLogin = async (event) => {
         event.preventDefault();
         setErrorMessage('');
+        setIsAdmin(false);
 
         try {
-            const loginResponse = await fetch(`/api/users/login/${emailAddress}`);
-            if (loginResponse.ok) {
+            const userResponse = await fetch(`/api/users/login/${emailAddress}`);
+            if (userResponse.ok) {
                 const sendCodeResponse = await fetch(`/api/users/send-code/${emailAddress}`);
                 if (sendCodeResponse.ok) {
                     const { verificationCode } = await sendCodeResponse.json();
                     setServerCode(verificationCode);
-                    const user = await loginResponse.json();
+                    const user = await userResponse.json();
                     setTempUser(user);
                 }
+                return;
+            }
+            console.log('userResponse != ok');
+
+            const adminResponse = await fetch(`/api/admins/login/${emailAddress}`);
+            if (adminResponse.ok) {
+                console.log('adminResponse == ok');
+                setIsAdmin(true);
+            }
+            return;
+            setErrorMessage('Email not found. Please sign up.');
+        } catch (error) {
+            setErrorMessage('Error logging in.');
+        }
+    };
+
+    const handleAdminLogin = async (event) => {
+        event.preventDefault();
+        setErrorMessage('');
+
+        try {
+            const response = await fetch('/api/admins/check-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: emailAddress, password: password }),
+            });
+
+
+            if (response.ok) {
+                const admin = await response.json();
+                setUser(admin);
+                navigate('/admin');
             } else {
-                setErrorMessage('Email address not found. Please sign up');
+                setErrorMessage('Incorrect password!');
             }
         } catch (error) {
-            setErrorMessage('Error logging in');
+            setErrorMessage('Error verifying password');
         }
     };
 
@@ -109,21 +144,46 @@ function LoginPage({ setUser }) {
                 <input type="checkbox" id="check" />
                 <div className="login form">
                     <header>Login</header>
-                    {!serverCode ? (
+                    {!serverCode && !isAdmin ? (
                         <form onSubmit={handleLogin}>
-                            <input type="text" placeholder="Enter your email address" value={emailAddress} onChange={(e) => setEmailAddress(e.target.value)} required />
+                            <input
+                                type="text"
+                                placeholder="Enter your email address"
+                                value={emailAddress}
+                                onChange={(e) => setEmailAddress(e.target.value)}
+                                required
+                            />
                             {errorMessage && <p className="error-message">{errorMessage}</p>}
-                            <input type="submit" className="button" value="Send Code" />
+                            <input type="submit" className="button" value="Log In" />
+                        </form>
+                    ) : isAdmin ? (
+                        <form onSubmit={handleAdminLogin}>
+                            <input
+                                type="password"
+                                placeholder="Enter your password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                            {errorMessage && <p className="error-message">{errorMessage}</p>}
+                            <input type="submit" className="button" value="Login as Admin" />
                         </form>
                     ) : (
                         <form onSubmit={handleVerifyCode}>
-                            <input type="text" placeholder="Enter verification code" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} required />
+                            <input
+                                type="text"
+                                placeholder="Enter verification code"
+                                value={verificationCode}
+                                onChange={(e) => setVerificationCode(e.target.value)}
+                                required
+                            />
                             {errorMessage && <p className="error-message">{errorMessage}</p>}
                             <input type="submit" className="button" value="Verify Code" />
                         </form>
                     )}
                     <div className="signup">
-                        <span className="signup">Don't have an account? <label htmlFor="check">Signup</label></span>
+                        <span className="signup"> Don't have an account? <label htmlFor="check">Signup</label>
+                        </span>
                     </div>
                 </div>
                 <div className="registration form">
@@ -142,7 +202,7 @@ function LoginPage({ setUser }) {
                             <input type="submit" className="button" value="Verify Code" />
                         </form>
                     )}
-                    
+
                     <div className="signup">
                         <span className="signup">Already have an account? <label htmlFor="check">Login</label></span>
                     </div>
