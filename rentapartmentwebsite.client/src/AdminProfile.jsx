@@ -1,13 +1,31 @@
-﻿import React, { useState } from "react";
+﻿import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import "./css/admin-style.css";
 import './css/profile-style.css';
 
-const AdminProfile = () => {
+function AdminProfile({ setUser }) {
     const [admin, setAdmin] = useState({
         name: "John Doe",
         password: "********",
     });
+
+    const [user, setLocalUser] = useState(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            setLocalUser(JSON.parse(storedUser));
+            console.log(user)
+        } else {
+            navigate('/login');
+        }
+    }, []);
+
+    const handleLogout = () => {
+        setUser(null);
+        localStorage.removeItem("user");
+        navigate('/login');
+    };
 
     const [newName, setNewName] = useState(admin.name);
     const [newPassword, setNewPassword] = useState("");
@@ -44,14 +62,14 @@ const AdminProfile = () => {
             </div>
 
             <div className="content">
-                
+
                 <div className="profile-info col-md-9">
                     <div className="panel">
                         <h2>Admin Profile</h2>
                         <div className="bio-graph-info" style={{ marginTop: '25px' }}>
                             <div className="row">
                                 <div className="bio-row">
-                                    <p><span>Full Name </span>: Bob</p>
+                                    <p><span>Full Name </span>: {user?.adminName || 'Name not found'}</p>
                                 </div>
                                 <div className="bio-row">
                                     <p><span>Login </span>: admin1</p>
@@ -85,24 +103,6 @@ const AdminProfile = () => {
                             </div>
                         </div>
                     </div>
-
-                {/*<div className="profile-form">*/}
-                {/*    <label>Name:</label>*/}
-                {/*    <input*/}
-                {/*        type="text"*/}
-                {/*        value={newName}*/}
-                {/*        onChange={(e) => setNewName(e.target.value)}*/}
-                {/*    />*/}
-
-                {/*    <label>New Password:</label>*/}
-                {/*    <input*/}
-                {/*        type="password"*/}
-                {/*        placeholder="Enter new password"*/}
-                {/*        value={newPassword}*/}
-                {/*        onChange={(e) => setNewPassword(e.target.value)}*/}
-                {/*    />*/}
-
-                {/*    <button className="save-btn" onClick={handleSave}>Save Changes</button>*/}
                 </div>
             </div>
         </div>

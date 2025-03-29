@@ -95,10 +95,10 @@ function LoginPage({ setUser }) {
                 body: JSON.stringify({ email: emailAddress, password: password }),
             });
 
-
             if (response.ok) {
                 const admin = await response.json();
                 setUser(admin);
+                console.log(admin)
                 navigate('/admin');
             } else {
                 setErrorMessage('Incorrect password!');
