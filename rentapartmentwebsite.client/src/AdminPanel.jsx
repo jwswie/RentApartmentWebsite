@@ -8,6 +8,9 @@ const AdminPanel = () => {
     const [admins, setAdmins] = useState([]);
     const [editingUser, setEditingUser] = useState(null);
     const [editingAdmin, setEditingAdmin] = useState(null);
+    const [addingData, setAddingData] = useState(false);
+    const [newData, setNewData] = useState({});
+    const [currentDataType, setCurrentDataType] = useState(null);
 
     const toggleMenu = (menuName) => {
         setMenu((prev) => ({ ...prev, [menuName]: !prev[menuName] }));
@@ -23,7 +26,6 @@ const AdminPanel = () => {
             }
             const data = await response.json();
             setUsers(data);
-            console.log(data);
         } catch (error) {
             console.error("Error fetching users:", error);
         }
@@ -42,6 +44,32 @@ const AdminPanel = () => {
         } catch (error) {
             console.error("Error fetching admins:", error);
         }
+    };
+
+    const renderFormFields = (type) => {
+        const fields = [
+            { label: "Name", value: newData.name, onChange: (e) => setNewData({ ...newData, name: e.target.value }) },
+            { label: type === "Admin" ? "Login" : "Email", value: newData.email, onChange: (e) => setNewData({ ...newData, email: e.target.value }) },
+        ];
+
+        if (type === "Admin") {
+            fields.push(
+                { label: "Password (hashed)", value: newData.password, onChange: (e) => setNewData({ ...newData, password: e.target.value }) },
+                { label: "Salt", value: newData.salt, onChange: (e) => setNewData({ ...newData, salt: e.target.value }) }
+            );
+        }
+
+        return fields.map((field, index) => (
+            <div key={index}>
+                <label>{field.label}:</label>
+                <input
+                    required
+                    type="text"
+                    value={field.value}
+                    onChange={field.onChange}
+                />
+            </div>
+        ));
     };
 
     const handleDelete = async (id, type) => {
@@ -63,18 +91,11 @@ const AdminPanel = () => {
         }
     };
 
-    const handleEditUser = (user) => {
-        setEditingUser(user);
-    };
-
-    const handleEditAdmin = (admin) => {
-        setEditingAdmin(admin);
-        alert("editingAdmin + " + admin)
-    };
-
     const closeModal = () => {
         setEditingUser(null);
         setEditingAdmin(null);
+        setAddingData(null);
+
     };
 
     const handleSave = async () => {
@@ -107,6 +128,48 @@ const AdminPanel = () => {
         }
     };
 
+    const handleAdd = async (type) => {
+        setCurrentDataType(type);
+        setAddingData(true);
+    };
+
+    const handleAddData = async () => {
+        try {
+            const url = currentDataType === "Admin" ? "/api/admins" : "/api/users/signup";
+            const dataToSend = {};
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(newData.email)) {
+                alert("Please check if the email address you've entered is correct");
+                return;
+            }
+
+            if (currentDataType === "User") {
+                dataToSend.userName = newData.name;
+                dataToSend.emailAddress = newData.email;
+            }
+
+
+            if (currentDataType === "Admin") {
+                dataToSend.password = newData.password;
+                dataToSend.salt = newData.salt;
+            }
+
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dataToSend),
+            });
+
+            if (!response.ok) throw new Error("Failed to add data");
+
+            closeModal();
+            fetchUsers();
+            fetchAdmins();
+        } catch (error) {
+            console.error("Error adding data:", error);
+        }
+    };
 
     return (
         <div className="admin-container">
@@ -147,16 +210,45 @@ const AdminPanel = () => {
             </div>
 
             <div className="content">
-                <h2 style={{ margin: "20px" }}>Admin Panel</h2>
-                <div className="filters">
-                    <input type="text" placeholder="Search users..." />
-                    <select>
-                        <option value="">Filter by role</option>
-                        <option value="Admin">Admin</option>
-                        <option value="User">User</option>
-                    </select>
-                    <button className="add-btn">+ Add</button>
-                </div>
+                {users.length > 0 ? (
+                    <>
+                        <h2 style={{ margin: "20px" }}>Users</h2>
+                        <div className="filters">
+                            <input type="text" placeholder="Search user..." />
+                            <select>
+                                <option value="">Filter by</option>
+                                <option value="ID">ID</option>
+                                <option value="Name">Name</option>
+                            </select>
+                            <button className="add-btn" onClick={() => handleAdd("User")}>+ Add</button>
+                        </div>
+                    </>
+                ) : admins.length > 0 ? (
+                    <>
+                        <h2 style={{ margin: "20px" }}>Admins</h2>
+                        <div className="filters">
+                            <input type="text" placeholder="Search admin..." />
+                            <select>
+                                <option value="">Filter by</option>
+                                <option value="ID">ID</option>
+                                <option value="Name">Name</option>
+                            </select>
+                            <button className="add-btn" onClick={() => handleAdd("Admin")}>+ Add</button>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <h2 style={{ margin: "20px" }}>Admin Panel</h2>
+                        <div className="filters">
+                            <input type="text" placeholder="Search..." />
+                            <select>
+                                <option value="">Filter by</option>
+                            </select>
+                        </div>
+                    </>
+                )
+                }
+
 
                 <table>
                     <thead>
@@ -191,7 +283,7 @@ const AdminPanel = () => {
                                     <td>{user.userName}</td>
                                     <td>{user.emailAddress}</td>
                                     <td>
-                                        <button className="edit-btn" onClick={() => handleEditUser(user)}>Edit</button>
+                                        <button className="edit-btn" onClick={() => setEditingUser(user)}>Edit</button>
                                         <button className="delete-btn" onClick={() => handleDelete(user.userID, "user")}>Delete</button>
                                     </td>
                                 </tr>
@@ -205,7 +297,7 @@ const AdminPanel = () => {
                                     <td>{admin.hashedPassword}</td>
                                     <td>{admin.salt}</td>
                                     <td>
-                                        <button className="edit-btn" onClick={() => handleEditAdmin(admin)}>Edit</button>
+                                        <button className="edit-btn" onClick={() => setEditingAdmin(admin)}>Edit</button>
                                         <button className="delete-btn" onClick={() => handleDelete(admin.adminID, "admin")}>Delete</button>
                                     </td>
                                 </tr>
@@ -225,6 +317,7 @@ const AdminPanel = () => {
                         <h3>Edit {editingUser ? "User" : "Admin"}</h3>
                         <label>Name:</label>
                         <input
+                            required
                             type="text"
                             value={editingUser ? editingUser.userName : editingAdmin.adminName}
                             onChange={(e) => {
@@ -237,6 +330,7 @@ const AdminPanel = () => {
                         />
                         <label>Email/Login:</label>
                         <input
+                            required
                             type="text"
                             value={editingUser ? editingUser.emailAddress : editingAdmin.adminLogin}
                             onChange={(e) => {
@@ -249,6 +343,19 @@ const AdminPanel = () => {
                         />
                         <button onClick={handleSave} className="save-btn">Save</button>
                         <button onClick={closeModal} className="cancel-btn">Cancel</button>
+                    </div>
+                </div>
+            )}
+
+            {addingData && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h3>Add New {currentDataType}</h3>
+
+                        {renderFormFields(currentDataType)}
+
+                        <button onClick={handleAddData}>Add</button>
+                        <button onClick={closeModal}>Cancel</button>
                     </div>
                 </div>
             )}
