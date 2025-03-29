@@ -72,10 +72,10 @@ function AdminProfile ({ setUser }) {
                                     <p><span>Full Name </span>: {user?.adminName || 'Name not found'}</p>
                                 </div>
                                 <div className="bio-row">
-                                    <p><span>Login </span>: admin1</p>
+                                    <p><span>Login </span>: {user?.adminLogin || 'Login not found'}</p>
                                 </div>
                                 <div className="bio-row">
-                                    <p><span>Role</span>: Site Admin</p>
+                                    <p><span>Role</span>: Organization Admin</p>
                                 </div>
                             </div>
                         </div>

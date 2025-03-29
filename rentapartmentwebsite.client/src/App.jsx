@@ -19,7 +19,7 @@ function ProfileProtectedRoute({ user, children }) {
 }
 
 function AdminProtectedRoute({ user, children }) {
-    if (typeof user == "object") {
+    if (!("adminLogin" in user)) {
         return <SuccessPage />;
     }
     return children;

@@ -61,7 +61,14 @@ namespace RentApartmentWebsite.Server.Controllers
                 Array.Copy(hash, 0, hashBytes, 16, 20);
                 string enteredPasswordHash = Convert.ToBase64String(hashBytes);
 
-                return Ok(enteredPasswordHash == admin.HashedPassword);
+                if (enteredPasswordHash == admin.HashedPassword)
+                {
+                    return Ok(admin);
+                }
+                else
+                {
+                    return Unauthorized("Incorrect password");
+                }
             }
         }
 
