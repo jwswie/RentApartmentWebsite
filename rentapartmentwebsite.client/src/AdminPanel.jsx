@@ -6,6 +6,8 @@ const AdminPanel = () => {
     const [menu, setMenu] = useState({ users: false, apartments: false });
     const [users, setUsers] = useState([]);
     const [admins, setAdmins] = useState([]);
+    const [editingUser, setEditingUser] = useState(null);
+    const [editingAdmin, setEditingAdmin] = useState(null);
 
     const toggleMenu = (menuName) => {
         setMenu((prev) => ({ ...prev, [menuName]: !prev[menuName] }));
@@ -41,6 +43,70 @@ const AdminPanel = () => {
             console.error("Error fetching admins:", error);
         }
     };
+
+    const handleDelete = async (id, type) => {
+        const url = type === "user" ? `/api/users/${id}` : `/api/admins/${id}`;
+
+        if (!window.confirm("Are you sure you want to delete this entry?")) return;
+
+        try {
+            const response = await fetch(url, { method: "DELETE" });
+            if (!response.ok) throw new Error("Failed to delete");
+
+            if (type === "user") {
+                setUsers((prev) => prev.filter((user) => user.userID !== id));
+            } else {
+                setAdmins((prev) => prev.filter((admin) => admin.adminID !== id));
+            }
+        } catch (error) {
+            console.error("Error deleting:", error);
+        }
+    };
+
+    const handleEditUser = (user) => {
+        setEditingUser(user);
+    };
+
+    const handleEditAdmin = (admin) => {
+        setEditingAdmin(admin);
+        alert("editingAdmin + " + admin)
+    };
+
+    const closeModal = () => {
+        setEditingUser(null);
+        setEditingAdmin(null);
+    };
+
+    const handleSave = async () => {
+        try {
+            let url = "";
+            let method = "PUT";
+            let body = {};
+
+            if (editingUser) {
+                url = `/api/users/${editingUser.userID}`;
+                body = { ...editingUser };
+            } else if (editingAdmin) {
+                url = `/api/admins/${editingAdmin.adminID}`;
+                body = { ...editingAdmin };
+            }
+
+            const response = await fetch(url, {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body),
+            });
+
+            if (!response.ok) throw new Error("Failed to update data");
+
+            closeModal();
+            fetchUsers();
+            fetchAdmins();
+        } catch (error) {
+            console.error("Error updating data:", error);
+        }
+    };
+
 
     return (
         <div className="admin-container">
@@ -125,8 +191,8 @@ const AdminPanel = () => {
                                     <td>{user.userName}</td>
                                     <td>{user.emailAddress}</td>
                                     <td>
-                                        <button className="edit-btn">Edit</button>
-                                        <button className="delete-btn">Delete</button>
+                                        <button className="edit-btn" onClick={() => handleEditUser(user)}>Edit</button>
+                                        <button className="delete-btn" onClick={() => handleDelete(user.userID, "user")}>Delete</button>
                                     </td>
                                 </tr>
                             ))
@@ -139,8 +205,8 @@ const AdminPanel = () => {
                                     <td>{admin.hashedPassword}</td>
                                     <td>{admin.salt}</td>
                                     <td>
-                                        <button className="edit-btn">Edit</button>
-                                        <button className="delete-btn">Delete</button>
+                                        <button className="edit-btn" onClick={() => handleEditAdmin(admin)}>Edit</button>
+                                        <button className="delete-btn" onClick={() => handleDelete(admin.adminID, "admin")}>Delete</button>
                                     </td>
                                 </tr>
                             ))
@@ -152,6 +218,40 @@ const AdminPanel = () => {
                     </tbody>
                 </table>
             </div>
+
+            {(editingUser !== null || editingAdmin !== null) && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h3>Edit {editingUser ? "User" : "Admin"}</h3>
+                        <label>Name:</label>
+                        <input
+                            type="text"
+                            value={editingUser ? editingUser.userName : editingAdmin.adminName}
+                            onChange={(e) => {
+                                if (editingUser) {
+                                    setEditingUser({ ...editingUser, userName: e.target.value });
+                                } else {
+                                    setEditingAdmin({ ...editingAdmin, adminName: e.target.value });
+                                }
+                            }}
+                        />
+                        <label>Email/Login:</label>
+                        <input
+                            type="text"
+                            value={editingUser ? editingUser.emailAddress : editingAdmin.adminLogin}
+                            onChange={(e) => {
+                                if (editingUser) {
+                                    setEditingUser({ ...editingUser, emailAddress: e.target.value });
+                                } else {
+                                    setEditingAdmin({ ...editingAdmin, adminLogin: e.target.value });
+                                }
+                            }}
+                        />
+                        <button onClick={handleSave} className="save-btn">Save</button>
+                        <button onClick={closeModal} className="cancel-btn">Cancel</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

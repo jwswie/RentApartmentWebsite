@@ -72,5 +72,36 @@ namespace RentApartmentWebsite.Server.Controllers
             return Ok(admins);
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteAdmin(int id)
+        {
+            var admin = _context.Admins.FirstOrDefault(a => a.AdminID == id);
+            if (admin == null)
+            {
+                return NotFound(new { message = "Admin not found" });
+            }
+
+            _context.Admins.Remove(admin);
+            _context.SaveChanges();
+
+            return Ok(new { message = "Admin deleted successfully" });
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateAdmin(int id, [FromBody] Admin updatedAdmin)
+        {
+            var admin = _context.Admins.FirstOrDefault(a => a.AdminID == id);
+            if (admin == null)
+            {
+                return NotFound(new { message = "Admin not found" });
+            }
+
+            admin.AdminName = updatedAdmin.AdminName;
+            admin.AdminLogin = updatedAdmin.AdminLogin;
+
+            _context.SaveChanges();
+            return Ok(new { message = "Admin updated successfully" });
+        }
+
     }
 }

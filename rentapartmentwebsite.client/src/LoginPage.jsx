@@ -38,36 +38,20 @@ function LoginPage({ setUser }) {
             return;
         }
 
-        const userData = { userName: fullName, emailAddress };
-
         try {
-            const response = await fetch('/api/users/signup', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(userData),
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                setTempUser(result);
-
-                try {
-                    const response = await fetch(`/api/users/send-code/${emailAddress}`);
-                    if (response.ok) {
-                        const { verificationCode } = await response.json();
-                        setServerCode(verificationCode);
-                        setIsVerifying(true);
-                    } else {
-                        setErrorMessage('Failed to send verification code. Try again.');
-                    }
-                } catch (error) {
-                    setErrorMessage('Error sending verification code.');
-                }
-            } else {
-                setErrorMessage('Failed to register user');
+            const codeResponse = await fetch(`/api/users/send-code/${emailAddress}`);
+            if (!codeResponse.ok) {
+                setErrorMessage('Failed to send verification code. Try again.');
+                return;
             }
+
+            const { verificationCode } = await codeResponse.json();
+            setServerCode(verificationCode);
+            setIsVerifying(true);
+            return;
         } catch (error) {
-            setErrorMessage('Error signing up');
+            setErrorMessage('Error sending verification code.');
+            return;
         }
     };
 
@@ -127,10 +111,33 @@ function LoginPage({ setUser }) {
     const handleVerifyCode = async (event) => {
         event.preventDefault();
         setErrorMessage('');
+        console.log(fullName)
 
-        if (verificationCode === serverCode) {
+        if (verificationCode === serverCode && fullName == '') {
             setUser(tempUser);
             navigate('/success', { state: { message: 'You have logged in successfully' } });
+        }
+        else if (verificationCode === serverCode && fullName != '') {
+            const userData = { userName: fullName, emailAddress };
+            try {
+                const response = await fetch('/api/users/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    setUser(result);
+                    setIsVerifying(false);
+                    navigate('/success', { state: { message: 'You have signed in in successfully' } });
+                } else {
+                    setErrorMessage('Failed to register user');
+                }
+            } catch (error) {
+                setErrorMessage('Error signing up');
+            }
+            
         } else {
             setErrorMessage('Invalid verification code!');
         }

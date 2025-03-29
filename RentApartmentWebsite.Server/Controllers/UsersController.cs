@@ -94,5 +94,35 @@ namespace RentApartmentWebsite.Server.Controllers
             return Ok(users);
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteUser(int id)
+        {
+            var user = _context.Users.FirstOrDefault(a => a.UserID == id);
+            if (user == null)
+            {
+                return NotFound(new { message = "User not found" });
+            }
+
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+
+            return Ok(new { message = "User deleted successfully" });
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateUser(int id, [FromBody] User updatedUser)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserID == id);
+            if (user == null)
+            {
+                return NotFound(new { message = "User not found" });
+            }
+
+            user.UserName = updatedUser.UserName;
+            user.EmailAddress = updatedUser.EmailAddress;
+
+            _context.SaveChanges();
+            return Ok(new { message = "User updated successfully" });
+        }
     }
 }
