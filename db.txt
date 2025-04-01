@@ -37,12 +37,12 @@ VALUES
     ('Sam', 'nmeVEQVK0XjP8h5cakbJbg+30yF8ZglL82g+gwv6U+hR+6hl', 'nmeVEQVK0XjP8h5cakbJbg==', 'site_admin_2')
 
 
-select * from Admins
-
 SELECT * FROM TestApartments
 SELECT * FROM Users
+select * from Admins
 
 TRUNCATE TABLE Users
+TRUNCATE TABLE Admins
 
 drop table Users
 drop table Admins

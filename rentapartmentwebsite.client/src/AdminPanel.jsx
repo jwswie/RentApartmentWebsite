@@ -11,6 +11,17 @@ const AdminPanel = () => {
     const [addingData, setAddingData] = useState(false);
     const [newData, setNewData] = useState({});
     const [currentDataType, setCurrentDataType] = useState(null);
+    const [adminRole, setAdminRole] = useState(null);
+
+   /* useEffect(() => {
+        if (storedUser.adminLogin.Contains("org")) {
+            setAdminRole("Organisation Admin");
+        }
+        else if (storedUser.adminLogin.Contains("site")) {
+            setAdminRole("Site Admin");
+        }
+
+    }, []);*/
 
     const toggleMenu = (menuName) => {
         setMenu((prev) => ({ ...prev, [menuName]: !prev[menuName] }));
@@ -175,7 +186,7 @@ const AdminPanel = () => {
         <div className="admin-container">
             <div className="sidebar">
                 <div className="sidebar-footer">
-                    <Link to="/adminprofile" className="avatar-link">
+                    <Link to="/profile" className="avatar-link">
                         <img
                             src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
                             alt="User Avatar"

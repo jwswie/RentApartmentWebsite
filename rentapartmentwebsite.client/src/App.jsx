@@ -9,7 +9,6 @@ import LoginPage from './LoginPage';
 import SuccessPage from './SuccessPage';
 import ProfilePage from './ProfilePage';
 import AdminPanel from './AdminPanel';
-import AdminProfile from './AdminProfile';
 
 function ProfileProtectedRoute({ user, children }) {
     if (!user) {
@@ -19,7 +18,7 @@ function ProfileProtectedRoute({ user, children }) {
 }
 
 function AdminProtectedRoute({ user, children }) {
-    if (!("adminLogin" in user)) {
+    if (!user || !("adminLogin" in user)) {
         return <SuccessPage />;
     }
     return children;
@@ -69,7 +68,7 @@ function App() {
                                 </li>
                                 <li className={location.pathname === "/login" || location.pathname === "/profile" ? "active" : ""}>
                                     {user ? (
-                                        <Link to="/profile" state={{ user: user }}>{user.userName}</Link>
+                                        <Link to="/profile" state={{ user: user }}>{user.userName || user.adminName}</Link>
                                     ) : (
                                         <Link to="/login">Log In</Link>
                                     )}
@@ -87,7 +86,6 @@ function App() {
                 <Route path="/login" element={<LoginPage setUser={updateUser} />} />
                 <Route path="/success" element={<SuccessPage />} />
                 <Route path="/admin" element={<AdminProtectedRoute user={user}><AdminPanel /></AdminProtectedRoute>} />
-                <Route path="/adminprofile" element={<AdminProtectedRoute user={user}><AdminProfile setUser={updateUser} /></AdminProtectedRoute>} />
                 <Route path="/profile" element={<ProfileProtectedRoute user={user}><ProfilePage setUser={updateUser} /></ProfileProtectedRoute>} />
             </Routes>
 
