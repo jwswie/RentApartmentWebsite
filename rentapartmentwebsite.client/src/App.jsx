@@ -85,7 +85,7 @@ function App() {
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/login" element={<LoginPage setUser={updateUser} />} />
                 <Route path="/success" element={<SuccessPage />} />
-                <Route path="/admin" element={<AdminProtectedRoute user={user}><AdminPanel /></AdminProtectedRoute>} />
+                <Route path="/admin" element={<AdminProtectedRoute user={user}><AdminPanel setUser={updateUser} /></AdminProtectedRoute>} />
                 <Route path="/profile" element={<ProfileProtectedRoute user={user}><ProfilePage setUser={updateUser} /></ProfileProtectedRoute>} />
             </Routes>
 

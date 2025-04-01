@@ -10,20 +10,19 @@ function ProfilePage({ setUser }) {
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
-            setLocalUser(JSON.parse(storedUser));
+            const parsedUser = JSON.parse(storedUser); 
+            setLocalUser(parsedUser);
 
-            if ("adminLogin" in storedUser) {
-                if (storedUser.adminLogin.Contains("org")) {
+            if ("adminLogin" in parsedUser) {  
+                if (parsedUser.adminLogin.includes("org")) { 
                     setAdminRole("Organisation Admin");
-                }
-                else if (storedUser.adminLogin.Contains("site")) {
+                } else if (parsedUser.adminLogin.includes("site")) {
                     setAdminRole("Site Admin");
                 }
             }
         } else {
             navigate('/login');
         }
-
     }, []);
 
     const handleLogout = () => {
@@ -53,13 +52,12 @@ function ProfilePage({ setUser }) {
                         Log out
                     </button>
 
-                    <button
-                        style={{ outline: 'none', marginTop: '25px', position: 'relative', left: '70px' }}
-                        onClick={handleAdminPanel}
-                        className="btn-light btn-brd effect-1"
-                    >
-                        Admin Panel
-                    </button>
+                    {adminRole != null && (
+                        <button style={{ outline: 'none', marginTop: '25px', position: 'relative', left: '70px' }}
+                            onClick={handleAdminPanel}  className="btn-light btn-brd effect-1" > Admin Panel </button>
+                    )}
+
+                    
                 </div>
 
                 <div className="profile-info col-md-9">
@@ -82,27 +80,29 @@ function ProfilePage({ setUser }) {
                         </div>
                     </div>
 
-                    <div className="row">
-                        <div className="col-md-6">
-                            <div className="panel">
-                                <div className="panel-body">
-                                    <div className="bio-desk">
-                                        <h4>Change Name</h4>
+                    {adminRole != null && (
+                        <div className="row">
+                            <div className="col-md-6">
+                                <div className="panel">
+                                    <div className="panel-body">
+                                        <div className="bio-desk">
+                                            <h4>Change Name</h4>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div className="col-md-6">
-                            <div className="panel">
-                                <div className="panel-body">
-                                    <div className="bio-desk">
-                                        <h4>Change Password</h4>
+                            <div className="col-md-6">
+                                <div className="panel">
+                                    <div className="panel-body">
+                                        <div className="bio-desk">
+                                            <h4>Change Password</h4>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         </div>

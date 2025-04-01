@@ -1,8 +1,9 @@
-﻿import React, { useState } from "react";
+﻿import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import "./css/admin-style.css";
 
-const AdminPanel = () => {
+const AdminPanel = ({ setUser }) => {
+    const [user, setLocalUser] = useState(null);
     const [menu, setMenu] = useState({ users: false, apartments: false });
     const [users, setUsers] = useState([]);
     const [admins, setAdmins] = useState([]);
@@ -12,16 +13,25 @@ const AdminPanel = () => {
     const [newData, setNewData] = useState({});
     const [currentDataType, setCurrentDataType] = useState(null);
     const [adminRole, setAdminRole] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
 
-   /* useEffect(() => {
-        if (storedUser.adminLogin.Contains("org")) {
-            setAdminRole("Organisation Admin");
-        }
-        else if (storedUser.adminLogin.Contains("site")) {
-            setAdminRole("Site Admin");
-        }
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            setLocalUser(parsedUser);
 
-    }, []);*/
+            if ("adminLogin" in parsedUser) {
+                if (parsedUser.adminLogin.includes("org")) {
+                    setAdminRole("Organisation Admin");
+                } else if (parsedUser.adminLogin.includes("site")) {
+                    setAdminRole("Site Admin");
+                }
+            }
+        } else {
+            navigate('/login');
+        }
+    }, []);
 
     const toggleMenu = (menuName) => {
         setMenu((prev) => ({ ...prev, [menuName]: !prev[menuName] }));
@@ -182,6 +192,15 @@ const AdminPanel = () => {
         }
     };
 
+    const menuItems = [
+        { key: "users", label: "Users" },
+        { key: "apartments", label: "Apartments" },
+    ];
+
+    const filteredMenuItems = menuItems.filter(item =>
+        item.label.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <div className="admin-container">
             <div className="sidebar">
@@ -194,30 +213,34 @@ const AdminPanel = () => {
                         />
                     </Link>
                 </div>
-                <input type="text" className="search-input" placeholder="Search..." />
-                <div className="menu-item" onClick={() => toggleMenu("users")}>
-                    Users ▼
-                </div>
-                {menu.users && (
-                    <div className="submenu">
-                        <div style={{ cursor: "pointer" }} onClick={fetchUsers}>
-                            Users
+                <input
+                    style={{color: "black"} }
+                    type="text"
+                    className="search-input"
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                {filteredMenuItems.map(item => (
+                    <div key={item.key}>
+                        <div className="menu-item" onClick={() => toggleMenu(item.key)}>
+                            {item.label} ▼
                         </div>
-                        <div style={{ cursor: "pointer" }} onClick={fetchAdmins}>
-                            Site Admins
-                        </div>
+                        {menu[item.key] && item.key === "users" && (
+                            <div className="submenu">
+                                <div style={{ cursor: "pointer" }}>Users</div>
+                                <div style={{ cursor: "pointer" }}>Site Admins</div>
+                            </div>
+                        )}
+                        {menu[item.key] && item.key === "apartments" && (
+                            <div className="submenu">
+                                <div>All Apartments</div>
+                                <div>Booked</div>
+                                <div>Free</div>
+                            </div>
+                        )}
                     </div>
-                )}
-                <div className="menu-item" onClick={() => toggleMenu("apartments")}>
-                    Apartments ▼
-                </div>
-                {menu.apartments && (
-                    <div className="submenu">
-                        <div>All Apartments</div>
-                        <div>Booked</div>
-                        <div>Free</div>
-                    </div>
-                )}
+                ))}
             </div>
 
             <div className="content">
@@ -243,8 +266,11 @@ const AdminPanel = () => {
                                 <option value="">Filter by</option>
                                 <option value="ID">ID</option>
                                 <option value="Name">Name</option>
-                            </select>
-                            <button className="add-btn" onClick={() => handleAdd("Admin")}>+ Add</button>
+                                </select>
+                                {adminRole != "Site Admin" && (
+                                    <button className="add-btn" onClick={() => handleAdd("Admin")}>+ Add</button>
+                                )}
+                           
                         </div>
                     </>
                 ) : (
@@ -259,7 +285,6 @@ const AdminPanel = () => {
                     </>
                 )
                 }
-
 
                 <table>
                     <thead>
@@ -277,7 +302,8 @@ const AdminPanel = () => {
                                 <th>Login</th>
                                 <th>Password</th>
                                 <th>Salt</th>
-                                <th>Actions</th>
+                                {adminRole != "Site Admin" && ( <th>Actions</th> )}
+                                
                             </tr>
                         ) : (
                             <tr>
@@ -307,10 +333,12 @@ const AdminPanel = () => {
                                     <td>{admin.adminLogin}</td>
                                     <td>{admin.hashedPassword}</td>
                                     <td>{admin.salt}</td>
-                                    <td>
-                                        <button className="edit-btn" onClick={() => setEditingAdmin(admin)}>Edit</button>
-                                        <button className="delete-btn" onClick={() => handleDelete(admin.adminID, "admin")}>Delete</button>
-                                    </td>
+                                    {adminRole != "Site Admin" && (
+                                        <td>
+                                            <button className="edit-btn" onClick={() => setEditingAdmin(admin)}>Edit</button>
+                                            <button className="delete-btn" onClick={() => handleDelete(admin.adminID, "admin")}>Delete</button>
+                                        </td>
+                                    )}
                                 </tr>
                             ))
                         ) : (
