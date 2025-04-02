@@ -14,6 +14,8 @@ const AdminPanel = ({ setUser }) => {
     const [currentDataType, setCurrentDataType] = useState(null);
     const [adminRole, setAdminRole] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
+    const [tableSearchQuery, setTableSearchQuery] = useState("");
+    const [filter, setFilter] = useState('');
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -201,6 +203,62 @@ const AdminPanel = ({ setUser }) => {
         item.label.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    const getFilteredTableData = () => {
+        let filteredData = [];
+
+        if (users.length > 0) {
+            filteredData = users.filter(u =>
+                u.userName.toLowerCase().includes(tableSearchQuery.toLowerCase())
+            );
+        } else if (admins.length > 0) {
+            filteredData = admins.filter(a =>
+                a.adminName.toLowerCase().includes(tableSearchQuery.toLowerCase())
+            );
+        }
+
+        const sortData = (key, order = 'asc') => {
+            return filteredData.sort((a, b) => {
+                const valA = a[key].toLowerCase();
+                const valB = b[key].toLowerCase();
+                return order === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            });
+        };
+
+        if (filteredData.length > 0) {
+            switch (filter) {
+                case 'nameAToZ':
+                    filteredData = sortData(users.length > 0 ? 'userName' : 'adminName', 'asc');
+                    break;
+                case 'nameZToA':
+                    filteredData = sortData(users.length > 0 ? 'userName' : 'adminName', 'desc');
+                    break;
+                case 'emailAToZ':
+                    if (users.length > 0) filteredData = sortData('emailAddress', 'asc');
+                    break;
+                case 'emailZToA':
+                    if (users.length > 0) filteredData = sortData('emailAddress', 'desc');
+                    break;
+                case 'loginAToZ':
+                    if (admins.length > 0) filteredData = sortData('adminLogin', 'asc');
+                    break;
+                case 'loginZToA':
+                    if (admins.length > 0) filteredData = sortData('adminLogin', 'desc');
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return filteredData;
+    };
+
+
+    const handleFilterChange = (filterOption) => {
+        setFilter(filterOption);
+    };
+
+    const filteredData = getFilteredTableData();
+
     return (
         <div className="admin-container">
             <div className="sidebar">
@@ -214,7 +272,7 @@ const AdminPanel = ({ setUser }) => {
                     </Link>
                 </div>
                 <input
-                    style={{color: "black"} }
+                    style={{ color: "black" }}
                     type="text"
                     className="search-input"
                     placeholder="Search..."
@@ -228,8 +286,8 @@ const AdminPanel = ({ setUser }) => {
                         </div>
                         {menu[item.key] && item.key === "users" && (
                             <div className="submenu">
-                                <div style={{ cursor: "pointer" }}>Users</div>
-                                <div style={{ cursor: "pointer" }}>Site Admins</div>
+                                <div style={{ cursor: "pointer" }} onClick={fetchUsers}>Users</div>
+                                <div style={{ cursor: "pointer" }} onClick={fetchAdmins}>Site Admins</div>
                             </div>
                         )}
                         {menu[item.key] && item.key === "apartments" && (
@@ -248,11 +306,19 @@ const AdminPanel = ({ setUser }) => {
                     <>
                         <h2 style={{ margin: "20px" }}>Users</h2>
                         <div className="filters">
-                            <input type="text" placeholder="Search user..." />
-                            <select>
+                            <input
+                                style={{ color: "black" }}
+                                type="text"
+                                placeholder="Search user name..."
+                                value={tableSearchQuery}
+                                onChange={(e) => setTableSearchQuery(e.target.value)}
+                            />
+                            <select onChange={(e) => handleFilterChange(e.target.value)}>
                                 <option value="">Filter by</option>
-                                <option value="ID">ID</option>
-                                <option value="Name">Name</option>
+                                <option value="nameAToZ">Name, A to Z</option>
+                                <option value="nameZToA">Name, Z to A</option>
+                                <option value="emailAToZ">Email, A to Z</option>
+                                <option value="emailZToA">Email, Z to A</option>
                             </select>
                             <button className="add-btn" onClick={() => handleAdd("User")}>+ Add</button>
                         </div>
@@ -261,16 +327,24 @@ const AdminPanel = ({ setUser }) => {
                     <>
                         <h2 style={{ margin: "20px" }}>Admins</h2>
                         <div className="filters">
-                            <input type="text" placeholder="Search admin..." />
-                            <select>
-                                <option value="">Filter by</option>
-                                <option value="ID">ID</option>
-                                <option value="Name">Name</option>
+                                <input
+                                    style={{ color: "black" }}
+                                    type="text"
+                                    placeholder="Search admin name..."
+                                    value={tableSearchQuery}
+                                    onChange={(e) => setTableSearchQuery(e.target.value)}
+                                />
+                                <select onChange={(e) => handleFilterChange(e.target.value)}>
+                                    <option value="">Filter by</option>
+                                    <option value="nameAToZ">Name, A to Z</option>
+                                    <option value="nameZToA">Name, Z to A</option>
+                                    <option value="loginAToZ">Login, A to Z</option>
+                                    <option value="loginZToA">Login, Z to A</option>
                                 </select>
-                                {adminRole != "Site Admin" && (
-                                    <button className="add-btn" onClick={() => handleAdd("Admin")}>+ Add</button>
-                                )}
-                           
+                            {adminRole != "Site Admin" && (
+                                <button className="add-btn" onClick={() => handleAdd("Admin")}>+ Add</button>
+                            )}
+
                         </div>
                     </>
                 ) : (
@@ -302,8 +376,8 @@ const AdminPanel = ({ setUser }) => {
                                 <th>Login</th>
                                 <th>Password</th>
                                 <th>Salt</th>
-                                {adminRole != "Site Admin" && ( <th>Actions</th> )}
-                                
+                                {adminRole != "Site Admin" && (<th>Actions</th>)}
+
                             </tr>
                         ) : (
                             <tr>
@@ -313,8 +387,8 @@ const AdminPanel = ({ setUser }) => {
 
                     </thead>
                     <tbody>
-                        {users.length > 0 ? (
-                            users.map((user) => (
+                        {Array.isArray(filteredData) && users.length > 0  && filteredData.length > 0 ? (
+                            filteredData.map((user) => (
                                 <tr key={user.userID}>
                                     <td>{user.userID}</td>
                                     <td>{user.userName}</td>
@@ -325,15 +399,15 @@ const AdminPanel = ({ setUser }) => {
                                     </td>
                                 </tr>
                             ))
-                        ) : admins.length > 0 ? (
-                            admins.map((admin) => (
+                        ) : Array.isArray(filteredData) && admins.length > 0 && filteredData.length > 0 ? (
+                                filteredData.map((admin) => (
                                 <tr key={admin.adminID}>
                                     <td>{admin.adminID}</td>
                                     <td>{admin.adminName}</td>
                                     <td>{admin.adminLogin}</td>
                                     <td>{admin.hashedPassword}</td>
                                     <td>{admin.salt}</td>
-                                    {adminRole != "Site Admin" && (
+                                    {adminRole !== "Site Admin" && (
                                         <td>
                                             <button className="edit-btn" onClick={() => setEditingAdmin(admin)}>Edit</button>
                                             <button className="delete-btn" onClick={() => handleDelete(admin.adminID, "admin")}>Delete</button>
@@ -347,6 +421,7 @@ const AdminPanel = ({ setUser }) => {
                             </tr>
                         )}
                     </tbody>
+
                 </table>
             </div>
 
