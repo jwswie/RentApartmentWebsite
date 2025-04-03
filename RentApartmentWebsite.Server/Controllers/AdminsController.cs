@@ -1,7 +1,5 @@
 ﻿using RentApartmentWebsite.Server.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Mail;
-using System.Net;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Identity.Data;
 
@@ -16,6 +14,20 @@ namespace RentApartmentWebsite.Server.Controllers
         public AdminsController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        [HttpPost("add-admin")]
+        public async Task<IActionResult> AddAdmin([FromBody] Admin admin)
+        {
+            if (admin == null || string.IsNullOrEmpty(admin.AdminName) || string.IsNullOrEmpty(admin.AdminLogin) || string.IsNullOrEmpty(admin.HashedPassword) || string.IsNullOrEmpty(admin.Salt))
+            {
+                return BadRequest("Invalid admin data");
+            }
+
+            _context.Admins.Add(admin);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(AddAdmin), new { id = admin.AdminID }, admin);
         }
 
         [HttpGet("login/{adminLogin}")]
@@ -70,6 +82,38 @@ namespace RentApartmentWebsite.Server.Controllers
                     return Unauthorized("Incorrect password");
                 }
             }
+        }
+
+        [HttpGet("convert-password")]
+        public IActionResult ConvertPassword([FromQuery] string password)
+        {
+            if (string.IsNullOrEmpty(password))
+            {
+                return BadRequest("Password is required");
+            }
+
+            byte[] salt = new byte[16];
+            new RNGCryptoServiceProvider().GetBytes(salt);
+
+            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000);
+            byte[] hash = pbkdf2.GetBytes(20);
+
+            byte[] hashBytes = new byte[36];
+            Array.Copy(salt, 0, hashBytes, 0, 16);
+            Array.Copy(hash, 0, hashBytes, 16, 20);
+
+            string passwordHash = Convert.ToBase64String(hashBytes);
+            string saltStr = Convert.ToBase64String(salt);
+
+            return Ok(new { passwordHash, salt = saltStr });
+        }
+
+
+        [HttpGet("check-login/{login}")]
+        public IActionResult CheckLogin(string login)
+        {
+            var exists = _context.Admins.Any(a => a.AdminLogin == login);
+            return Ok(exists);
         }
 
         [HttpGet]

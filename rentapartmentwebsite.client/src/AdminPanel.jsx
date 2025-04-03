@@ -77,8 +77,7 @@ const AdminPanel = ({ setUser }) => {
 
         if (type === "Admin") {
             fields.push(
-                { label: "Password (hashed)", value: newData.password, onChange: (e) => setNewData({ ...newData, password: e.target.value }) },
-                { label: "Salt", value: newData.salt, onChange: (e) => setNewData({ ...newData, salt: e.target.value }) }
+                { label: "Password", value: newData.password, onChange: (e) => setNewData({ ...newData, password: e.target.value }) },
             );
         }
 
@@ -158,26 +157,77 @@ const AdminPanel = ({ setUser }) => {
 
     const handleAddData = async () => {
         try {
-            const url = currentDataType === "Admin" ? "/api/admins" : "/api/users/signup";
+            const url = currentDataType === "Admin" ? "/api/admins/add-admin" : "/api/users/signup";
             const dataToSend = {};
-
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(newData.email)) {
-                alert("Please check if the email address you've entered is correct");
-                return;
-            }
 
             if (currentDataType === "User") {
+                
+                if (!emailPattern.test(newData.email)) {
+                    alert("Please check if the email address you've entered is correct");
+                    return;
+                }
+
+                try {
+                    const checkResponse = await fetch(`/api/users/check-email/${newData.email}`);
+                    if (checkResponse.ok) {
+                        const exists = await checkResponse.json();
+                        if (exists) {
+                            alert('Email address already registered');
+                            return;
+                        }
+                    }
+                } catch (error) {
+                    alert('Error checking email');
+                    return;
+                }
+
                 dataToSend.userName = newData.name;
                 dataToSend.emailAddress = newData.email;
             }
 
-
             if (currentDataType === "Admin") {
-                dataToSend.password = newData.password;
-                dataToSend.salt = newData.salt;
+                dataToSend.adminName = newData.name;
+
+                if (!/^org_|^site_/.test(newData.email)) {
+                    alert("Admin login must start with 'org_' or 'site_'");
+                    return;
+                }
+
+                try {
+                    const checkResponse = await fetch(`/api/admins/check-login/${newData.email}`);
+                    if (checkResponse.ok) {
+                        const exists = await checkResponse.json();
+                        if (exists) {
+                            alert('Login already registered');
+                            return;
+                        }
+                    }
+                } catch (error) {
+                    alert('Error checking login');
+                    return;
+                }
+
+                dataToSend.adminLogin = newData.email;
+
+                try {
+                    const response = await fetch(`/api/admins/convert-password?password=${encodeURIComponent(newData.password)}`);
+
+                    if (!response.ok) {
+                        alert("Failed to convert password. Try again");
+                        return;
+                    }
+
+                    const { passwordHash, salt } = await response.json();
+                    dataToSend.hashedPassword = passwordHash;
+                    dataToSend.salt = salt;
+                } catch (error) {
+                    alert("Error converting password");
+                    return;
+                }
             }
 
+            console.log(dataToSend)
             const response = await fetch(url, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -190,7 +240,7 @@ const AdminPanel = ({ setUser }) => {
             fetchUsers();
             fetchAdmins();
         } catch (error) {
-            console.error("Error adding data:", error);
+            alert("Error adding data:", error);
         }
     };
 
