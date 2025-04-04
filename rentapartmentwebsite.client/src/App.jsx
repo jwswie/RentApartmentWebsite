@@ -9,6 +9,7 @@ import LoginPage from './LoginPage';
 import SuccessPage from './SuccessPage';
 import ProfilePage from './ProfilePage';
 import AdminPanel from './AdminPanel';
+import AddPersonalData from './AddPersonalData';
 
 function ProfileProtectedRoute({ user, children }) {
     if (!user) {
@@ -19,6 +20,13 @@ function ProfileProtectedRoute({ user, children }) {
 
 function AdminProtectedRoute({ user, children }) {
     if (!user || !("adminLogin" in user)) {
+        return <SuccessPage />;
+    }
+    return children;
+}
+
+function UserProtectedRoute({ user, children }) {
+    if (!user || !("emailAddress" in user)) {
         return <SuccessPage />;
     }
     return children;
@@ -87,6 +95,7 @@ function App() {
                 <Route path="/success" element={<SuccessPage />} />
                 <Route path="/admin" element={<AdminProtectedRoute user={user}><AdminPanel setUser={updateUser} /></AdminProtectedRoute>} />
                 <Route path="/profile" element={<ProfileProtectedRoute user={user}><ProfilePage setUser={updateUser} /></ProfileProtectedRoute>} />
+                <Route path="/personal" element={<UserProtectedRoute user={user}><AddPersonalData setUser={updateUser} /></UserProtectedRoute>} />
             </Routes>
 
             {!isAdminPage && (

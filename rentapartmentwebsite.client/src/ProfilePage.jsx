@@ -117,12 +117,11 @@ function ProfilePage({ setUser }) {
                             onClick={handleAdminPanel} className="btn-light btn-brd effect-1" > Admin Panel </button>
                     )}
 
-
                 </div>
 
                 <div className="profile-info col-md-9">
                     <div className="panel">
-                        {adminRole != null && (
+                        {adminRole != null ? (
                             <>
                                 <div className="bio-graph-heading">
                                     Administrator Personal Profile
@@ -141,8 +140,25 @@ function ProfilePage({ setUser }) {
                                     </div>
                                 </div>
                             </>
-
-
+                        ) : (
+                            <>
+                                <div className="bio-graph-heading">
+                                    User Personal Profile
+                                </div>
+                                <div className="bio-graph-info" style={{ marginTop: '25px' }}>
+                                        <div className="row">
+                                            <div className="col-md-6" onClick={() => navigate('/personal')}>
+                                            <div className="panel">
+                                                <div className="panel-body">
+                                                    <div className="bio-desk">
+                                                        <h4>Complete your profile</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
                         )}
 
                     </div>
