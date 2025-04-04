@@ -16,6 +16,13 @@ namespace RentApartmentWebsite.Server.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public IActionResult GetUsers()
+        {
+            var users = _context.Users.ToList();
+            return Ok(users);
+        }
+
         [HttpPost("signup")]
         public async Task<IActionResult> Signup([FromBody] User user)
         {
@@ -27,7 +34,7 @@ namespace RentApartmentWebsite.Server.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(Signup), new { id = user.UserID }, user);
+            return CreatedAtAction(nameof(Signup), new { id = user.UserID }, user); // HTTP-ответ со статусом 201, который содержит id пользователя
         }
 
         [HttpGet("login/{emailAddress}")]
@@ -56,21 +63,21 @@ namespace RentApartmentWebsite.Server.Controllers
             const string subject = "Your Verification Code";
             string body = $"Your verification code is: {verificationCode}";
 
-            var smtp = new SmtpClient
+            var smtp = new SmtpClient // Создание SMTP-клиента
             {
                 Host = "smtp.gmail.com",
                 Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
+                EnableSsl = true, // Шифрование
+                DeliveryMethod = SmtpDeliveryMethod.Network, // Отправка через интернет
+                UseDefaultCredentials = false, // Не используем учётные данные Windows, а задаём свои
                 Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
             };
 
-            using (var message = new MailMessage(fromAddress, toAddress)
+            using (var message = new MailMessage(fromAddress, toAddress) // Создание письма
             {
                 Subject = subject,
                 Body = body,
-                IsBodyHtml = false
+                IsBodyHtml = false // Письмо будет обычным текстом
             })
             {
                 smtp.Send(message);
@@ -79,12 +86,42 @@ namespace RentApartmentWebsite.Server.Controllers
             return Ok(new { verificationCode });
         }
 
-
         [HttpGet("check-email/{emailAddress}")]
         public IActionResult CheckEmailAddress(string emailAddress)
         {
             var exists = _context.Users.Any(u => u.EmailAddress == emailAddress);
             return Ok(exists);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteUser(int id)
+        {
+            var user = _context.Users.FirstOrDefault(a => a.UserID == id);
+            if (user == null)
+            {
+                return NotFound(new { message = "User not found" });
+            }
+
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+
+            return Ok(new { message = "User deleted successfully" });
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateUser(int id, [FromBody] User updatedUser)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserID == id);
+            if (user == null)
+            {
+                return NotFound(new { message = "User not found" });
+            }
+
+            user.UserName = updatedUser.UserName;
+            user.EmailAddress = updatedUser.EmailAddress;
+
+            _context.SaveChanges();
+            return Ok(new { message = "User updated successfully" });
         }
     }
 }

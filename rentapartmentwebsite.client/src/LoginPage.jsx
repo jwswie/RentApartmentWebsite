@@ -8,14 +8,14 @@ function LoginPage({ setUser }) {
     const [verificationCode, setVerificationCode] = useState('');
     const [password, setPassword] = useState('');
     const [tempUser, setTempUser] = useState(null);
-    const [serverCode, setServerCode] = useState(null);
+    const [tempVerificationCode, setTempVerificationCode] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
     const [isVerifying, setIsVerifying] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
 
     const handleSignup = async (event) => {
-        event.preventDefault();
+        event.preventDefault(); // Предотвращаем обновление страницы
         setErrorMessage('');
 
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -25,7 +25,7 @@ function LoginPage({ setUser }) {
         }
 
         try {
-            const checkResponse = await fetch(`/api/users/check-email/${emailAddress}`);
+            const checkResponse = await fetch(`/api/users/check-email/${emailAddress}`); // Посылаем запрос на сервер и ждём ответ
             if (checkResponse.ok) {
                 const exists = await checkResponse.json();
                 if (exists) {
@@ -41,16 +41,16 @@ function LoginPage({ setUser }) {
         try {
             const codeResponse = await fetch(`/api/users/send-code/${emailAddress}`);
             if (!codeResponse.ok) {
-                setErrorMessage('Failed to send verification code. Try again.');
+                setErrorMessage('Failed to send verification code. Try again');
                 return;
             }
 
             const { verificationCode } = await codeResponse.json();
-            setServerCode(verificationCode);
+            setTempVerificationCode(verificationCode);
             setIsVerifying(true);
             return;
         } catch (error) {
-            setErrorMessage('Error sending verification code.');
+            setErrorMessage('Error sending verification code');
             return;
         }
     };
@@ -66,10 +66,11 @@ function LoginPage({ setUser }) {
                 const sendCodeResponse = await fetch(`/api/users/send-code/${emailAddress}`);
                 if (sendCodeResponse.ok) {
                     const { verificationCode } = await sendCodeResponse.json();
-                    setServerCode(verificationCode);
+                    setTempVerificationCode(verificationCode);
                     const user = await userResponse.json();
                     setTempUser(user);
                 }
+                setErrorMessage('Email not found. Please sign up');
                 return;
             }
 
@@ -78,9 +79,9 @@ function LoginPage({ setUser }) {
                 setIsAdmin(true);
             }
             return;
-            setErrorMessage('Email not found. Please sign up.');
+            
         } catch (error) {
-            setErrorMessage('Error logging in.');
+            setErrorMessage('Error logging in');
         }
     };
 
@@ -98,7 +99,6 @@ function LoginPage({ setUser }) {
             if (response.ok) {
                 const admin = await response.json();
                 setUser(admin);
-                console.log(admin)
                 navigate('/admin');
             } else {
                 setErrorMessage('Incorrect password!');
@@ -111,19 +111,18 @@ function LoginPage({ setUser }) {
     const handleVerifyCode = async (event) => {
         event.preventDefault();
         setErrorMessage('');
-        console.log(fullName)
 
-        if (verificationCode === serverCode && fullName == '') {
+        if (verificationCode === tempVerificationCode && fullName == '') { // Если совпал код, но имя не было введено (Log In)
             setUser(tempUser);
             navigate('/success', { state: { message: 'You have logged in successfully' } });
         }
-        else if (verificationCode === serverCode && fullName != '') {
+        else if (verificationCode === tempVerificationCode && fullName != '') { // Если совпал код и имя было введено (Sign In)
             const userData = { userName: fullName, emailAddress };
             try {
                 const response = await fetch('/api/users/signup', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(userData),
+                    headers: { 'Content-Type': 'application/json' }, // Отправляемые данные в формате JSON
+                    body: JSON.stringify(userData), // Превращаем объект userData в строку JSON
                 });
 
                 if (response.ok) {
@@ -149,7 +148,7 @@ function LoginPage({ setUser }) {
                 <input type="checkbox" id="check" />
                 <div className="login form">
                     <header>Login</header>
-                    {!serverCode && !isAdmin ? (
+                    {!tempVerificationCode && !isAdmin ? (
                         <form onSubmit={handleLogin}>
                             <input
                                 type="text"
