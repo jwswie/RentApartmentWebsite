@@ -19,10 +19,30 @@ VALUES
 CREATE TABLE Users (
     UserID INT IDENTITY(1,1) PRIMARY KEY,
     UserName NVARCHAR(100) NOT NULL,
-    PhoneNumber NVARCHAR(100)
+    EmailAddress NVARCHAR(100) NOT NULL
 )
+
+CREATE TABLE Admins (
+    AdminId INT PRIMARY KEY IDENTITY(1,1),
+    AdminName NVARCHAR(255) NOT NULL,
+    HashedPassword NVARCHAR(255) NOT NULL, --12345
+    Salt NVARCHAR(255) NOT NULL,
+    AdminLogin NVARCHAR(255) NOT NULL
+) 
+
+INSERT INTO Admins (AdminName, HashedPassword, Salt, AdminLogin) 
+VALUES 
+    ('Bob', 'nmeVEQVK0XjP8h5cakbJbg+30yF8ZglL82g+gwv6U+hR+6hl', 'nmeVEQVK0XjP8h5cakbJbg==', 'org_admin'),
+    ('Tom', 'nmeVEQVK0XjP8h5cakbJbg+30yF8ZglL82g+gwv6U+hR+6hl', 'nmeVEQVK0XjP8h5cakbJbg==', 'site_admin_1'),
+    ('Sam', 'nmeVEQVK0XjP8h5cakbJbg+30yF8ZglL82g+gwv6U+hR+6hl', 'nmeVEQVK0XjP8h5cakbJbg==', 'site_admin_2')
+
 
 SELECT * FROM TestApartments
 SELECT * FROM Users
+select * from Admins
+
 TRUNCATE TABLE Users
+TRUNCATE TABLE Admins
+
 drop table Users
+drop table Admins

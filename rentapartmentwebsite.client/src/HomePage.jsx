@@ -9,9 +9,7 @@ function HomePage() {
         <div className="clinic_version">
             <div className="section" style={{ marginTop: '100px' }}>
                 <div className="container">
-                    <div className="heading">
-                        <h2>Main Page</h2>
-                    </div>
+                    <h2>Main Page</h2>
                 </div>
             </div>
         </div>
