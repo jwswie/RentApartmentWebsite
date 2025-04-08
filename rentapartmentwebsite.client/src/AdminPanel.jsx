@@ -162,7 +162,7 @@ const AdminPanel = ({ setUser }) => {
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
             if (currentDataType === "User") {
-                
+
                 if (!emailPattern.test(newData.email)) {
                     alert("Please check if the email address you've entered is correct");
                     return;
@@ -377,20 +377,20 @@ const AdminPanel = ({ setUser }) => {
                     <>
                         <h2 style={{ margin: "20px" }}>Admins</h2>
                         <div className="filters">
-                                <input
-                                    style={{ color: "black" }}
-                                    type="text"
-                                    placeholder="Search admin name..."
-                                    value={tableSearchQuery}
-                                    onChange={(e) => setTableSearchQuery(e.target.value)}
-                                />
-                                <select onChange={(e) => handleFilterChange(e.target.value)}>
-                                    <option value="">Filter by</option>
-                                    <option value="nameAToZ">Name, A to Z</option>
-                                    <option value="nameZToA">Name, Z to A</option>
-                                    <option value="loginAToZ">Login, A to Z</option>
-                                    <option value="loginZToA">Login, Z to A</option>
-                                </select>
+                            <input
+                                style={{ color: "black" }}
+                                type="text"
+                                placeholder="Search admin name..."
+                                value={tableSearchQuery}
+                                onChange={(e) => setTableSearchQuery(e.target.value)}
+                            />
+                            <select onChange={(e) => handleFilterChange(e.target.value)}>
+                                <option value="">Filter by</option>
+                                <option value="nameAToZ">Name, A to Z</option>
+                                <option value="nameZToA">Name, Z to A</option>
+                                <option value="loginAToZ">Login, A to Z</option>
+                                <option value="loginZToA">Login, Z to A</option>
+                            </select>
                             {adminRole != "Site Admin" && (
                                 <button className="add-btn" onClick={() => handleAdd("Admin")}>+ Add</button>
                             )}
@@ -437,7 +437,7 @@ const AdminPanel = ({ setUser }) => {
 
                     </thead>
                     <tbody>
-                        {Array.isArray(filteredData) && users.length > 0  && filteredData.length > 0 ? (
+                        {Array.isArray(filteredData) && users.length > 0 && filteredData.length > 0 ? (
                             filteredData.map((user) => (
                                 <tr key={user.userID}>
                                     <td>{user.userID}</td>
@@ -450,7 +450,7 @@ const AdminPanel = ({ setUser }) => {
                                 </tr>
                             ))
                         ) : Array.isArray(filteredData) && admins.length > 0 && filteredData.length > 0 ? (
-                                filteredData.map((admin) => (
+                            filteredData.map((admin) => (
                                 <tr key={admin.adminID}>
                                     <td>{admin.adminID}</td>
                                     <td>{admin.adminName}</td>

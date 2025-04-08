@@ -15,7 +15,7 @@ function LoginPage({ setUser }) {
     const navigate = useNavigate();
 
     const handleSignup = async (event) => {
-        event.preventDefault();
+        event.preventDefault(); // Предотвращаем обновление страницы
         setErrorMessage('');
 
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -25,7 +25,7 @@ function LoginPage({ setUser }) {
         }
 
         try {
-            const checkResponse = await fetch(`/api/users/check-email/${emailAddress}`);
+            const checkResponse = await fetch(`/api/users/check-email/${emailAddress}`); // Посылаем запрос на сервер и ждём ответ
             if (checkResponse.ok) {
                 const exists = await checkResponse.json();
                 if (exists) {
@@ -112,17 +112,17 @@ function LoginPage({ setUser }) {
         event.preventDefault();
         setErrorMessage('');
 
-        if (verificationCode === tempVerificationCode && fullName == '') { 
+        if (verificationCode === tempVerificationCode && fullName == '') { // Если совпал код, но имя не было введено (Log In)
             setUser(tempUser);
             navigate('/success', { state: { message: 'You have logged in successfully' } });
         }
-        else if (verificationCode === tempVerificationCode && fullName != '') { 
+        else if (verificationCode === tempVerificationCode && fullName != '') { // Если совпал код и имя было введено (Sign In)
             const userData = { userName: fullName, emailAddress };
             try {
                 const response = await fetch('/api/users/signup', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }, 
-                    body: JSON.stringify(userData), 
+                    headers: { 'Content-Type': 'application/json' }, // Отправляемые данные в формате JSON
+                    body: JSON.stringify(userData), // Превращаем объект userData в строку JSON
                 });
 
                 if (response.ok) {
