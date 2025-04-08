@@ -70,7 +70,6 @@ function LoginPage({ setUser }) {
                     const user = await userResponse.json();
                     setTempUser(user);
                 }
-                setErrorMessage('Email not found. Please sign up');
                 return;
             }
 

@@ -14,7 +14,7 @@
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    border: 1px solid #C4C4C4 !important;
+    border-bottom: 1px solid #C4C4C4 !important;
 }
 
     .navbar .logo {
@@ -22,14 +22,27 @@
         width: 60px;
         height: 54px;
         align-items: start;
-        margin-left: 50px;
     }
+
+    .navbar .icon-container {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+        align-items: end;
+        margin-right: 70px;
+    }
+
+        .navbar .icon-container .icon {
+            cursor: pointer;
+        }
+
 
     .navbar .navigation {
         position: absolute;
         display: flex;
         flex-direction: row;
-        gap: 90px;
+        gap: 75px;
         align-items: center;
         justify-content: center;
         margin-top: 10px;
@@ -90,16 +103,149 @@
         color: #E84E0F;
     }
 
-
-.navbar .icon-container {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    gap: 40px;
-    align-items: end;
-    margin-right: 70px;
+.main-container .header .top-header {
+    width: 100%;
+    height: 500px;
+    margin-top: 106px;
+    font-family: 'Source Sans Pro';
+    color: #060606;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center !important;
+    align-items: center !important;
 }
 
-    .navbar .icon-container .icon {
-        cursor: pointer;
+    .main-container .header .top-header .big-header {
+        margin-top: -10px;
+        font-weight: 600;
+        font-size: 100px;
+        letter-spacing: 2px;
     }
+
+    .main-container .header .top-header #h-2 {
+        position: relative;
+    }
+
+    .main-container .header .top-header .sub-header {
+        position: relative;
+        left: 30px;
+        top: 15px;
+        font-size: 20px;
+    }
+
+.horizontal-group {
+    display: flex;
+    align-items: center;
+}
+
+.banner {
+    width: 100%;
+    height: auto;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+    .banner .banner-container {
+        width: 90%;
+        height: 357px;
+    }
+
+        .banner .banner-container .banner-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 40px;
+        }
+
+        .banner .banner-container .search-container {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            width: 75%;
+            height: 100px;
+            background: #FCFCFC;
+            box-shadow: 0px 5px 20px 3px rgba(6, 6, 6, 0.08);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 22px;
+            padding: 0 20px;
+        }
+
+
+
+.search-item {
+    height: 60px;
+    background: #FCFCFC;
+    border: 1px solid #A0A0A0;
+    box-shadow: 0px 5px 20px 3px rgba(6, 6, 6, 0.08);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+}
+
+    .search-item.item-1 {
+        flex: 1.5;
+    }
+
+    .search-item.item-2,
+    .search-item.item-3 {
+        flex: 1;
+    }
+
+    .search-item.item-4 {
+        flex: 1;
+    }
+
+.search-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 33px;
+    width: 76px;
+    height: 60px;
+    background: #E84E0F;
+    box-shadow: 0px 5px 20px 3px rgba(6, 6, 6, 0.08);
+    border-radius: 12px;
+}
+
+.date-picker {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0 10px;
+    color: transparent;
+    cursor: pointer;
+}
+
+.label-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    padding: 6px 10px;
+    box-sizing: border-box;
+    margin-left: 5px;
+}
+
+.label-title {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #060606;
+    margin: 4px 0 0 0;
+}
+
+.label-subtitle {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #A0A0A0;
+    margin: 0 0 -35px 0;
+}
