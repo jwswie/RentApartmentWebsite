@@ -79,7 +79,7 @@ function LoginPage({ setUser }) {
                 setIsAdmin(true);
             }
             return;
-            
+
         } catch (error) {
             setErrorMessage('Error logging in');
         }

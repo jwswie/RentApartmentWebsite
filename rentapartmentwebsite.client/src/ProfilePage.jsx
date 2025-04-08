@@ -146,8 +146,8 @@ function ProfilePage({ setUser }) {
                                     User Personal Profile
                                 </div>
                                 <div className="bio-graph-info" style={{ marginTop: '25px' }}>
-                                        <div className="row">
-                                            <div className="col-md-6" onClick={() => navigate('/personal')}>
+                                    <div className="row">
+                                        <div className="col-md-6" onClick={() => navigate('/personal')}>
                                             <div className="panel">
                                                 <div className="panel-body">
                                                     <div className="bio-desk">
