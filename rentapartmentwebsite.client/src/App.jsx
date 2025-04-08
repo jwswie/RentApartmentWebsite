@@ -1,112 +1,219 @@
-import './css/bootstrap.min.css';
-import './css/font-awesome.min.css';
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, useLocation, useNavigate } from 'react-router-dom';
-import HomePage from './HomePage';
-import AboutPage from './AboutPage';
-import ContactPage from './ContactPage';
-import LoginPage from './LoginPage';
-import SuccessPage from './SuccessPage';
-import ProfilePage from './ProfilePage';
-import AdminPanel from './AdminPanel';
+import './css/profile-style.css';
+import React, { Link, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function ProfileProtectedRoute({ user, children }) {
-    if (!user) {
-        return <SuccessPage />
-    }
-    return children;
-}
+function ProfilePage({ setUser }) {
+    const navigate = useNavigate();
+    const [user, setLocalUser] = useState(null);
+    const [adminRole, setAdminRole] = useState(null);
+    const [editingAdminName, setEditingAdminName] = useState(null);
+    const [editingAdminPassword, setEditingAdminPassword] = useState(null);
 
-function AdminProtectedRoute({ user, children }) {
-    if (!user || !("adminLogin" in user)) {
-        return <SuccessPage />;
-    }
-    return children;
-}
-
-function App() {
-    const location = useLocation();
-    const isAdminPage = location.pathname.startsWith('/admin');
-
-    const [user, setUser] = useState(() => {
+    useEffect(() => {
         const storedUser = localStorage.getItem("user");
-        return storedUser ? JSON.parse(storedUser) : null;
-    });
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            setLocalUser(parsedUser);
 
-    const updateUser = (newUser) => {
-        setUser(newUser);
-        if (newUser) {
-            localStorage.setItem("user", JSON.stringify(newUser));
+            if ("adminLogin" in parsedUser) {
+                if (parsedUser.adminLogin.includes("org")) {
+                    setAdminRole("Organisation Admin");
+                } else if (parsedUser.adminLogin.includes("site")) {
+                    setAdminRole("Site Admin");
+                }
+            }
         } else {
-            localStorage.removeItem("user");
+            navigate('/login');
+        }
+    }, []);
+
+    const closeModal = () => {
+        setEditingAdminName(null);
+
+    };
+
+    const handleSave = async () => {
+        try {
+            let url = `/api/admins/${editingAdminName.adminID}`;
+            let method = "PUT";
+            let body = { ...editingAdminName };
+
+            const response = await fetch(url, {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body),
+            });
+
+            if (!response.ok) throw new Error("Failed to update data");
+
+            const updatedUser = await response.json();
+
+            closeModal();
+
+            setLocalUser(updatedUser);
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+
+        } catch (error) {
+            alert("Error updating data:", error);
         }
     };
 
+    const handlePasswordSave = async () => {
+        try {
+            if (!editingAdminPassword || !editingAdminPassword.password) {
+                alert("Please enter a password");
+                return;
+            }
+
+            let url = `/api/admins/new-password/${editingAdminPassword.adminID}`;
+            let method = "PUT";
+            let body = { password: editingAdminPassword.password };
+
+            const response = await fetch(url, {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body),
+            });
+
+            if (!response.ok) throw new Error("Failed to update password");
+
+            closeModal();
+
+        } catch (error) {
+            alert("Error updating password:", error);
+        }
+    };
+
+
+    const handleLogout = () => {
+        setUser(null);
+        localStorage.removeItem("user");
+        navigate('/login');
+    };
+
+    const handleAdminPanel = () => {
+        navigate('/admin');
+    };
+
     return (
-        <div className="App">
-            {!isAdminPage && (
-                <nav className="navbar navbar-custom navbar-fixed-top">
-                    <div className="top-area" style={{ backgroundColor: '#d44007' }}>
-                        <div className="container">
-                            <div className="col-sm-6">
-                                <p>Website Header</p>
+        <div className="clinic_version" style={{ overflow: 'hidden' }}>
+            <div className="container" style={{ marginTop: '150px' }}>
+                <div className="profile-nav col-md-3">
+                    <div className="user-heading">
+                        <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt="User avatar" />
+                        <h1 style={{ color: '#fff', marginTop: '10px' }}>{user?.userName || user?.adminName || 'User not found'}</h1>
+                        <p>{user?.emailAddress || user?.adminLogin || 'No data available'}</p>
+                    </div>
+                    <button
+                        style={{ outline: 'none', marginTop: '25px', position: 'relative', left: '70px' }}
+                        onClick={handleLogout}
+                        className="btn-light btn-brd effect-1"
+                    >
+                        Log out
+                    </button>
+
+                    {adminRole != null && (
+                        <button style={{ outline: 'none', marginTop: '25px', position: 'relative', left: '70px' }}
+                            onClick={handleAdminPanel} className="btn-light btn-brd effect-1" > Admin Panel </button>
+                    )}
+
+                </div>
+
+                <div className="profile-info col-md-9">
+                    <div className="panel">
+                        {adminRole != null ? (
+                            <>
+                                <div className="bio-graph-heading">
+                                    Administrator Personal Profile
+                                </div>
+                                <div className="bio-graph-info" style={{ marginTop: '25px' }}>
+                                    <div className="row">
+                                        <div className="bio-row">
+                                            <p><span>Full Name </span>: {user.adminName}</p>
+                                        </div>
+                                        <div className="bio-row">
+                                            <p><span>Login </span>: {user.adminLogin}</p>
+                                        </div>
+                                        <div className="bio-row">
+                                            <p><span>Role</span>: {adminRole}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className="bio-graph-heading">
+                                    User Personal Profile
+                                </div>
+                                <div className="bio-graph-info" style={{ marginTop: '25px' }}>
+                                        <div className="row">
+                                            <div className="col-md-6" onClick={() => navigate('/personal')}>
+                                            <div className="panel">
+                                                <div className="panel-body">
+                                                    <div className="bio-desk">
+                                                        <h4>Complete your profile</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+
+                    </div>
+
+                    {adminRole != null && (
+                        <div className="row">
+                            <div className="col-md-6" onClick={() => setEditingAdminName(user)}>
+                                <div className="panel">
+                                    <div className="panel-body">
+                                        <div className="bio-desk">
+                                            <h4>Change Name</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="col-md-6" onClick={() => setEditingAdminPassword(user)}>
+                                <div className="panel">
+                                    <div className="panel-body">
+                                        <div className="bio-desk">
+                                            <h4>Change Password</h4>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div className="container navigation">
-                        <div className="navbar-collapse navbar-right">
-                            <ul className="nav navbar-nav">
-                                <li className={location.pathname === "/" ? "active" : ""}>
-                                    <Link to="/">Home</Link>
-                                </li>
-                                <li className={location.pathname === "/about" ? "active" : ""}>
-                                    <Link to="/about">About Us</Link>
-                                </li>
-                                <li className={location.pathname === "/contact" ? "active" : ""}>
-                                    <Link to="/contact">Contact</Link>
-                                </li>
-                                <li className={location.pathname === "/login" || location.pathname === "/profile" ? "active" : ""}>
-                                    {user ? (
-                                        <Link to="/profile" state={{ user: user }}>{user.userName || user.adminName}</Link>
-                                    ) : (
-                                        <Link to="/login">Log In</Link>
-                                    )}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            )}
-
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/login" element={<LoginPage setUser={updateUser} />} />
-                <Route path="/success" element={<SuccessPage />} />
-                <Route path="/admin" element={<AdminProtectedRoute user={user}><AdminPanel setUser={updateUser} /></AdminProtectedRoute>} />
-                <Route path="/profile" element={<ProfileProtectedRoute user={user}><ProfilePage setUser={updateUser} /></ProfileProtectedRoute>} />
-            </Routes>
-
-            {!isAdminPage && (
-                <div className="copyright-area" style={{ backgroundColor: '#d44007' }}>
-                    <div className="container">
-                        <div className="col-md-8">
-                            <p>Website Footer</p>
-                        </div>
-                    </div>
+                    )}
                 </div>
-            )}
+
+                {editingAdminName !== null && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <h3>Change Name</h3>
+                            <label>Name:</label>
+                            <input required type="text" value={editingAdminName.adminName} onChange={(e) => { setEditingAdminName({ ...editingAdminName, adminName: e.target.value }); }} />
+                            <button onClick={handleSave} className="save-btn">Save</button>
+                            <button onClick={closeModal} className="cancel-btn">Cancel</button>
+                        </div>
+                    </div>
+                )}
+
+                {editingAdminPassword !== null && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <h3>Change Password</h3>
+                            <label>Password:</label>
+                            <input required type="text" onChange={(e) => { setEditingAdminPassword({ ...editingAdminPassword, password: e.target.value }); }} />
+                            <button onClick={handlePasswordSave} className="save-btn">Save</button>
+                            <button onClick={closeModal} className="cancel-btn">Cancel</button>
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
 
-
-export default function WrappedApp() {
-    return (
-        <Router>
-            <App />
-        </Router>
-    );
-}
+export default ProfilePage;
