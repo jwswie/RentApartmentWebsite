@@ -162,7 +162,7 @@ function App() {
                 setUser(admin);
                 localStorage.setItem("user", JSON.stringify(admin));
                 resetModal();
-                navigate('/admin'); 
+                navigate('/admin');
             } else {
                 setErrorMessage('Incorrect password!');
             }
@@ -238,76 +238,139 @@ function App() {
             )}
 
             {isRegisterWindow && (
-                <div>
-                    <div className="login-container">
-                        <input type="checkbox" id="check" />
+                <div className="login-container">
+                    {!tempVerificationCode && !isAdmin ? (
                         <div className="login form">
-                            <header>Login</header>
-                            {!tempVerificationCode && !isAdmin ? (
-                                <form onSubmit={handleLogin}>
-                                    <input
-                                        type="text"
-                                        placeholder="Enter your email address"
-                                        value={emailAddress}
-                                        onChange={(e) => setEmailAddress(e.target.value)}
-                                        required
-                                    />
-                                    {errorMessage && <p className="error-message">{errorMessage}</p>}
-                                    <input type="submit" className="button" value="Log In" />
-                                </form>
-                            ) : isAdmin ? (
-                                <form onSubmit={handleAdminLogin}>
-                                    <input
-                                        type="password"
-                                        placeholder="Enter your password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                    />
-                                    {errorMessage && <p className="error-message">{errorMessage}</p>}
-                                    <input type="submit" className="button" value="Login as Admin" />
-                                </form>
-                            ) : (
-                                <form onSubmit={handleVerifyCode}>
-                                    <input
-                                        type="text"
-                                        placeholder="Enter verification code"
-                                        value={verificationCode}
-                                        onChange={(e) => setVerificationCode(e.target.value)}
-                                        required
-                                    />
-                                    {errorMessage && <p className="error-message">{errorMessage}</p>}
-                                    <input type="submit" className="button" value="Verify Code" />
-                                </form>
-                            )}
-                            <div className="signup">
-                                <span className="signup"> Don't have an account? <label htmlFor="check">Signup</label>
-                                </span>
-                            </div>
-                        </div>
-                        <div className="registration form">
-                            <header>Signup</header>
-                            {!isVerifying ? (
-                                <form onSubmit={handleSignup}>
-                                    <input type="text" placeholder="Enter your full name" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
-                                    <input type="text" placeholder="Enter your email address" value={emailAddress} onChange={(e) => setEmailAddress(e.target.value)} required />
-                                    {errorMessage && <p className="error-message">{errorMessage}</p>}
-                                    <input type="submit" className="button" value="Signup" />
-                                </form>
-                            ) : (
-                                <form onSubmit={handleVerifyCode}>
-                                    <input type="text" placeholder="Enter verification code" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} required />
-                                    {errorMessage && <p className="error-message">{errorMessage}</p>}
-                                    <input type="submit" className="button" value="Verify Code" />
-                                </form>
-                            )}
+                            <img src="images/cross.png" alt="Cross image" className="close-btn"></img>
+                            <header>Вхід / Реєстрація</header>
+                            <form onSubmit={handleLogin}>
+                                <p className="form-header">Електронна пошта</p>
+                                <input type="text" placeholder="Введіть електронну пошту" value={emailAddress}
+                                    onChange={(e) => setEmailAddress(e.target.value)} required />
+                                {errorMessage && <p className="error-message">{errorMessage}</p>}
+                                <input type="submit" className="button" value="Продовжити" />
+                            </form>
 
-                            <div className="signup">
-                                <span className="signup">Already have an account? <label htmlFor="check">Login</label></span>
+                            <div class="divider">
+                                <span class="line"></span>
+                                <span class="text">або</span>
+                                <span class="line"></span>
                             </div>
+
+                            <div class="other">
+                                <div class="other-item">
+                                    <img src="images/google-icon.png" alt="Google image" className="other-icon"></img>
+                                    <p className="other-text">Увійти з Google</p>
+                                </div>
+                                <div class="other-item">
+                                    <img src="images/facebook-icon.png" alt="Facebook image" className="other-icon" style={{ width: "14px" }}></img>
+                                    <p className="other-text">Увійти з Facebook</p>
+                                </div>
+                                <div class="other-item">
+                                    <img src="images/apple-icon.png" alt="Apple image" className="other-icon"></img>
+                                    <p className="other-text">Увійти з Apple</p>
+                                </div>
+                            </div>
+
+                            <p className="footer-text">Увійшовши або зареєструвавшись, ви приймаєте <u>Умови<br></br>та положення</u> і <u>Положення про конфіденційність</u> Dwell.</p>
                         </div>
-                    </div>
+
+                    ) : isAdmin ? (
+                        <form onSubmit={handleAdminLogin}>
+                            <input
+                                type="password"
+                                placeholder="Enter your password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                            {errorMessage && <p className="error-message">{errorMessage}</p>}
+                            <input type="submit" className="button" value="Login as Admin" />
+                        </form>
+                    ) : (
+                        <form onSubmit={handleVerifyCode}>
+                            <input
+                                type="text"
+                                placeholder="Enter verification code"
+                                value={verificationCode}
+                                onChange={(e) => setVerificationCode(e.target.value)}
+                                required
+                            />
+                            {errorMessage && <p className="error-message">{errorMessage}</p>}
+                            <input type="submit" className="button" value="Verify Code" />
+                        </form>
+                    )}
                 </div>
+                /*   <div>
+                       <div className="login-container">
+                           <input type="checkbox" id="check" />
+                           <div className="login form">
+                               <header>Login</header>
+                               {!tempVerificationCode && !isAdmin ? (
+                                   <form onSubmit={handleLogin}>
+                                       <input
+                                           type="text"
+                                           placeholder="Enter your email address"
+                                           value={emailAddress}
+                                           onChange={(e) => setEmailAddress(e.target.value)}
+                                           required
+                                       />
+                                       {errorMessage && <p className="error-message">{errorMessage}</p>}
+                                       <input type="submit" className="button" value="Log In" />
+                                   </form>
+                               ) : isAdmin ? (
+                                   <form onSubmit={handleAdminLogin}>
+                                       <input
+                                           type="password"
+                                           placeholder="Enter your password"
+                                           value={password}
+                                           onChange={(e) => setPassword(e.target.value)}
+                                           required
+                                       />
+                                       {errorMessage && <p className="error-message">{errorMessage}</p>}
+                                       <input type="submit" className="button" value="Login as Admin" />
+                                   </form>
+                               ) : (
+                                   <form onSubmit={handleVerifyCode}>
+                                       <input
+                                           type="text"
+                                           placeholder="Enter verification code"
+                                           value={verificationCode}
+                                           onChange={(e) => setVerificationCode(e.target.value)}
+                                           required
+                                       />
+                                       {errorMessage && <p className="error-message">{errorMessage}</p>}
+                                       <input type="submit" className="button" value="Verify Code" />
+                                   </form>
+                               )}
+                               <div className="signup">
+                                   <span className="signup"> Don't have an account? <label htmlFor="check">Signup</label>
+                                   </span>
+                               </div>
+                           </div>
+                           <div className="registration form">
+                               <header>Signup</header>
+                               {!isVerifying ? (
+                                   <form onSubmit={handleSignup}>
+                                       <input type="text" placeholder="Enter your full name" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+                                       <input type="text" placeholder="Enter your email address" value={emailAddress} onChange={(e) => setEmailAddress(e.target.value)} required />
+                                       {errorMessage && <p className="error-message">{errorMessage}</p>}
+                                       <input type="submit" className="button" value="Signup" />
+                                   </form>
+                               ) : (
+                                   <form onSubmit={handleVerifyCode}>
+                                       <input type="text" placeholder="Enter verification code" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} required />
+                                       {errorMessage && <p className="error-message">{errorMessage}</p>}
+                                       <input type="submit" className="button" value="Verify Code" />
+                                   </form>
+                               )}
+   
+                               <div className="signup">
+                                   <span className="signup">Already have an account? <label htmlFor="check">Login</label></span>
+                               </div>
+                           </div>
+                       </div>
+                   </div>*/
             )}
 
             <Routes>
