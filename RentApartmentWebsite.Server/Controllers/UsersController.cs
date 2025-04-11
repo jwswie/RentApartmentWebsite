@@ -57,6 +57,12 @@ namespace RentApartmentWebsite.Server.Controllers
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             var verificationCode = new string(Enumerable.Range(0, 6).Select(_ => chars[random.Next(chars.Length)]).ToArray()); // Генерируем код верификации
 
+            _codes[emailAddress] = new VerificationStore
+            {
+                Code = verificationCode,
+                ExpirationTime = DateTime.UtcNow.AddMinutes(20)
+            };
+
             var fromAddress = new MailAddress("kobzevastep@gmail.com", "Rent Apartment Website");
             var toAddress = new MailAddress(emailAddress, "To Name");
             const string fromPassword = "nvbz qavb jfyd qede";
@@ -84,6 +90,20 @@ namespace RentApartmentWebsite.Server.Controllers
             }
 
             return Ok(new { verificationCode });
+        }
+
+        [HttpPost("verify-code")]
+        public IActionResult VerifyCode(string email, string code)
+        {
+            if (_codes.TryGetValue(email, out var store))
+            {
+                if (DateTime.UtcNow > store.ExpirationTime)
+                    return BadRequest("Code expired");
+
+                if (store.Code == code)
+                    return Ok("Verified");
+            }
+            return BadRequest("Invalid code");
         }
 
         [HttpGet("check-email/{emailAddress}")]
@@ -123,5 +143,13 @@ namespace RentApartmentWebsite.Server.Controllers
             _context.SaveChanges();
             return Ok(new { message = "User updated successfully" });
         }
+
+        public class VerificationStore
+        {
+            public string Code { get; set; }
+            public DateTime ExpirationTime { get; set; }
+        }
+
+        private static Dictionary<string, VerificationStore> _codes = new();
     }
 }

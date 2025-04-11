@@ -9,6 +9,19 @@ body {
     width: 100%;
 }
 
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
 .login-container {
     position: absolute;
     width: 480px;
@@ -43,6 +56,7 @@ body {
     height: 20px;
     left: calc(90% - 20px/2 + 3px);
     top: 42px;
+    cursor: pointer;
 }
 
 .form header {
@@ -78,7 +92,7 @@ body {
     color: #FCFCFC;
 }
 
-.form input {
+.form .form-input {
     box-sizing: border-box;
     position: relative;
     width: 420px;
@@ -92,23 +106,26 @@ body {
     padding-left: 20px;
 }
 
-    .form input:focus {
+    .form .form-input:focus {
         box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
     }
 
-    .form input.button {
-        height: 50px;
-        padding: 5px 20px;
-        background: #E84E0F;
-        border-radius: 50px;
-        margin-top: 20px;
-        color: #fff;
-        font-weight: 600;
-        font-size: 16px;
-        letter-spacing: 0.5px;
-        border: none;
-        transition: ease all 0.5s;
-    }
+.form input.button {
+    position: relative;
+    height: 50px;
+    width: 420px;
+    padding: 5px 20px;
+    background: #E84E0F;
+    border-radius: 50px;
+    left: 30px;
+    top: 160px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    border: none;
+    transition: ease all 0.5s;
+}
 
         .form input.button:hover {
             background: bisque;
@@ -159,6 +176,7 @@ body {
         background: #FCFCFC;
         box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
         border-radius: 8px;
+        cursor: pointer;
     }
 
         .other .other-item .other-icon {
@@ -171,7 +189,7 @@ body {
         .other .other-item .other-text {
             position: relative;
             left: 5px;
-            top: 9px;
+            top: 5px;
             font-family: 'Source Sans Pro';
             font-style: normal;
             font-weight: 400;
@@ -197,4 +215,129 @@ body {
     text-align: center;
     letter-spacing: 0.5px;
     color: #A0A0A0;
+}
+
+.code-container {
+    position: absolute;
+    width: 480px;
+    height: 487px;
+    left: calc(50% - 480px/2);
+    top: 3%;
+    background: #060606;
+    box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
+    border-radius: 20px;
+    z-index: 998;
+}
+
+.form .back-btn {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: calc(10% - 20px/2 + 3px);
+    top: 42px;
+    cursor: pointer;
+}
+
+.form #code-header {
+    position: absolute;
+    width: 320px;
+    height: 24px;
+    left: calc(50% - 320px/2);
+    top: 100px;
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 76px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.5px;
+    color: #FCFCFC;
+}
+
+.form .code-header {
+    position: relative;
+    width: 486px;
+    height: 58px;
+    left: calc(50% - 486px/2);
+    top: 145px;
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.5px;
+    color: #FCFCFC;
+}
+
+.form .code-subheader {
+    position: absolute;
+    width: 486px;
+    height: 10px;
+    left: calc(50% - 486px/2 + 40px);
+    top: 220px;
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 34px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.5px;
+    color: #A0A0A0;
+}
+
+.code-input-form .code-inputs {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 210px;
+    width: auto;
+}
+
+.code-input {
+    width: 52px;
+    height: 66px;
+    text-align: center;
+    font-size: 24px;
+    border: 1px solid #A0A0A0;
+    border-radius: 8px;
+    background-color: #060606;
+    color: #f7f7f7;
+    outline: none;
+    transition: border 0.2s;
+}
+
+    .code-input:focus {
+        border-color: #d44007;
+    }
+
+.code-input-form input.button {
+    position: relative;
+    width: 406px;
+    left: calc(50% - 406px/2);
+    top: 50px;
+}
+
+.resend-btn {
+    position: relative;
+    width: 248px;
+    height: 13px;
+    left: calc(50% - 248px/2);
+    top: 28px;
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 23px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.5px;
+    color: #E84E0F;
+    cursor: pointer;
 }
