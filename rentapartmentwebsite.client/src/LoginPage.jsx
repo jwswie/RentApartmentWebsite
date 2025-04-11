@@ -70,7 +70,7 @@ function LoginPage({ setUser }) {
                     const user = await userResponse.json();
                     setTempUser(user);
                 }
-                setErrorMessage('Email not found. Please sign up');
+                //setErrorMessage('Email not found. Please sign up');
                 return;
             }
 
@@ -99,6 +99,8 @@ function LoginPage({ setUser }) {
             if (response.ok) {
                 const admin = await response.json();
                 setUser(admin);
+                console.log("Logged through page " + admin)
+                console.log(admin)
                 navigate('/admin');
             } else {
                 setErrorMessage('Incorrect password!');
