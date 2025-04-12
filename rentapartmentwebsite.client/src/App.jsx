@@ -1,4 +1,4 @@
-﻿
+import './css/login-style.css';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation, useNavigate } from 'react-router-dom';
 import HomePage from './HomePage';
@@ -32,13 +32,43 @@ function UserProtectedRoute({ user, children }) {
 }
 
 function App() {
+    //#region Variables
     const location = useLocation();
     const isAdminPage = location.pathname.startsWith('/admin');
+    const [isRegisterWindow, setIsRegisterWindow] = useState(null);
+
+    const [nowAuthorizing, setNowAuthorizing] = useState('');
+    const [emailAddress, setEmailAddress] = useState('');
+    const [codeArray, setCodeArray] = useState(Array(6).fill(""))
+    const [verificationCode, setVerificationCode] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [tempUser, setTempUser] = useState(null);
+    const [tempVerificationCode, setTempVerificationCode] = useState(null);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isVerifying, setIsVerifying] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const navigate = useNavigate();
 
     const [user, setUser] = useState(() => {
         const storedUser = localStorage.getItem("user");
         return storedUser ? JSON.parse(storedUser) : null;
     });
+
+    //#endregion
+
+    const resetModal = () => {
+        setIsRegisterWindow(false);
+        setTempVerificationCode(null);
+        setErrorMessage('');
+        setIsVerifying(false);
+        setIsAdmin(false);
+        setNowAuthorizing('');
+        setEmailAddress('');
+        setPassword('');
+        setVerificationCode('');
+        setCodeArray("");
+    };
 
     const updateUser = (newUser) => {
         setUser(newUser);
@@ -48,6 +78,197 @@ function App() {
             localStorage.removeItem("user");
         }
     };
+
+    const handleLogin = async (event) => {
+        event.preventDefault(); // Предотвращаем обновление страницы
+        setErrorMessage('');
+        setIsAdmin(false);
+
+        try {
+            const adminResponse = await fetch(`/api/admins/login/${emailAddress}`);
+            if (adminResponse.ok) { // Если был введён логин админа
+                setIsAdmin(true);
+                setIsVerifying(true);
+                return;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(emailAddress)) {
+                alert("Будь ласка, перевірте правильність введеної електронної адреси");
+                return;
+            }
+
+            try {
+                const checkResponse = await fetch(`/api/users/check-email/${emailAddress}`); // Посылаем запрос на сервер и ждём ответ
+                if (checkResponse.ok) {
+                    const exists = await checkResponse.json();
+                    if (exists) { // Если такой адрес уже существует (Вход)
+                        const userResponse = await fetch(`/api/users/login/${emailAddress}`);
+                        if (userResponse.ok) {
+                            const sendCodeResponse = await fetch(`/api/users/send-code/${emailAddress}`);
+                            if (sendCodeResponse.ok) {
+                                const { verificationCode } = await sendCodeResponse.json();
+                                setTempVerificationCode(verificationCode);
+                                setIsVerifying(true);
+                                const user = await userResponse.json();
+                                setTempUser(user);
+                            }
+                        }
+                    }
+
+                    try {
+                        const codeResponse = await fetch(`/api/users/send-code/${emailAddress}`);
+                        if (!codeResponse.ok) {
+                            alert('Failed to send verification code. Try again');
+                            return;
+                        }
+
+                        const { verificationCode } = await codeResponse.json();
+                        setTempVerificationCode(verificationCode);
+                        setIsVerifying(true);
+                        setNowAuthorizing("First Time");
+                        return;
+                    } catch (error) {
+                        alert('Error sending verification code');
+                        return;
+                    }
+                }
+            } catch (error) {
+                alert('Error checking email');
+                return;
+            }
+        } catch (error) {
+            alert('Error logging in');
+        }
+    };
+
+    const handleAdminLogin = async (event) => {
+        event.preventDefault();
+        setErrorMessage('');
+
+        try {
+            const response = await fetch('/api/admins/check-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: emailAddress, password: password }),
+            });
+
+            if (response.ok) {
+                const admin = await response.json();
+                setUser(admin);
+                localStorage.setItem("user", JSON.stringify(admin));
+                resetModal();
+                navigate('/admin');
+            } else {
+                alert('Incorrect password!');
+            }
+        } catch (error) {
+            alert('Error verifying password');
+        }
+    };
+
+    const handleVerifyCode = async (event) => {
+        event.preventDefault();
+        setErrorMessage('');
+
+        if (verificationCode === tempVerificationCode && nowAuthorizing == '') { // Если совпал код (Log In)
+            const response = await fetch('/api/users/verify-code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: emailAddress, code: verificationCode })
+            });
+
+            if (response.ok) {
+                setUser(tempUser);
+                localStorage.setItem("user", JSON.stringify(tempUser));
+                resetModal();
+                navigate('/profile');
+            } else {
+                alert('Код недійсний');
+            }
+        }
+        else if (verificationCode === tempVerificationCode && nowAuthorizing != '') { // Если совпал код (Sign In)
+            const userData = { userName: " ", emailAddress };
+            try {
+                const response = await fetch('/api/users/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }, // Отправляемые данные в формате JSON
+                    body: JSON.stringify(userData), // Превращаем объект userData в строку JSON
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    setUser(result);
+                    localStorage.setItem("user", JSON.stringify(result));
+                    resetModal();
+                    navigate('/profile');
+                } else {
+                    alert('Failed to register user');
+                }
+            } catch (error) {
+                alert('Error signing up');
+            }
+
+        } else {
+            alert('Invalid verification code!');
+        }
+    };
+
+    const resendVerificationCode = async () => {
+        try {
+            const response = await fetch(`/api/users/send-code/${emailAddress}`);
+            if (response.ok) {
+                const { verificationCode } = await response.json();
+                setTempVerificationCode(verificationCode);
+                alert("Код перевірки повторно надіслано на електронну пошту.");
+            } else {
+                alert("Не вдалося надіслати код. Спробуйте ще раз.");
+            }
+        } catch (error) {
+            alert("Виникла помилка при повторній відправці коду.");
+        }
+    };
+
+    //#region HandleCodeInput
+    const handleChange = (value, index) => {
+        const upperValue = value.toUpperCase();
+        const updated = [...codeArray];
+        updated[index] = upperValue;
+
+        setCodeArray(updated);
+        setVerificationCode(updated.join(""));
+
+        if (upperValue && index < codeArray.length - 1) {
+            const nextInput = document.getElementById(`code-input-${index + 1}`);
+            if (nextInput) nextInput.focus();
+        }
+    };
+
+    const handleKeyDown = (e, index) => {
+        if (e.key === "Backspace" && codeArray[index] === "" && index > 0) {
+            const prevInput = document.getElementById(`code-input-${index - 1}`);
+            if (prevInput) prevInput.focus();
+        }
+    };
+
+    const handlePaste = (e) => {
+        e.preventDefault();
+        const pastedData = e.clipboardData.getData("Text").toUpperCase().replace(/\s/g, "");
+        if (!pastedData) return;
+
+        const updated = [...codeArray];
+        for (let i = 0; i < codeArray.length; i++) {
+            updated[i] = pastedData[i] || "";
+        }
+
+        setCodeArray(updated);
+        setVerificationCode(updated.join(""));
+
+        const lastFilledIndex = Math.min(pastedData.length - 1, codeArray.length - 1);
+        const nextInput = document.getElementById(`code-input-${lastFilledIndex}`);
+        if (nextInput) nextInput.focus();
+    };
+    //#endregion
 
     return (
         <div className="App">
@@ -71,12 +292,105 @@ function App() {
                         {user ? (
                             <Link to="/profile" state={{ user: user }}><img src="images/profile-icon.svg" alt="Profile image" className="icon" style={{ width: "24px", height: "24px" }}></img></Link>
                         ) : (
-                            <Link to="/login"><img src="images/profile-icon.svg" alt="Profile image" className="icon" style={{ width: "24px", height: "24px" }}></img></Link>
+                            <img src="images/profile-icon.svg" alt="Profile image" onClick={() => setIsRegisterWindow(true)} className="icon" style={{ width: "24px", height: "24px" }}></img>
                         )}
 
                         <img src="images/menu-icon.svg" alt="Menu image" className="icon" style={{ width: "24px", height: "24px" }}></img>
                     </div>
                 </nav>
+            )}
+
+            {isRegisterWindow && (
+                <div className="modal">
+                    {!isAdmin && !isVerifying ? ( // Если входит пользователь и не стоит проверка кода
+                        <div className="login-container">
+                            <div className="login form">
+                                <img src="images/cross.png" alt="Cross image" onClick={() => setIsRegisterWindow(false)} className="close-btn"></img>
+                                <header>Вхід / Реєстрація</header>
+                                <form onSubmit={handleLogin}>
+                                    <p className="form-header">Електронна пошта</p>
+                                    <input type="text" className="form-input" placeholder="Введіть електронну пошту" value={emailAddress}
+                                        onChange={(e) => setEmailAddress(e.target.value)} required />
+                                    {errorMessage && <p className="error-message">{errorMessage}</p>}
+                                    <input type="submit" className="button" value="Продовжити" />
+                                </form>
+
+                                <div className="divider">
+                                    <span className="line"></span>
+                                    <span className="text">або</span>
+                                    <span className="line"></span>
+                                </div>
+
+                                <div className="other">
+                                    <div className="other-item">
+                                        <img src="images/google-icon.png" alt="Google image" className="other-icon"></img>
+                                        <p className="other-text">Увійти з Google</p>
+                                    </div>
+                                    <div className="other-item">
+                                        <img src="images/facebook-icon.png" alt="Facebook image" className="other-icon" style={{ width: "14px" }}></img>
+                                        <p className="other-text">Увійти з Facebook</p>
+                                    </div>
+                                    <div className="other-item">
+                                        <img src="images/apple-icon.png" alt="Apple image" className="other-icon"></img>
+                                        <p className="other-text">Увійти з Apple</p>
+                                    </div>
+                                </div>
+
+                                <p className="footer-text">Увійшовши або зареєструвавшись, ви приймаєте <u>Умови<br></br>та положення</u> і <u>Положення про конфіденційність</u> Dwell.</p>
+                            </div>
+                        </div>
+
+                    ) : isVerifying && isAdmin ? ( // Если стоит проверка кода и входит админ
+
+                        <div className="code-container">
+                            <div className="login form">
+                                <img src="images/cross.png" onClick={() => setIsRegisterWindow(false)} alt="Cross image" className="close-btn"></img>
+                                <img src="images/arrow.png" onClick={() => setIsVerifying(false)} alt="Arrow image" className="back-btn"></img>
+                                <header>Введіть пароль</header>
+                                <form onSubmit={handleAdminLogin} style={{ marginTop: "70px" }}>
+                                    <input type="password" className="form-input" placeholder="Введіть пароль" value={password}
+                                        onChange={(e) => setPassword(e.target.value)} required />
+                                    <input type="submit" className="button" value="Увійти як Адміністратор" />
+                                </form>
+
+                            </div>
+                        </div>
+
+                    ) : isVerifying && !isAdmin ? ( // Если стоит проверка кода и входит пользователь
+                        <div className="code-container">
+                            <div className="login form">
+                                <img src="images/cross.png" onClick={() => setIsRegisterWindow(false)} alt="Cross image" className="close-btn"></img>
+                                <img src="images/arrow.png" onClick={() => setIsVerifying(false)} alt="Arrow image" className="back-btn"></img>
+                                <header id='code-header'>Введіть код перевірки</header>
+                                <p className="code-header">Ми надіслали код перевірки на <b>Вашу електронну пошту</b>.<br></br>Перевірте папку з вхідними повідомленнями<br></br>та введіть код нижче.</p>
+                                <p className="code-subheader">*Код підтвердження дійсний протягом 20 хвилин після його отримання.</p>
+                                <form onSubmit={handleVerifyCode} style={{ marginTop: "70px" }} className="code-input-form">
+                                    <div className="code-inputs">
+                                        {codeArray.map((char, i) => (
+                                            <input
+                                                key={i}
+                                                id={`code-input-${i}`}
+                                                type="text"
+                                                maxLength="1"
+                                                className="code-input"
+                                                value={char}
+                                                onChange={(e) => handleChange(e.target.value, i)}
+                                                onKeyDown={(e) => handleKeyDown(e, i)}
+                                                onPaste={(e) => handlePaste(e)}
+                                            />
+                                        ))}
+                                    </div>
+
+                                    {errorMessage && <p className="error-message">{errorMessage}</p>}
+                                    <p className="resend-btn" onClick={resendVerificationCode}>Надіслати код перевірки ще раз</p>
+                                    <input type="submit" className="button" value="Увійти" />
+                                </form>
+
+                            </div>
+                        </div>
+                    ) : null}
+
+                </div>
             )}
 
             <Routes>
@@ -102,7 +416,6 @@ function App() {
         </div>
     );
 }
-
 
 export default function WrappedApp() {
     return (

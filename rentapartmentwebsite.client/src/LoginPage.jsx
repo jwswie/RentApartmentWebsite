@@ -15,7 +15,7 @@ function LoginPage({ setUser }) {
     const navigate = useNavigate();
 
     const handleSignup = async (event) => {
-        event.preventDefault(); // Предотвращаем обновление страницы
+        event.preventDefault(); // ГЏГ°ГҐГ¤Г®ГІГўГ°Г Г№Г ГҐГ¬ Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ Г±ГІГ°Г Г­ГЁГ¶Г»
         setErrorMessage('');
 
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -25,7 +25,7 @@ function LoginPage({ setUser }) {
         }
 
         try {
-            const checkResponse = await fetch(`/api/users/check-email/${emailAddress}`); // Посылаем запрос на сервер и ждём ответ
+            const checkResponse = await fetch(`/api/users/check-email/${emailAddress}`); // ГЏГ®Г±Г»Г«Г ГҐГ¬ Г§Г ГЇГ°Г®Г± Г­Г  Г±ГҐГ°ГўГҐГ° ГЁ Г¦Г¤ВёГ¬ Г®ГІГўГҐГІ
             if (checkResponse.ok) {
                 const exists = await checkResponse.json();
                 if (exists) {
@@ -98,6 +98,8 @@ function LoginPage({ setUser }) {
             if (response.ok) {
                 const admin = await response.json();
                 setUser(admin);
+                console.log("Logged through page " + admin)
+                console.log(admin)
                 navigate('/admin');
             } else {
                 setErrorMessage('Incorrect password!');
@@ -111,17 +113,17 @@ function LoginPage({ setUser }) {
         event.preventDefault();
         setErrorMessage('');
 
-        if (verificationCode === tempVerificationCode && fullName == '') { // Если совпал код, но имя не было введено (Log In)
+        if (verificationCode === tempVerificationCode && fullName == '') { // Г…Г±Г«ГЁ Г±Г®ГўГЇГ Г« ГЄГ®Г¤, Г­Г® ГЁГ¬Гї Г­ГҐ ГЎГ»Г«Г® ГўГўГҐГ¤ГҐГ­Г® (Log In)
             setUser(tempUser);
             navigate('/success', { state: { message: 'You have logged in successfully' } });
         }
-        else if (verificationCode === tempVerificationCode && fullName != '') { // Если совпал код и имя было введено (Sign In)
+        else if (verificationCode === tempVerificationCode && fullName != '') { // Г…Г±Г«ГЁ Г±Г®ГўГЇГ Г« ГЄГ®Г¤ ГЁ ГЁГ¬Гї ГЎГ»Г«Г® ГўГўГҐГ¤ГҐГ­Г® (Sign In)
             const userData = { userName: fullName, emailAddress };
             try {
                 const response = await fetch('/api/users/signup', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }, // Отправляемые данные в формате JSON
-                    body: JSON.stringify(userData), // Превращаем объект userData в строку JSON
+                    headers: { 'Content-Type': 'application/json' }, // ГЋГІГЇГ°Г ГўГ«ГїГҐГ¬Г»ГҐ Г¤Г Г­Г­Г»ГҐ Гў ГґГ®Г°Г¬Г ГІГҐ JSON
+                    body: JSON.stringify(userData), // ГЏГ°ГҐГўГ°Г Г№Г ГҐГ¬ Г®ГЎГєГҐГЄГІ userData Гў Г±ГІГ°Г®ГЄГі JSON
                 });
 
                 if (response.ok) {

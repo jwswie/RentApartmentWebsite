@@ -1,5 +1,5 @@
 ﻿import React, { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./css/admin-style.css";
 
 const AdminPanel = ({ setUser }) => {
@@ -16,14 +16,18 @@ const AdminPanel = ({ setUser }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [tableSearchQuery, setTableSearchQuery] = useState("");
     const [filter, setFilter] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
+        console.log(storedUser)
         if (storedUser) {
+            console.log("Админ авторизирован")
             const parsedUser = JSON.parse(storedUser);
             setLocalUser(parsedUser);
 
             if ("adminLogin" in parsedUser) {
+                console.log("У админа есть роль")
                 if (parsedUser.adminLogin.includes("org")) {
                     setAdminRole("Organisation Admin");
                 } else if (parsedUser.adminLogin.includes("site")) {
@@ -31,7 +35,8 @@ const AdminPanel = ({ setUser }) => {
                 }
             }
         } else {
-            navigate('/login');
+            console.log("Админ не авторизирован")
+            navigate('/');
         }
     }, []);
 

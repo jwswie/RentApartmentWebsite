@@ -23,7 +23,7 @@ function ProfilePage({ setUser }) {
                 }
             }
         } else {
-            navigate('/login');
+            navigate('/');
         }
     }, []);
 
@@ -88,7 +88,7 @@ function ProfilePage({ setUser }) {
     const handleLogout = () => {
         setUser(null);
         localStorage.removeItem("user");
-        navigate('/login');
+        navigate('/');
     };
 
     const handleAdminPanel = () => {
