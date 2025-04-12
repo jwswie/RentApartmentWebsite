@@ -67,7 +67,8 @@ function App() {
         setEmailAddress('');
         setPassword('');
         setVerificationCode('');
-        setCodeArray("");
+        setCodeArray(Array(6).fill(""));
+        setNowAuthorizing('');
     };
 
     const updateUser = (newUser) => {
@@ -110,27 +111,32 @@ function App() {
                                 const { verificationCode } = await sendCodeResponse.json();
                                 setTempVerificationCode(verificationCode);
                                 setIsVerifying(true);
+                                setNowAuthorizing('');
+                                console.log("Log In")
+                                console.log(nowAuthorizing)
                                 const user = await userResponse.json();
                                 setTempUser(user);
                             }
                         }
-                    }
+                    } else {
+                        try {
+                            const codeResponse = await fetch(`/api/users/send-code/${emailAddress}`);
+                            if (!codeResponse.ok) {
+                                alert('Failed to send verification code. Try again');
+                                return;
+                            }
 
-                    try {
-                        const codeResponse = await fetch(`/api/users/send-code/${emailAddress}`);
-                        if (!codeResponse.ok) {
-                            alert('Failed to send verification code. Try again');
+                            const { verificationCode } = await codeResponse.json();
+                            setTempVerificationCode(verificationCode);
+                            setIsVerifying(true);
+                            setNowAuthorizing("First Time");
+                            console.log("Sign In")
+                            console.log(nowAuthorizing)
+                            return;
+                        } catch (error) {
+                            alert('Error sending verification code');
                             return;
                         }
-
-                        const { verificationCode } = await codeResponse.json();
-                        setTempVerificationCode(verificationCode);
-                        setIsVerifying(true);
-                        setNowAuthorizing("First Time");
-                        return;
-                    } catch (error) {
-                        alert('Error sending verification code');
-                        return;
                     }
                 }
             } catch (error) {
@@ -172,6 +178,8 @@ function App() {
         setErrorMessage('');
 
         if (verificationCode === tempVerificationCode && nowAuthorizing == '') { // Если совпал код (Log In)
+            console.log("Log In Code")
+            console.log(nowAuthorizing)
             const response = await fetch('/api/users/verify-code', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -188,6 +196,8 @@ function App() {
             }
         }
         else if (verificationCode === tempVerificationCode && nowAuthorizing != '') { // Если совпал код (Sign In)
+            console.log("Sign In Code")
+            console.log(nowAuthorizing)
             const userData = { userName: " ", emailAddress };
             try {
                 const response = await fetch('/api/users/signup', {
