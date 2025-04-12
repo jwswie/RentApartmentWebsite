@@ -11,6 +11,21 @@ namespace RentApartmentWebsite.Server.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        public class VerificationStore
+        {
+            public string Code { get; set; }
+            public DateTime ExpirationTime { get; set; }
+        }
+
+        public class VerifyCodeRequest
+        {
+            public string Email { get; set; }
+            public string Code { get; set; }
+        }
+
+
+        private static Dictionary<string, VerificationStore> _codes = new();
+
         public UsersController(ApplicationDbContext context)
         {
             _context = context;
@@ -89,22 +104,32 @@ namespace RentApartmentWebsite.Server.Controllers
                 smtp.Send(message);
             }
 
+            Console.WriteLine("Code send");
+
             return Ok(new { verificationCode });
         }
 
         [HttpPost("verify-code")]
-        public IActionResult VerifyCode(string email, string code)
+        public IActionResult VerifyCode([FromBody] VerifyCodeRequest request)
         {
-            if (_codes.TryGetValue(email, out var store))
+            Console.WriteLine(_codes);
+            Console.WriteLine(request.Email);
+
+            if (_codes.TryGetValue(request.Email, out var store))
             {
                 if (DateTime.UtcNow > store.ExpirationTime)
                     return BadRequest("Code expired");
 
-                if (store.Code == code)
+                if (store.Code == request.Code)
+                {
+                    _codes.Remove(request.Email); // удалить код после верификации
                     return Ok("Verified");
+                }
             }
+
             return BadRequest("Invalid code");
         }
+
 
         [HttpGet("check-email/{emailAddress}")]
         public IActionResult CheckEmailAddress(string emailAddress)
@@ -143,13 +168,5 @@ namespace RentApartmentWebsite.Server.Controllers
             _context.SaveChanges();
             return Ok(new { message = "User updated successfully" });
         }
-
-        public class VerificationStore
-        {
-            public string Code { get; set; }
-            public DateTime ExpirationTime { get; set; }
-        }
-
-        private static Dictionary<string, VerificationStore> _codes = new();
     }
 }
