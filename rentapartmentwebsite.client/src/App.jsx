@@ -414,15 +414,55 @@ function App() {
                 <Route path="/personal" element={<UserProtectedRoute user={user}><AddPersonalData setUser={updateUser} /></UserProtectedRoute>} />
             </Routes>
 
-            {/*{!isAdminPage && (
-                <div className="copyright-area" style={{ backgroundColor: '#d44007' }}>
+            {!isAdminPage && (
+                <div className="footer-area">
                     <div className="container">
-                        <div className="col-md-8">
-                           <p>Website Footer</p>
+                        <div className="col">
+                            <img src="images/footer-logo.png" alt="Logo image" className="footer-logo"></img>
+                            <div className="col-group">
+                                <p id='copyright'>© 2025 Dwell. Всі права захищені.</p>
+                                <p className='group1-item'>Налаштування файлів cookie</p>
+                                <p className='group1-item'>Конфіденційність</p>
+                                <p className='group1-item'>Умови користування</p>
+                            </div>
+
+                            <div className="col-group2">
+                                <p id='group-header'>Меню</p>
+                                <p className='group2-item'>Головна</p>
+                                <p className='group2-item'>Про нас</p>
+                                <p className='group2-item'>Житло</p>
+                                <p className='group2-item'>Додаток</p>
+                                <p className='group2-item'>Популярні країни</p>
+                                <p className='group2-item'>Інтерактивна карта</p>
+                                <p className='group2-item'>Блог</p>
+                            </div>
+
+                            <div className="col-group3">
+                                <p id='group-header'>Допомога</p>
+                                <p className='group2-item'>Центр допомоги</p>
+                                <p className='group2-item' style={{ width: "150px" }}>Найчастіші запитання</p>
+                                <p className='group2-item'>Зв'язатися з нами</p>
+                                <p className='group2-item'>Партнерам</p>
+                                <p className='group2-item'>Господарям житла</p>
+                            </div>
+
+                            <div className="col-group4">
+                                <p id='group-header'>Контакти</p>
+                                <p className='group2-item'>+380 (66) 517-71-08</p>
+                                <p className='group2-item'>+380 (96) 233-65-13</p>
+                                <p className='group2-item'>info@dwell.com</p>
+                                <p id='date' style={{ fontSize: "14px" }}>Пн - Пт 09:00 - 18:00</p>
+                                <div className="icon-group">
+                                    <img src="images/instagram-icon.svg" alt="Instagram image" className="group-icon"></img>
+                                    <img src="images/vyber-icon.svg" alt="Vyber image" className="group-icon"></img>
+                                    <img src="images/telegram-icon.svg" alt="Telegram image" className="group-icon"></img>
+                                    <img src="images/facebook-icon.svg" alt="Facebook image" className="group-icon"></img>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            )}*/}
+            )}
         </div>
     );
 }
