@@ -6,6 +6,7 @@ import AboutPage from './AboutPage';
 import ContactPage from './ContactPage';
 import LoginPage from './LoginPage';
 import SuccessPage from './SuccessPage';
+import AccountPage from './AccountPage';
 import ProfilePage from './ProfilePage';
 import AdminPanel from './AdminPanel';
 import AddPersonalData from './AddPersonalData';
@@ -182,7 +183,7 @@ function App() {
                 setUser(tempUser);
                 localStorage.setItem("user", JSON.stringify(tempUser));
                 resetModal();
-                navigate('/profile');
+                navigate('/account');
             } else {
                 alert('Код недійсний');
             }
@@ -283,14 +284,14 @@ function App() {
                         <p className={location.pathname === "/about" ? "nav-active" : "nav-li"}><Link to="/about">Про нас</Link></p>
                         <p className="nav-li"><Link to="/about">Житло</Link></p>
                         <p className="nav-li"><Link to="/about">Країни</Link></p>
-                        <p className={location.pathname === "/contact" ? "nav-active" : "nav-li"}><Link to="/contact">Контакти</Link></p>
+                        
                     </div>
 
                     <div className="icon-container">
                         <img src="images/wish-icon.svg" alt="Wish image" className="icon" style={{ width: "26px", height: "26px" }}></img>
 
                         {user ? (
-                            <Link to="/profile" state={{ user: user }}><img src="images/profile-icon.svg" alt="Profile image" className="icon" style={{ width: "24px", height: "24px" }}></img></Link>
+                            <Link to="/account" state={{ user: user }}><img src="images/profile-icon.svg" alt="Profile image" className="icon" style={{ width: "24px", height: "24px" }}></img></Link>
                         ) : (
                             <img src="images/profile-icon.svg" alt="Profile image" onClick={() => setIsRegisterWindow(true)} className="icon" style={{ width: "24px", height: "24px" }}></img>
                         )}
@@ -400,6 +401,7 @@ function App() {
                 <Route path="/login" element={<LoginPage setUser={updateUser} />} />
                 <Route path="/success" element={<SuccessPage />} />
                 <Route path="/admin" element={<AdminProtectedRoute user={user}><AdminPanel setUser={updateUser} /></AdminProtectedRoute>} />
+                <Route path="/account" element={<ProfileProtectedRoute user={user}><AccountPage setUser={updateUser} /></ProfileProtectedRoute>} />
                 <Route path="/profile" element={<ProfileProtectedRoute user={user}><ProfilePage setUser={updateUser} /></ProfileProtectedRoute>} />
                 <Route path="/personal" element={<UserProtectedRoute user={user}><AddPersonalData setUser={updateUser} /></UserProtectedRoute>} />
             </Routes>

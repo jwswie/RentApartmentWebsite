@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
 
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    overflow-x: hidden;
+}
+
 .App {
     font-family: 'Source Sans Pro', sans-serif !important;
 }
@@ -326,6 +331,10 @@
         height: 30px;
         left: -30px;
         top: 50px;
+    }
+
+    .footer-area .container .col .col-group4 .icon-group::before {
+        opacity: 0;
     }
 
 .footer-area .container .col .col-group .group1-item {
