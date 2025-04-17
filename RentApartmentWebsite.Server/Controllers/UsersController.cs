@@ -11,6 +11,21 @@ namespace RentApartmentWebsite.Server.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        public class VerificationStore
+        {
+            public string Code { get; set; }
+            public DateTime ExpirationTime { get; set; }
+        }
+
+        public class VerifyCodeRequest
+        {
+            public string Email { get; set; }
+            public string Code { get; set; }
+        }
+
+
+        private static Dictionary<string, VerificationStore> _codes = new();
+
         public UsersController(ApplicationDbContext context)
         {
             _context = context;
@@ -57,6 +72,12 @@ namespace RentApartmentWebsite.Server.Controllers
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             var verificationCode = new string(Enumerable.Range(0, 6).Select(_ => chars[random.Next(chars.Length)]).ToArray()); // Генерируем код верификации
 
+            _codes[emailAddress] = new VerificationStore
+            {
+                Code = verificationCode,
+                ExpirationTime = DateTime.UtcNow.AddMinutes(20)
+            };
+
             var fromAddress = new MailAddress("kobzevastep@gmail.com", "Rent Apartment Website");
             var toAddress = new MailAddress(emailAddress, "To Name");
             const string fromPassword = "nvbz qavb jfyd qede";
@@ -83,8 +104,32 @@ namespace RentApartmentWebsite.Server.Controllers
                 smtp.Send(message);
             }
 
+            Console.WriteLine("Code send");
+
             return Ok(new { verificationCode });
         }
+
+        [HttpPost("verify-code")]
+        public IActionResult VerifyCode([FromBody] VerifyCodeRequest request)
+        {
+            Console.WriteLine(_codes);
+            Console.WriteLine(request.Email);
+
+            if (_codes.TryGetValue(request.Email, out var store))
+            {
+                if (DateTime.UtcNow > store.ExpirationTime)
+                    return BadRequest("Code expired");
+
+                if (store.Code == request.Code)
+                {
+                    _codes.Remove(request.Email); // удалить код после верификации
+                    return Ok("Verified");
+                }
+            }
+
+            return BadRequest("Invalid code");
+        }
+
 
         [HttpGet("check-email/{emailAddress}")]
         public IActionResult CheckEmailAddress(string emailAddress)

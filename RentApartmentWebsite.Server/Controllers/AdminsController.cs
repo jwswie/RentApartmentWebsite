@@ -88,7 +88,7 @@ namespace RentApartmentWebsite.Server.Controllers
                 return BadRequest("Password is required");
             }
 
-            byte[] salt = new byte[16]; 
+            byte[] salt = new byte[16];
             new RNGCryptoServiceProvider().GetBytes(salt); // Заполняем массив случайными байтами
 
             var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000); //Создаем экземпляр класса Rfc2898DeriveBytes, который представляет собой реализацию алгоритма PBKDF2 (усложняем пароль)
