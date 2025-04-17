@@ -333,9 +333,9 @@ body {
         top: 50px;
     }
 
-    .footer-area .container .col .col-group4 .icon-group::before {
-        opacity: 0;
-    }
+        .footer-area .container .col .col-group4 .icon-group::before {
+            opacity: 0;
+        }
 
 .footer-area .container .col .col-group .group1-item {
     position: relative;
