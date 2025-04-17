@@ -7,6 +7,7 @@ body.clinic_version .dev-list .widget h3 {
     position: relative;
     top: -25px;
 }
+
 body.clinic_version .dev-list .widget small {
     display: block;
     margin: -15px 0 -5px;
