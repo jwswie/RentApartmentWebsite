@@ -68,7 +68,8 @@ function App() {
         setEmailAddress('');
         setPassword('');
         setVerificationCode('');
-        setCodeArray("");
+        setCodeArray(Array(6).fill(""));
+        setNowAuthorizing('');
     };
 
     const updateUser = (newUser) => {
@@ -113,6 +114,7 @@ function App() {
                                 setIsVerifying(true);
                                 const user = await userResponse.json();
                                 setTempUser(user);
+                                return;
                             }
                         }
                     }
@@ -202,7 +204,7 @@ function App() {
                     setUser(result);
                     localStorage.setItem("user", JSON.stringify(result));
                     resetModal();
-                    navigate('/profile');
+                    navigate('/account');
                 } else {
                     alert('Failed to register user');
                 }
