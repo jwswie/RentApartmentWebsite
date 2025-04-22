@@ -645,7 +645,6 @@ body {
         white-space: nowrap;
     }
 
-
         .interests-info .interests-info-item .info-icon {
             width: 34px;
             height: 34px;
@@ -665,3 +664,183 @@ body {
             width: auto;
             line-height: normal;
         }
+
+.modal-window {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.close-btn {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    left: calc(90% - 20px/2 + 3px);
+    top: 42px;
+    cursor: pointer;
+}
+
+.edit-photo-name {
+    position: absolute;
+    width: 570px;
+    height: 688px;
+    left: calc(50% - 570px/2);
+    top: 50px;
+    background: #060606;
+    box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
+    border-radius: 20px;
+}
+
+    .edit-photo-name header {
+        position: relative;
+        width: 374px;
+        height: 24px;
+        left: calc(50% - 374px/2 + 30px);
+        top: 100px;
+        white-space: nowrap;
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 34px;
+        line-height: 76px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        letter-spacing: 0.5px;
+        color: #FCFCFC;
+    }
+
+    .edit-photo-name .upload-photo-container {
+        position: relative;
+        width: 437px;
+        height: 140px;
+        left: calc(50% - 437px/2 + 0.5px);
+        top: 150px;
+    }
+
+        .edit-photo-name .upload-photo-container .edit-photo {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            background: #D9D9D9;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .edit-photo-name .upload-photo-container .note-text {
+            position: relative;
+            width: 269px;
+            height: 29px;
+            left: 170px;
+            top: -120px;
+            font-family: 'Source Sans Pro';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.5px;
+            color: #A0A0A0;
+        }
+
+        .edit-photo-name .upload-photo-container .upload-button {
+            position: relative;
+            left: 170px;
+            top: -115px;
+            height: 50px;
+            padding: 5px 20px;
+            background: #E84E0F;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border: none;
+            transition: ease all 1s;
+        }
+
+        .edit-photo-name .upload-photo-container .btn-border {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            left: 370px;
+            top: -165px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+            gap: 10px;
+            border: 1px solid #E84E0F;
+            border-radius: 8px;
+            flex: none;
+            order: 0;
+            flex-grow: 0;
+            cursor: pointer;
+        }
+
+            .edit-photo-name .upload-photo-container .btn-border .delete-photo {
+                position: relative;
+                width: 25px;
+                height: 25px;
+            }
+
+        .edit-photo-name .upload-photo-container form {
+            position: relative;
+            width: 500px;
+            height: 270px;
+            left: calc(50% - 500px/2 + 0.5px);
+            top: -100px;
+        }
+
+            .edit-photo-name .upload-photo-container form .form-header {
+                position: relative;
+                top: -10px;
+                font-family: 'Source Sans Pro';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 30px;
+                display: flex;
+                align-items: center;
+                letter-spacing: 0.5px;
+                color: #FCFCFC;
+            }
+
+            .edit-photo-name .upload-photo-container form .form-input {
+                box-sizing: border-box;
+                position: relative;
+                width: 500px;
+                height: 52px;
+                top: -25px;
+                border: 1px solid #A0A0A0;
+                border-radius: 8px;
+                background-color: #060606;
+                padding-left: 20px;
+                color: #E6E6E6;
+            }
+
+                .edit-photo-name .upload-photo-container form .form-input:focus {
+                    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+                }
+
+            .edit-photo-name .upload-photo-container form input.button {
+                width: 500px;
+                height: 52px;
+                padding: 5px 10px;
+                background: #E84E0F;
+                border-radius: 8px;
+                color: #fff;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                border: none;
+                transition: ease all 1s;
+            }

@@ -7,6 +7,7 @@ function ProfilePage({ setUser }) {
     const [user, setLocalUser] = useState(null);
     const [adminRole, setAdminRole] = useState(null);
     const [editingAdminName, setEditingAdminName] = useState(null);
+    const [editingUserName, setEditingUserName] = useState(null);
     const [editingAdminPassword, setEditingAdminPassword] = useState(null);
 
     useEffect(() => {
@@ -29,6 +30,7 @@ function ProfilePage({ setUser }) {
 
     const closeModal = () => {
         setEditingAdminName(null);
+        setEditingUserName(null);
 
     };
 
@@ -48,7 +50,7 @@ function ProfilePage({ setUser }) {
 
             const updatedUser = await response.json();
 
-            closeModal();
+            closeAdminModal();
 
             setLocalUser(updatedUser);
             localStorage.setItem("user", JSON.stringify(updatedUser));
@@ -77,13 +79,12 @@ function ProfilePage({ setUser }) {
 
             if (!response.ok) throw new Error("Failed to update password");
 
-            closeModal();
+            closeAdminModal();
 
         } catch (error) {
             alert("Error updating password:", error);
         }
     };
-
 
     const handleLogout = () => {
         setUser(null);
@@ -110,10 +111,17 @@ function ProfilePage({ setUser }) {
 
             <div className="profile-block">
                 <img src="images/pfp.jpg" alt="PFP image" className="profile-pictire"></img>
-                <p className="user-name">Oksana Kravchenko</p>
-                <p className="role">Гість</p>
+                <p className="user-name">{user?.userName || user?.adminName || 'User not found'}</p>
+                <p className="role">{adminRole ? adminRole : "Гість"}</p>
                 <div className="edit-name-button">
-                    <img src="images/edit-icon.svg" alt="Edit image" className="edit-pictire"></img>
+                    <img src="images/edit-icon.svg" alt="Edit image" className="edit-pictire"
+                        onClick={() => {
+                            if (adminRole) {
+                                setEditingAdminName(user);
+                            } else {
+                                setEditingUserName(user);
+                            }
+                        }} />
                 </div>
             </div>
 
@@ -135,7 +143,7 @@ function ProfilePage({ setUser }) {
             </div>
 
             <div className="about-block-header">
-                <h1 className="header">Про Oksana</h1>
+                <h1 className="header">Про {user?.userName || user?.adminName || 'User not found'}</h1>
                 <p className="edit-button">Редагувати</p>
             </div>
 
@@ -189,7 +197,7 @@ function ProfilePage({ setUser }) {
             <div className='underline'></div>
 
             <div className="about-block-header" style={{ top: "65px" }}>
-                <h1 className="header">Зацікавлення користувача Oksana</h1>
+                <h1 className="header">Зацікавлення користувача {user?.userName || user?.adminName || 'User not found'}</h1>
                 <p className="edit-button">Редагувати</p>
             </div>
 
@@ -243,6 +251,32 @@ function ProfilePage({ setUser }) {
                     <p className="sub-header">Шопінг</p>
                 </div>
             </div>
+
+            {editingAdminName !== null || editingUserName !== null && (
+                <div className="modal-window">
+                    <div className="edit-photo-name">
+                        <img src="images/cross.png" alt="Cross image" className="close-btn" onClick={closeModal}></img>
+                        <header>Редагування даних</header>
+                        <div class="upload-photo-container">
+                            <img src="images/pfp.jpg" alt="PFP image" className="edit-photo"></img>
+                            <p className="note-text">Доступний розмір файлу не більше 6 МБ<br></br>у форматі JPEG, PNG або GIF.</p>
+                            <input type="submit" className="upload-button" value="Завантажити фото" />
+                            <div className='btn-border'>
+                                <img src="images/delete-photo-icon.png" alt="delete image" className="delete-photo"></img>
+                            </div>
+
+                            <form>
+                                <p className="form-header">Ім’я</p>
+                                <input type="text" className="form-input" value={editingUserName.userName} placeholder="Введіть і'мя" required />
+
+                                <p className="form-header">Прізвище</p>
+                                <input type="text" className="form-input" placeholder="Введіть прізвище" required />
+                                <input type="submit" className="button" value="Зберегти зміни" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </div>
         //<div className="clinic_version" style={{ overflow: 'hidden' }}>
