@@ -1,5 +1,5 @@
 import './css/login-style.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation, useNavigate } from 'react-router-dom';
 import HomePage from './HomePage';
 import AboutPage from './AboutPage';
@@ -48,6 +48,7 @@ function App() {
     const [tempVerificationCode, setTempVerificationCode] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
     const [isVerifying, setIsVerifying] = useState(false);
+    const [resendTimer, setResendTimer] = useState(0);
     const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
 
@@ -57,6 +58,17 @@ function App() {
     });
 
     //#endregion
+
+    useEffect(() => {
+        if (resendTimer > 0) {
+            const interval = setInterval(() => {
+                setResendTimer((prev) => prev - 1);
+            }, 1000);
+
+            return () => clearInterval(interval);
+        }
+    }, [resendTimer]);
+
 
     const resetModal = () => {
         setIsRegisterWindow(false);
@@ -112,28 +124,33 @@ function App() {
                                 const { verificationCode } = await sendCodeResponse.json();
                                 setTempVerificationCode(verificationCode);
                                 setIsVerifying(true);
+                                setNowAuthorizing('');
+                                console.log("Log In")
+                                console.log(nowAuthorizing)
                                 const user = await userResponse.json();
                                 setTempUser(user);
                                 return;
                             }
                         }
-                    }
+                    } else {
+                        try {
+                            const codeResponse = await fetch(`/api/users/send-code/${emailAddress}`);
+                            if (!codeResponse.ok) {
+                                alert('Failed to send verification code. Try again');
+                                return;
+                            }
 
-                    try {
-                        const codeResponse = await fetch(`/api/users/send-code/${emailAddress}`);
-                        if (!codeResponse.ok) {
-                            alert('Failed to send verification code. Try again');
+                            const { verificationCode } = await codeResponse.json();
+                            setTempVerificationCode(verificationCode);
+                            setIsVerifying(true);
+                            setNowAuthorizing("First Time");
+                            console.log("Sign In")
+                            console.log(nowAuthorizing)
+                            return;
+                        } catch (error) {
+                            alert('Error sending verification code');
                             return;
                         }
-
-                        const { verificationCode } = await codeResponse.json();
-                        setTempVerificationCode(verificationCode);
-                        setIsVerifying(true);
-                        setNowAuthorizing("First Time");
-                        return;
-                    } catch (error) {
-                        alert('Error sending verification code');
-                        return;
                     }
                 }
             } catch (error) {
@@ -175,6 +192,8 @@ function App() {
         setErrorMessage('');
 
         if (verificationCode === tempVerificationCode && nowAuthorizing == '') { // Если совпал код (Log In)
+            console.log("Log In Code")
+            console.log(nowAuthorizing)
             const response = await fetch('/api/users/verify-code', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -191,6 +210,8 @@ function App() {
             }
         }
         else if (verificationCode === tempVerificationCode && nowAuthorizing != '') { // Если совпал код (Sign In)
+            console.log("Sign In Code")
+            console.log(nowAuthorizing)
             const userData = { userName: " ", emailAddress };
             try {
                 const response = await fetch('/api/users/signup', {
@@ -218,12 +239,15 @@ function App() {
     };
 
     const resendVerificationCode = async () => {
+        if (resendTimer > 0) return; // Защита от повторного нажатия
+
         try {
             const response = await fetch(`/api/users/send-code/${emailAddress}`);
             if (response.ok) {
                 const { verificationCode } = await response.json();
                 setTempVerificationCode(verificationCode);
                 alert("Код перевірки повторно надіслано на електронну пошту.");
+                setResendTimer(15);
             } else {
                 alert("Не вдалося надіслати код. Спробуйте ще раз.");
             }
@@ -231,6 +255,7 @@ function App() {
             alert("Виникла помилка при повторній відправці коду.");
         }
     };
+
 
     //#region HandleCodeInput
     const handleChange = (value, index) => {
@@ -286,7 +311,7 @@ function App() {
                         <p className={location.pathname === "/about" ? "nav-active" : "nav-li"}><Link to="/about">Про нас</Link></p>
                         <p className="nav-li"><Link to="/about">Житло</Link></p>
                         <p className="nav-li"><Link to="/about">Країни</Link></p>
-                        
+
                     </div>
 
                     <div className="icon-container">
@@ -385,7 +410,18 @@ function App() {
                                     </div>
 
                                     {errorMessage && <p className="error-message">{errorMessage}</p>}
-                                    <p className="resend-btn" onClick={resendVerificationCode}>Надіслати код перевірки ще раз</p>
+                                    <p
+                                        className="resend-btn"
+                                        onClick={resendVerificationCode}
+                                        style={{
+                                            color: resendTimer > 0 ? "#A0A0A0" : "#E84E0F",
+                                            cursor: resendTimer > 0 ? "not-allowed" : "pointer",
+                                            pointerEvents: resendTimer > 0 ? "none" : "auto",
+                                        }}
+                                    >
+                                        {resendTimer > 0 ? `Надіслати код перевірки ще раз (${resendTimer}с)` : "Надіслати код перевірки ще раз"}
+                                    </p>
+
                                     <input type="submit" className="button" value="Увійти" />
                                 </form>
 
