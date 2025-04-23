@@ -3,6 +3,7 @@ body {
     font-size: 15px;
     font-family: 'Source Sans Pro', sans-serif;
     line-height: 1.5;
+    
 }
 
 .modal {
@@ -237,7 +238,7 @@ body {
             width: 487px;
             height: 39px;
             left: 40px;
-            top: 140px;
+            top: 150px;
             font-family: 'Source Sans Pro';
             font-style: normal;
             font-weight: 400;
@@ -259,9 +260,9 @@ body {
 
     .deactivate-buttons p {
         position: relative;
-        width: 400px;
+        width: 426px;
         height: 18px;
-        left: calc(50% - 400px/2);
+        left: calc(50% - 426px/2);
         top: 0px;
         font-family: 'Source Sans Pro';
         font-style: normal;
@@ -290,3 +291,560 @@ body {
         font-size: 18px;
         color: #E6E6E6;
     }
+
+
+.profile-banner {
+    position: relative;
+    width: auto;
+    height: 325px;
+    left: 0px;
+    top: 0px;
+}
+
+.profile-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    padding: 0px;
+    gap: 10px;
+    position: relative;
+    width: 244px;
+    height: 12px;
+    left: 70px;
+    top: -250px;
+}
+
+    .profile-nav .nav {
+        width: 143px;
+        height: 12px;
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 12px;
+        display: flex;
+        align-items: center;
+        letter-spacing: 0.5px;
+        color: #FCFCFC;
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+        cursor: pointer;
+    }
+
+        .profile-nav .nav:hover{
+            text-decoration: underline;
+        }
+
+        .profile-nav .profile-arrow {
+            width: 10px;
+            height: 10px;
+            flex: none;
+            flex-grow: 0;
+            position: relative;
+        }
+
+.profile-block {
+    position: relative;
+    width: 820px;
+    height: 200px;
+    left: 70px;
+    top: -120px;
+    background: #FCFCFC;
+    box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
+    border-radius: 20px;
+}
+
+    .profile-block .profile-pictire {
+        position: relative;
+        width: 130px;
+        height: 130px;
+        left: 30px;
+        top: 35px;
+        background: #D9D9D9;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .profile-block .user-name {
+        position: relative;
+        width: 297px;
+        height: 25px;
+        white-space: nowrap;
+        left: 180px;
+        top: -55px;
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 34px;
+        line-height: 25px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        letter-spacing: 0.5px;
+        color: #060606;
+    }
+
+    .profile-block .role {
+        position: relative;
+        width: 45px;
+        height: 25px;
+        left: 180px;
+        top: -50px;
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 25px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        letter-spacing: 0.5px;
+        color: #060606;
+    }
+
+    .profile-block .edit-name-button {
+        position: relative;
+        width: 62px;
+        height: 62px;
+        left: 725px;
+        top: -135px;
+        border-radius: 50%;
+        cursor: pointer;
+        background: #E84E0F;
+    }
+
+    .profile-block .edit-pictire {
+        position: relative;
+        width: 24px;
+        height: 24px;
+        left: 20px;
+        top: 20px;
+        z-index: 999;
+    }
+
+.info-profile-block {
+    position: relative;
+    width: 580px;
+    height: 200px;
+    left: 910px;
+    top: -320px;
+    background: #FCFCFC;
+    box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .info-profile-block .info-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0px;
+        gap: 90px;
+        position: relative;
+        top: -10px;
+        width: 500px;
+        height: 73px;
+    }
+
+        .info-profile-block .info-container .info-item {
+            width: 109px;
+            height: 73px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .info-profile-block .info-container .info-item .header {
+                position: relative;
+                top: 10px;
+                font-family: 'Source Sans Pro';
+                font-style: normal;
+                font-weight: 700;
+                font-size: 48px;
+                line-height: 26px;
+                display: flex;
+                align-items: center;
+                text-align: center;
+                letter-spacing: 0.15px;
+                color: #E84E0F;
+            }
+
+            .info-profile-block .info-container .info-item .subheader {
+                position: relative;
+                top: 20px;
+                font-family: 'Source Sans Pro';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 26px;
+                display: flex;
+                align-items: center;
+                text-align: center;
+                letter-spacing: 0.15px;
+                white-space: nowrap;
+                color: #060606;
+            }
+
+.about-block-header {
+    position: relative;
+    width: 1425px;
+    height: 31px;
+    left: 70px;
+    top: -250px;
+}
+
+    .about-block-header .header {
+        position: relative;
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 44px;
+        line-height: 31px;
+        display: flex;
+        align-items: center;
+        color: #060606;
+    }
+
+    .about-block-header .edit-button {
+        position: relative;
+        width: 103px;
+        left: calc(95% - 103px/2);
+        top: -35px;
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 25px;
+        display: flex;
+        align-items: center;
+        text-align: right;
+        text-decoration-line: underline;
+        color: #E84E0F;
+        cursor: pointer;
+    }
+
+.user-info {
+    position: relative;
+    width: 1425px;
+    left: 70px;
+    top: -160px;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 110px;
+    row-gap: 40px;
+}
+
+    .user-info .user-info-item {
+        position: relative;
+        top: -20px;
+        width: 257px;
+        height: 45px;
+        white-space: nowrap;
+    }
+
+        .user-info .user-info-item .info-icon {
+            position: relative;
+            top: 20px;
+            width: 45px;
+            height: 45px;
+        }
+
+        .user-info .user-info-item .header {
+            position: relative;
+            width: 192px;
+            height: 45px;
+            left: 60px;
+            top: -60px;
+            font-family: 'Source Sans Pro';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 15px;
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.5px;
+            color: #000000;
+        }
+
+        .user-info .user-info-item .sub-header {
+            position: relative;
+            width: 192px;
+            height: 45px;
+            left: 60px;
+            top: -85px;
+            font-family: 'Source Sans Pro';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 15px;
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.5px;
+            color: #000000;
+        }
+
+.user-bio {
+    position: relative;
+    width: 1425px;
+    height: 198px;
+    left: 70px;
+    top: -110px;
+    background: #FCFCFC;
+    box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
+    border-radius: 20px;
+}
+
+    .user-bio .bio-text {
+        position: relative;
+        left: 40px;
+        top: 40px;
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 46px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+    }
+
+.underline {
+    position: relative;
+    top: -20px;
+    width: 1425px;
+    height: 1px;
+    left: 70px;
+    background-color: #E6E6E6;
+}
+
+.interests-info {
+    position: relative;
+    width: 1425px;
+    left: 70px;
+    top: 180px;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 70px;
+    row-gap: 40px;
+}
+
+    .interests-info .interests-info-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 20px;
+        height: 76px;
+        background: #FCFCFC;
+        box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
+        border-radius: 50px;
+        width: auto;
+        white-space: nowrap;
+    }
+
+        .interests-info .interests-info-item .info-icon {
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+        }
+
+        .interests-info .interests-info-item .sub-header {
+            position: relative;
+            top: 5px;
+            font-family: 'Source Sans Pro';
+            font-weight: 400;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            color: #000000;
+            height: auto;
+            width: auto;
+            line-height: normal;
+        }
+
+.modal-window {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.close-btn {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    left: calc(90% - 20px/2 + 3px);
+    top: 42px;
+    cursor: pointer;
+}
+
+.edit-photo-name {
+    position: absolute;
+    width: 570px;
+    height: 688px;
+    left: calc(50% - 570px/2);
+    top: 50px;
+    background: #060606;
+    box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
+    border-radius: 20px;
+}
+
+    .edit-photo-name header {
+        position: relative;
+        width: 374px;
+        height: 24px;
+        left: calc(50% - 374px/2 + 30px);
+        top: 100px;
+        white-space: nowrap;
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 34px;
+        line-height: 76px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        letter-spacing: 0.5px;
+        color: #FCFCFC;
+    }
+
+    .edit-photo-name .upload-photo-container {
+        position: relative;
+        width: 437px;
+        height: 140px;
+        left: calc(50% - 437px/2 + 0.5px);
+        top: 150px;
+    }
+
+        .edit-photo-name .upload-photo-container .edit-photo {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            background: #D9D9D9;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .edit-photo-name .upload-photo-container .note-text {
+            position: relative;
+            width: 269px;
+            height: 29px;
+            left: 170px;
+            top: -120px;
+            font-family: 'Source Sans Pro';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.5px;
+            color: #A0A0A0;
+        }
+
+        .edit-photo-name .upload-photo-container .upload-button {
+            position: relative;
+            left: 170px;
+            top: -110px;
+            height: 50px;
+            width: 190px;
+            padding: 5px 20px;
+            background: #E84E0F;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            border: none;
+            transition: ease all 1s;
+        }
+
+        .edit-photo-name .upload-photo-container .btn-border {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            left: 370px;
+            top: -160px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+            gap: 10px;
+            border: 1px solid #E84E0F;
+            border-radius: 8px;
+            flex: none;
+            order: 0;
+            flex-grow: 0;
+            cursor: pointer;
+        }
+
+            .edit-photo-name .upload-photo-container .btn-border .delete-photo {
+                position: relative;
+                width: 25px;
+                height: 25px;
+            }
+
+        .edit-photo-name .upload-photo-container form {
+            position: relative;
+            width: 500px;
+            height: 270px;
+            left: calc(50% - 500px/2 + 0.5px);
+            top: -80px;
+
+        }
+
+            .edit-photo-name .upload-photo-container form .form-header {
+                position: relative;
+                top: -10px;
+                font-family: 'Source Sans Pro';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 30px;
+                display: flex;
+                align-items: center;
+                letter-spacing: 0.5px;
+                color: #FCFCFC;
+            }
+
+            .edit-photo-name .upload-photo-container form .form-input {
+                box-sizing: border-box;
+                position: relative;
+                width: 500px;
+                height: 52px;
+                top: -25px;
+                border: 1px solid #A0A0A0;
+                border-radius: 8px;
+                background-color: #060606;
+                padding-left: 20px;
+                color: #E6E6E6;
+            }
+
+                .edit-photo-name .upload-photo-container form .form-input:focus {
+                    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+                }
+
+            .edit-photo-name .upload-photo-container form input.button {
+                width: 500px;
+                height: 52px;
+                padding: 5px 10px;
+                background: #E84E0F;
+                border-radius: 8px;
+                color: #fff;
+                font-weight: 600;
+                font-size: 16px;
+                letter-spacing: 0.5px;
+                border: none;
+                transition: ease all 1s;
+            }

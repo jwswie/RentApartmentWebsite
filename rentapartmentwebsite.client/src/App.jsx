@@ -129,6 +129,7 @@ function App() {
                                 console.log(nowAuthorizing)
                                 const user = await userResponse.json();
                                 setTempUser(user);
+                                return;
                             }
                         }
                     } else {
@@ -224,7 +225,7 @@ function App() {
                     setUser(result);
                     localStorage.setItem("user", JSON.stringify(result));
                     resetModal();
-                    navigate('/profile');
+                    navigate('/account');
                 } else {
                     alert('Failed to register user');
                 }

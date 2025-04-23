@@ -33,6 +33,10 @@ function AccountPage({ setUser }) {
         navigate('/');
     };
 
+    const goToProfile = () => {
+        navigate('/profile');
+    }
+
     return (
         <div className="main-container">
             <div className="account-header">
@@ -43,7 +47,7 @@ function AccountPage({ setUser }) {
                     <p>Господар</p>
                 </div>
                 <div className='profile-button-group'>
-                    <p>Перейти до профілю</p>
+                    <p onClick={goToProfile}>Перейти до профілю</p>
                     <img src="images/arrow.svg" alt="Wish image" className="icon" style={{ width: "15px", height: "15px" }}></img>
                 </div>
             </div>
@@ -58,7 +62,7 @@ function AccountPage({ setUser }) {
                 <div className='block'>
                     <img src="images/block-icon2.png" alt="Block image" className="block-icon"></img>
                     <p className='block-header' style={{ top: "120px" }}>Безпека та налаштування</p>
-                    <p className='block-subheader' style={{ top: "130px" }}>Захистіть свій обліковий запис, керуйте<br></br>особистими даними, під’єднаними сервісами<br></br>та налаштуваннями обміну даними.</p>
+                    <p className='block-subheader' style={{ top: "145px" }}>Захистіть свій обліковий запис, керуйте<br></br>особистими даними, під’єднаними сервісами<br></br>та налаштуваннями обміну даними.</p>
                 </div>
 
                 <div className='block'>
