@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Net;
+using System.Text.Json;
 
 namespace RentApartmentWebsite.Server.Controllers
 {
@@ -41,11 +42,6 @@ namespace RentApartmentWebsite.Server.Controllers
         [HttpPost("signup")]
         public async Task<IActionResult> Signup([FromBody] User user)
         {
-            if (user == null || string.IsNullOrEmpty(user.UserName) || string.IsNullOrEmpty(user.EmailAddress))
-            {
-                return BadRequest("Invalid user data");
-            }
-
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
