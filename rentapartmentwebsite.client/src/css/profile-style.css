@@ -753,6 +753,24 @@ body {
             object-fit: cover;
         }
 
+        .edit-photo-name .upload-photo-container .profile-picture-wrapper {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            background: #E6E6E6;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .edit-photo-name .upload-photo-container .no-profile-picture {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
+        }
+
         .edit-photo-name .upload-photo-container .note-text {
             position: relative;
             width: 269px;

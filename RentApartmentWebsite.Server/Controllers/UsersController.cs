@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Net;
 using System.Text.Json;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace RentApartmentWebsite.Server.Controllers
 {
@@ -150,16 +152,26 @@ namespace RentApartmentWebsite.Server.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(int id, [FromBody] User updatedUser)
+        public IActionResult UpdateUser(int id, [FromBody] UserDto updatedUser)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserID == id);
             if (user == null)
-            {
                 return NotFound(new { message = "User not found" });
-            }
 
             user.UserName = updatedUser.UserName;
             user.LastName = updatedUser.LastName;
+
+            if (!string.IsNullOrEmpty(updatedUser.PhotoBase64))
+            {
+                try
+                {
+                    user.Photo = Convert.FromBase64String(updatedUser.PhotoBase64);
+                }
+                catch
+                {
+                    return BadRequest("Invalid base64 string for photo.");
+                }
+            }
 
             _context.SaveChanges();
             return Ok(user);

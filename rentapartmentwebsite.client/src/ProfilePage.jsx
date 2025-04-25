@@ -7,7 +7,7 @@ function ProfilePage({ setUser }) {
     const [user, setLocalUser] = useState(null);
     const [adminRole, setAdminRole] = useState(null);
     const [editingAdminName, setEditingAdminName] = useState(null);
-    const [editingUserName, setEditingUserName] = useState(null);
+    const [editingUser, setEditingUser] = useState(null);
     const [editingAdminPassword, setEditingAdminPassword] = useState(null);
 
     useEffect(() => {
@@ -30,17 +30,16 @@ function ProfilePage({ setUser }) {
 
     const closeModal = () => {
         setEditingAdminName(null);
-        setEditingUserName(null);
+        setEditingUser(null);
 
     };
 
-    const handleUserNameSave = async () => {
+    const handleEditUserSave = async () => {
         try {
-            console.log(editingUserName.lastName);
-            const response = await fetch(`/api/users/${editingUserName.userID}`, {
+            const response = await fetch(`/api/users/${editingUser.userID}`, {
                 method: 'PUT',
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ...editingUserName }),
+                body: JSON.stringify({ ...editingUser }),
             });
 
             if (!response.ok) throw new Error("Failed to update data");
@@ -57,6 +56,16 @@ function ProfilePage({ setUser }) {
             alert("Помилка оновлення даних:", error);
         }
     };
+
+    const handleDeletePhoto = () => {
+        if (editingUser) {
+            setEditingUser({ ...editingUser, photo: null });
+        }
+        if (editingAdminName) {
+            setEditingAdminName({ ...editingAdminName, photo: null });
+        }
+    };
+
 
     const handlePasswordSave = async () => {
         try {
@@ -120,7 +129,7 @@ function ProfilePage({ setUser }) {
                             if (adminRole) {
                                 setEditingAdminName(user);
                             } else {
-                                setEditingUserName(user);
+                                setEditingUser(user);
                             }
                         }}
                     />
@@ -255,36 +264,34 @@ function ProfilePage({ setUser }) {
                 </div>
             </div>
 
-            {editingAdminName !== null || editingUserName !== null && (
+            {editingAdminName !== null || editingUser !== null && (
                 <div className="modal-window">
                     <div className="edit-photo-name">
                         <img src="images/cross.png" alt="Cross image" className="close-btn" onClick={closeModal}></img>
                         <header>Редагування даних</header>
                         <div class="upload-photo-container">
-                            <img src="images/pfp.jpg" alt="PFP image" className="edit-photo"></img>
+                            {editingUser?.photo ? (
+                                <img src="images/pfp.jpg" alt="PFP image" className="edit-photo"></img>
+                            ) : (
+                                <div className="profile-picture-wrapper">
+                                    <img src="images/no-pfp.png" alt="PFP image" className="no-profile-picture" />
+                                </div>
+                            )}
+                            
                             <p className="note-text">Доступний розмір файлу не більше 6 МБ<br></br>у форматі JPEG, PNG або GIF.</p>
                             <input type="submit" className="upload-button" value="Завантажити фото" />
-                            <div className='btn-border'>
+                            <div className='btn-border' onClick={handleDeletePhoto}>
                                 <img src="images/delete-photo-icon.png" alt="delete image" className="delete-photo"></img>
                             </div>
 
                             <form>
                                 <p className="form-header">Ім’я</p>
-                                <input required type="text" className="form-input" value={editingUserName.userName} onChange={(e) => { setEditingUserName({ ...editingUserName, userName: e.target.value }); }} placeholder="Введіть і'мя" />
+                                <input required type="text" className="form-input" value={editingUser.userName} onChange={(e) => { setEditingUser({ ...editingUser, userName: e.target.value }); }} placeholder="Введіть і'мя" />
 
                                 <p className="form-header">Прізвище</p>
-                                <input
-                                    type="text"
-                                    className="form-input"
-                                    placeholder="Введіть прізвище"
-                                    required
-                                    value={editingUserName.lastName}
-                                    onChange={(e) => {
-                                        setEditingUserName({ ...editingUserName, lastName: e.target.value });
-                                    }}
-                                />
+                                <input type="text" className="form-input" placeholder="Введіть прізвище" required value={editingUser.lastName} onChange={(e) => { setEditingUser({ ...editingUser, lastName: e.target.value }); }} />
 
-                                <input type="button" onClick={handleUserNameSave} className="button" value="Зберегти зміни" />
+                                <input type="button" onClick={handleEditUserSave} className="button" value="Зберегти зміни" />
                             </form>
                         </div>
                     </div>
