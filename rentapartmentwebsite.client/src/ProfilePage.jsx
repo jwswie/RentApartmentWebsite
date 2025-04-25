@@ -34,29 +34,25 @@ function ProfilePage({ setUser }) {
 
     };
 
-    const handleSave = async () => {
+    const handleUserNameSave = async () => {
         try {
-            let url = `/api/admins/${editingAdminName.adminID}`;
-            let method = "PUT";
-            let body = { ...editingAdminName };
-
-            const response = await fetch(url, {
-                method,
+            const response = await fetch(`/api/users/${editingUserName.userID}`, {
+                method: 'PUT',
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body),
+                body: JSON.stringify({ ...editingUserName }),
             });
 
             if (!response.ok) throw new Error("Failed to update data");
 
             const updatedUser = await response.json();
 
-            closeAdminModal();
+            closeModal();
 
             setLocalUser(updatedUser);
             localStorage.setItem("user", JSON.stringify(updatedUser));
 
         } catch (error) {
-            alert("Error updating data:", error);
+            alert("Помилка оновлення даних:", error);
         }
     };
 
@@ -84,12 +80,6 @@ function ProfilePage({ setUser }) {
         } catch (error) {
             alert("Error updating password:", error);
         }
-    };
-
-    const handleLogout = () => {
-        setUser(null);
-        localStorage.removeItem("user");
-        navigate('/');
     };
 
     const handleAdminPanel = () => {
@@ -267,16 +257,27 @@ function ProfilePage({ setUser }) {
 
                             <form>
                                 <p className="form-header">Ім’я</p>
-                                <input type="text" className="form-input" value={editingUserName.userName} placeholder="Введіть і'мя" required />
+                                <input required type="text" className="form-input" value={editingUserName.userName} onChange={(e) => { setEditingUserName({ ...editingUserName, userName: e.target.value }); }} placeholder="Введіть і'мя" />
 
                                 <p className="form-header">Прізвище</p>
-                                <input type="text" className="form-input" placeholder="Введіть прізвище" required />
-                                <input type="submit" className="button" value="Зберегти зміни" />
+                                <input type="text" className="form-input" placeholder="Введіть прізвище" required value={editingUserName.lastName} onChange={(e) => { setEditingUserName({ ...editingUserName, lastName: e.target.value }); }} />
+
+                                <input type="submit" onClick={handleUserNameSave} className="button" value="Зберегти зміни" />
                             </form>
                         </div>
                     </div>
                 </div>
             )}
+
+            {/*<div className="modal">*/}
+            {/*    <div className="modal-content">*/}
+            {/*        <h3>Change Name</h3>*/}
+            {/*        <label>Name:</label>*/}
+            {/*        <input required type="text" value={editingAdminName.adminName} onChange={(e) => { setEditingAdminName({ ...editingAdminName, adminName: e.target.value }); }} />*/}
+            {/*        <button onClick={handleSave} className="save-btn">Save</button>*/}
+            {/*        <button onClick={closeModal} className="cancel-btn">Cancel</button>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
 
         </div>
         //<div className="clinic_version" style={{ overflow: 'hidden' }}>

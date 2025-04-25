@@ -159,10 +159,11 @@ namespace RentApartmentWebsite.Server.Controllers
             }
 
             user.UserName = updatedUser.UserName;
-            user.EmailAddress = updatedUser.EmailAddress;
+            user.LastName = updatedUser.LastName;
 
             _context.SaveChanges();
-            return Ok(new { message = "User updated successfully" });
+            return Ok(user);
         }
+
     }
 }
