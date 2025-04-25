@@ -365,6 +365,26 @@ body {
         object-fit: cover;
     }
 
+    .profile-block .profile-picture-wrapper {
+        position: relative;
+        width: 130px;
+        height: 130px;
+        left: 30px;
+        top: 35px;
+        background: #E6E6E6;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .profile-block .no-profile-picture {
+        width: 54px;
+        height: 54px;
+        object-fit: cover;
+    }
+
     .profile-block .user-name {
         position: relative;
         width: 297px;

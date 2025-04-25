@@ -36,6 +36,7 @@ function ProfilePage({ setUser }) {
 
     const handleUserNameSave = async () => {
         try {
+            console.log(editingUserName.lastName);
             const response = await fetch(`/api/users/${editingUserName.userID}`, {
                 method: 'PUT',
                 headers: { "Content-Type": "application/json" },
@@ -49,6 +50,7 @@ function ProfilePage({ setUser }) {
             closeModal();
 
             setLocalUser(updatedUser);
+            setUser(updatedUser);
             localStorage.setItem("user", JSON.stringify(updatedUser));
 
         } catch (error) {
@@ -100,20 +102,31 @@ function ProfilePage({ setUser }) {
             </div>
 
             <div className="profile-block">
-                <img src="images/pfp.jpg" alt="PFP image" className="profile-pictire"></img>
+                {user?.photo ? (
+                    <img src="images/pfp.jpg" alt="PFP image" className="profile-pictire"></img>
+                ) : (
+                    <div className="profile-picture-wrapper">
+                        <img src="images/no-pfp.png" alt="PFP image" className="no-profile-picture" />
+                    </div>
+                )}
                 <p className="user-name">{user?.userName || user?.adminName || 'User not found'}</p>
                 <p className="role">{adminRole ? adminRole : "Гість"}</p>
                 <div className="edit-name-button">
-                    <img src="images/edit-icon.svg" alt="Edit image" className="edit-pictire"
+                    <img
+                        src="images/edit-icon.svg"
+                        alt="Edit image"
+                        className="edit-pictire"
                         onClick={() => {
                             if (adminRole) {
                                 setEditingAdminName(user);
                             } else {
                                 setEditingUserName(user);
                             }
-                        }} />
+                        }}
+                    />
                 </div>
             </div>
+
 
             <div className="info-profile-block">
                 <div className="info-container">
@@ -126,7 +139,7 @@ function ProfilePage({ setUser }) {
                         <p className="subheader">Міст відвідано</p>
                     </div>
                     <div className="info-item">
-                        <h1 className="header">{user?.userName || user?.adminName || 'User not found'}%</h1>
+                        <h1 className="header">{user?.trustRating}%</h1>
                         <p className="subheader">Довіри</p>
                     </div>
                 </div>
@@ -260,143 +273,24 @@ function ProfilePage({ setUser }) {
                                 <input required type="text" className="form-input" value={editingUserName.userName} onChange={(e) => { setEditingUserName({ ...editingUserName, userName: e.target.value }); }} placeholder="Введіть і'мя" />
 
                                 <p className="form-header">Прізвище</p>
-                                <input type="text" className="form-input" placeholder="Введіть прізвище" required value={editingUserName.lastName} onChange={(e) => { setEditingUserName({ ...editingUserName, lastName: e.target.value }); }} />
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    placeholder="Введіть прізвище"
+                                    required
+                                    value={editingUserName.lastName}
+                                    onChange={(e) => {
+                                        setEditingUserName({ ...editingUserName, lastName: e.target.value });
+                                    }}
+                                />
 
-                                <input type="submit" onClick={handleUserNameSave} className="button" value="Зберегти зміни" />
+                                <input type="button" onClick={handleUserNameSave} className="button" value="Зберегти зміни" />
                             </form>
                         </div>
                     </div>
                 </div>
             )}
-
-            {/*<div className="modal">*/}
-            {/*    <div className="modal-content">*/}
-            {/*        <h3>Change Name</h3>*/}
-            {/*        <label>Name:</label>*/}
-            {/*        <input required type="text" value={editingAdminName.adminName} onChange={(e) => { setEditingAdminName({ ...editingAdminName, adminName: e.target.value }); }} />*/}
-            {/*        <button onClick={handleSave} className="save-btn">Save</button>*/}
-            {/*        <button onClick={closeModal} className="cancel-btn">Cancel</button>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
-
         </div>
-        //<div className="clinic_version" style={{ overflow: 'hidden' }}>
-        //    <div className="container" style={{ marginTop: '150px' }}>
-        //        <div className="profile-nav col-md-3">
-        //            <div className="user-heading">
-        //                <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt="User avatar" />
-        //                <h1 style={{ color: '#fff', marginTop: '10px' }}>{user?.userName || user?.adminName || 'User not found'}</h1>
-        //                <p>{user?.emailAddress || user?.adminLogin || 'No data available'}</p>
-        //            </div>
-        //            <button
-        //                style={{ outline: 'none', marginTop: '25px', position: 'relative', left: '70px' }}
-        //                onClick={handleLogout}
-        //                className="btn-light btn-brd effect-1"
-        //            >
-        //                Log out
-        //            </button>
-
-        //            {adminRole != null && (
-        //                <button style={{ outline: 'none', marginTop: '25px', position: 'relative', left: '70px' }}
-        //                    onClick={handleAdminPanel} className="btn-light btn-brd effect-1" > Admin Panel </button>
-        //            )}
-
-        //        </div>
-
-        //        <div className="profile-info col-md-9">
-        //            <div className="panel">
-        //                {adminRole != null ? (
-        //                    <>
-        //                        <div className="bio-graph-heading">
-        //                            Administrator Personal Profile
-        //                        </div>
-        //                        <div className="bio-graph-info" style={{ marginTop: '25px' }}>
-        //                            <div className="row">
-        //                                <div className="bio-row">
-        //                                    <p><span>Full Name </span>: {user.adminName}</p>
-        //                                </div>
-        //                                <div className="bio-row">
-        //                                    <p><span>Login </span>: {user.adminLogin}</p>
-        //                                </div>
-        //                                <div className="bio-row">
-        //                                    <p><span>Role</span>: {adminRole}</p>
-        //                                </div>
-        //                            </div>
-        //                        </div>
-        //                    </>
-        //                ) : (
-        //                    <>
-        //                        <div className="bio-graph-heading">
-        //                            User Personal Profile
-        //                        </div>
-        //                        <div className="bio-graph-info" style={{ marginTop: '25px' }}>
-        //                            <div className="row">
-        //                                <div className="col-md-6" onClick={() => navigate('/personal')}>
-        //                                    <div className="panel">
-        //                                        <div className="panel-body">
-        //                                            <div className="bio-desk">
-        //                                                <h4>Complete your profile</h4>
-        //                                            </div>
-        //                                        </div>
-        //                                    </div>
-        //                                </div>
-        //                            </div>
-        //                        </div>
-        //                    </>
-        //                )}
-
-        //            </div>
-
-        //            {adminRole != null && (
-        //                <div className="row">
-        //                    <div className="col-md-6" onClick={() => setEditingAdminName(user)}>
-        //                        <div className="panel">
-        //                            <div className="panel-body">
-        //                                <div className="bio-desk">
-        //                                    <h4>Change Name</h4>
-        //                                </div>
-        //                            </div>
-        //                        </div>
-        //                    </div>
-
-        //                    <div className="col-md-6" onClick={() => setEditingAdminPassword(user)}>
-        //                        <div className="panel">
-        //                            <div className="panel-body">
-        //                                <div className="bio-desk">
-        //                                    <h4>Change Password</h4>
-        //                                </div>
-        //                            </div>
-        //                        </div>
-        //                    </div>
-        //                </div>
-        //            )}
-        //        </div>
-
-        //        {editingAdminName !== null && (
-        //            <div className="modal">
-        //                <div className="modal-content">
-        //                    <h3>Change Name</h3>
-        //                    <label>Name:</label>
-        //                    <input required type="text" value={editingAdminName.adminName} onChange={(e) => { setEditingAdminName({ ...editingAdminName, adminName: e.target.value }); }} />
-        //                    <button onClick={handleSave} className="save-btn">Save</button>
-        //                    <button onClick={closeModal} className="cancel-btn">Cancel</button>
-        //                </div>
-        //            </div>
-        //        )}
-
-        //        {editingAdminPassword !== null && (
-        //            <div className="modal">
-        //                <div className="modal-content">
-        //                    <h3>Change Password</h3>
-        //                    <label>Password:</label>
-        //                    <input required type="text" onChange={(e) => { setEditingAdminPassword({ ...editingAdminPassword, password: e.target.value }); }} />
-        //                    <button onClick={handlePasswordSave} className="save-btn">Save</button>
-        //                    <button onClick={closeModal} className="cancel-btn">Cancel</button>
-        //                </div>
-        //            </div>
-        //        )}
-        //    </div>
-        //</div>
     );
 }
 
