@@ -174,8 +174,27 @@ namespace RentApartmentWebsite.Server.Controllers
             }
 
             _context.SaveChanges();
-            return Ok(user);
-        }
 
+            var responseUser = new
+            {
+                user.UserID,
+                user.UserName,
+                user.LastName,
+                user.EmailAddress,
+                Photo = user.Photo != null ? Convert.ToBase64String(user.Photo) : null, // вот здесь
+                user.RegistrationDate,
+                user.TrustRating,
+                user.Biography,
+                user.Location,
+                user.University,
+                user.Pets,
+                user.DreamTrip,
+                user.Profession,
+                user.Hobby,
+                user.BadHabits
+            };
+
+            return Ok(responseUser);
+        }
     }
 }

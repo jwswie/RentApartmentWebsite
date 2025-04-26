@@ -2,6 +2,14 @@ import './css/profile-style.css';
 import React, { Link, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+function byteArrayToBase64(byteArray) {
+    let binary = '';
+    for (let i = 0; i < byteArray.length; i++) {
+        binary += String.fromCharCode(byteArray[i]);
+    }
+    return window.btoa(binary);
+}
+
 function ProfilePage({ setUser }) {
     const navigate = useNavigate();
     const [user, setLocalUser] = useState(null);
@@ -57,6 +65,25 @@ function ProfilePage({ setUser }) {
         }
     };
 
+    const handlePhotoUpload = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file); // читаем как base64
+
+        reader.onloadend = () => {
+            const base64 = reader.result.split(',')[1]; // отрезаем "data:image/png;base64,"
+            const updated = {
+                ...editingUser,
+                photoBase64: base64, // временно храним как отдельное поле
+            };
+
+            setEditingUser(updated);
+            console.log("Фотография загружена в память:", updated.photoBase64);
+        };
+    };
+
     const handleDeletePhoto = () => {
         if (editingUser) {
             setEditingUser({ ...editingUser, photo: null });
@@ -65,7 +92,6 @@ function ProfilePage({ setUser }) {
             setEditingAdminName({ ...editingAdminName, photo: null });
         }
     };
-
 
     const handlePasswordSave = async () => {
         try {
@@ -112,12 +138,18 @@ function ProfilePage({ setUser }) {
 
             <div className="profile-block">
                 {user?.photo ? (
-                    <img src="images/pfp.jpg" alt="PFP image" className="profile-pictire"></img>
+                    <img
+                        src={`data:image/jpeg;base64,${user.photo}`}
+                        alt="Profile"
+                        className="profile-pictire"
+                    />
                 ) : (
                     <div className="profile-picture-wrapper">
-                        <img src="images/no-pfp.png" alt="PFP image" className="no-profile-picture" />
+                        <img src="images/no-pfp.png" alt="No Profile" className="no-profile-picture" />
                     </div>
                 )}
+
+
                 <p className="user-name">{user?.userName || user?.adminName || 'User not found'}</p>
                 <p className="role">{adminRole ? adminRole : "Гість"}</p>
                 <div className="edit-name-button">
@@ -271,7 +303,7 @@ function ProfilePage({ setUser }) {
                         <header>Редагування даних</header>
                         <div class="upload-photo-container">
                             {editingUser?.photo ? (
-                                <img src="images/pfp.jpg" alt="PFP image" className="edit-photo"></img>
+                                <img src={`data:image/jpeg;base64,${editingUser.photo}`} alt="PFP image" className="edit-photo"></img>
                             ) : (
                                 <div className="profile-picture-wrapper">
                                     <img src="images/no-pfp.png" alt="PFP image" className="no-profile-picture" />
@@ -279,7 +311,17 @@ function ProfilePage({ setUser }) {
                             )}
                             
                             <p className="note-text">Доступний розмір файлу не більше 6 МБ<br></br>у форматі JPEG, PNG або GIF.</p>
-                            <input type="submit" className="upload-button" value="Завантажити фото" />
+                            <label className="upload-button">
+                                Завантажити фото
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handlePhotoUpload}
+                                    className="hidden-file-input"
+                                />
+                            </label>
+
+
                             <div className='btn-border' onClick={handleDeletePhoto}>
                                 <img src="images/delete-photo-icon.png" alt="delete image" className="delete-photo"></img>
                             </div>
