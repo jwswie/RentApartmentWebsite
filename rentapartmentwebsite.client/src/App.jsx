@@ -67,8 +67,7 @@ function App() {
 
             return () => clearInterval(interval);
         }
-    }, [resendTimer]);
-
+    }, [resendTimer]); // Таймер для кнопки "Надіслати код перевірки ще раз"
 
     const resetModal = () => {
         setIsRegisterWindow(false);
@@ -125,18 +124,16 @@ function App() {
                                 setTempVerificationCode(verificationCode);
                                 setIsVerifying(true);
                                 setNowAuthorizing('');
-                                console.log("Log In")
-                                console.log(nowAuthorizing)
                                 const user = await userResponse.json();
                                 setTempUser(user);
                                 return;
                             }
                         }
-                    } else {
+                    } else { // Если такого адреса нет (Регистрация)
                         try {
                             const codeResponse = await fetch(`/api/users/send-code/${emailAddress}`);
                             if (!codeResponse.ok) {
-                                alert('Failed to send verification code. Try again');
+                                alert('Не вдалося надіслати код перевірки. Спробуйте ще раз');
                                 return;
                             }
 
@@ -144,21 +141,19 @@ function App() {
                             setTempVerificationCode(verificationCode);
                             setIsVerifying(true);
                             setNowAuthorizing("First Time");
-                            console.log("Sign In")
-                            console.log(nowAuthorizing)
                             return;
                         } catch (error) {
-                            alert('Error sending verification code');
+                            alert('Помилка надсилання коду перевірки');
                             return;
                         }
                     }
                 }
             } catch (error) {
-                alert('Error checking email');
+                alert('Помилка при перевірці електронної пошти');
                 return;
             }
         } catch (error) {
-            alert('Error logging in');
+            alert('Помилка при вході в систему');
         }
     };
 
@@ -191,9 +186,7 @@ function App() {
         event.preventDefault();
         setErrorMessage('');
 
-        if (verificationCode === tempVerificationCode && nowAuthorizing == '') { // Если совпал код (Log In)
-            console.log("Log In Code")
-            console.log(nowAuthorizing)
+        if (verificationCode === tempVerificationCode && nowAuthorizing == '') { // Если совпал код (Вход)
             const response = await fetch('/api/users/verify-code', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -209,10 +202,24 @@ function App() {
                 alert('Код недійсний');
             }
         }
-        else if (verificationCode === tempVerificationCode && nowAuthorizing != '') { // Если совпал код (Sign In)
-            console.log("Sign In Code")
-            console.log(nowAuthorizing)
-            const userData = { userName: " ", emailAddress };
+        else if (verificationCode === tempVerificationCode && nowAuthorizing != '') { // Если совпал код (Регистрация)
+            const userData = {
+                userName: "Користувач",
+                emailAddress,
+                lastName: "",
+                photo: null,
+                registrationDate: new Date().toISOString(),
+                trustRating: 0.0,
+                biography: "",
+                location: "",
+                university: "",
+                pets: "",
+                dreamTrip: "",
+                profession: "",
+                hobby: "",
+                badHabits: ""
+            };
+
             try {
                 const response = await fetch('/api/users/signup', {
                     method: 'POST',
@@ -227,14 +234,14 @@ function App() {
                     resetModal();
                     navigate('/account');
                 } else {
-                    alert('Failed to register user');
+                    alert('Помилка при реєстрації');
                 }
             } catch (error) {
-                alert('Error signing up');
+                alert('Помилка при реєстрації');
             }
 
         } else {
-            alert('Invalid verification code!');
+            alert('Невірний код перевірки!');
         }
     };
 
