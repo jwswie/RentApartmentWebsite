@@ -2,14 +2,6 @@ import './css/profile-style.css';
 import React, { Link, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function byteArrayToBase64(byteArray) {
-    let binary = '';
-    for (let i = 0; i < byteArray.length; i++) {
-        binary += String.fromCharCode(byteArray[i]);
-    }
-    return window.btoa(binary);
-}
-
 function ProfilePage({ setUser }) {
     const navigate = useNavigate();
     const [user, setLocalUser] = useState(null);
@@ -66,21 +58,27 @@ function ProfilePage({ setUser }) {
     };
 
     const handlePhotoUpload = (event) => {
-        const file = event.target.files[0];
+        const file = event.target.files[0]; // Считываем файл, выбранный пользователем
         if (!file) return;
 
+        const maxSizeInBytes = 6 * 1024 * 1024;
+
+        if (file.size > maxSizeInBytes) {
+            alert('Розмір файлу не повинен перевищувати 6 МБ');
+            return;
+        }
+
         const reader = new FileReader();
-        reader.readAsDataURL(file); // читаем как base64
+        reader.readAsDataURL(file); // Читаем как base64
 
         reader.onloadend = () => {
-            const base64 = reader.result.split(',')[1]; // отрезаем "data:image/png;base64,"
+            const base64 = reader.result.split(',')[1]; // Отрезаем "data:image/***;base64,"
             const updated = {
                 ...editingUser,
-                photoBase64: base64, // временно храним как отдельное поле
+                photoBase64: base64, // Временно храним как отдельное поле
             };
 
             setEditingUser(updated);
-            console.log("Фотография загружена в память:", updated.photoBase64);
         };
     };
 
@@ -315,7 +313,7 @@ function ProfilePage({ setUser }) {
                                 Завантажити фото
                                 <input
                                     type="file"
-                                    accept="image/*"
+                                    accept="image/jpeg, image/png, image/gif"
                                     onChange={handlePhotoUpload}
                                     className="hidden-file-input"
                                 />

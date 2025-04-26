@@ -169,7 +169,7 @@ namespace RentApartmentWebsite.Server.Controllers
                 }
                 catch
                 {
-                    return BadRequest("Invalid base64 string for photo.");
+                    return BadRequest("Invalid base64 string for photo");
                 }
             }
 
@@ -181,7 +181,7 @@ namespace RentApartmentWebsite.Server.Controllers
                 user.UserName,
                 user.LastName,
                 user.EmailAddress,
-                Photo = user.Photo != null ? Convert.ToBase64String(user.Photo) : null, // вот здесь
+                Photo = user.Photo != null ? Convert.ToBase64String(user.Photo) : null,
                 user.RegistrationDate,
                 user.TrustRating,
                 user.Biography,
