@@ -161,15 +161,22 @@ namespace RentApartmentWebsite.Server.Controllers
             user.UserName = updatedUser.UserName;
             user.LastName = updatedUser.LastName;
 
-            if (!string.IsNullOrEmpty(updatedUser.PhotoBase64))
+            if (updatedUser.PhotoBase64 != null)
             {
-                try
+                if (updatedUser.PhotoBase64 == "")
                 {
-                    user.Photo = Convert.FromBase64String(updatedUser.PhotoBase64);
+                    user.Photo = null;
                 }
-                catch
+                else
                 {
-                    return BadRequest("Invalid base64 string for photo");
+                    try
+                    {
+                        user.Photo = Convert.FromBase64String(updatedUser.PhotoBase64);
+                    }
+                    catch
+                    {
+                        return BadRequest("Invalid base64 string for photo");
+                    }
                 }
             }
 
@@ -196,5 +203,6 @@ namespace RentApartmentWebsite.Server.Controllers
 
             return Ok(responseUser);
         }
+
     }
 }

@@ -46,7 +46,7 @@ function ProfilePage({ setUser }) {
 
             const updatedUser = await response.json();
 
-            closeAdminModal();
+            closeModal();
 
             setLocalUser(updatedUser);
             setUser(updatedUser);
@@ -75,7 +75,7 @@ function ProfilePage({ setUser }) {
             const base64 = reader.result.split(',')[1]; // Отрезаем "data:image/***;base64,"
             const updated = {
                 ...editingUser,
-                photoBase64: base64, // Временно храним как отдельное поле
+                photoBase64: base64,
             };
 
             setEditingUser(updated);
@@ -84,12 +84,15 @@ function ProfilePage({ setUser }) {
 
     const handleDeletePhoto = () => {
         if (editingUser) {
-            setEditingUser({ ...editingUser, photo: null });
-        }
-        if (editingAdminName) {
-            setEditingAdminName({ ...editingAdminName, photo: null });
+            setEditingUser({
+                ...editingUser,
+                photo: null,
+                photoBase64: "" // ❗ явно отправляем пустую строку на сервер
+            });
         }
     };
+
+
 
     const handlePasswordSave = async () => {
         try {
@@ -165,7 +168,6 @@ function ProfilePage({ setUser }) {
                     />
                 </div>
             </div>
-
 
             <div className="info-profile-block">
                 <div className="info-container">
@@ -301,13 +303,13 @@ function ProfilePage({ setUser }) {
                         <header>Редагування даних</header>
                         <div class="upload-photo-container">
                             {editingUser?.photo ? (
-                                <img src={`data:image/jpeg;base64,${editingUser.photo}`} alt="PFP image" className="edit-photo"></img>
+                                <img src={`data:image/jpeg;base64,${editingUser?.photoBase64 || editingUser?.photo}`} alt="PFP image" className="edit-photo"></img>
                             ) : (
                                 <div className="profile-picture-wrapper">
                                     <img src="images/no-pfp.png" alt="PFP image" className="no-profile-picture" />
                                 </div>
                             )}
-                            
+
                             <p className="note-text">Доступний розмір файлу не більше 6 МБ<br></br>у форматі JPEG, PNG або GIF.</p>
                             <label className="upload-button">
                                 Завантажити фото
