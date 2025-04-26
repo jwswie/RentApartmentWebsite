@@ -126,6 +126,7 @@ function App() {
                                 setNowAuthorizing('');
                                 const user = await userResponse.json();
                                 setTempUser(user);
+                                return;
                             }
                         }
                     } else { // Если такого адреса нет (Регистрация)
@@ -231,7 +232,7 @@ function App() {
                     setUser(result);
                     localStorage.setItem("user", JSON.stringify(result));
                     resetModal();
-                    navigate('/profile');
+                    navigate('/account');
                 } else {
                     alert('Помилка при реєстрації');
                 }

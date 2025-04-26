@@ -46,7 +46,7 @@ function ProfilePage({ setUser }) {
 
             const updatedUser = await response.json();
 
-            closeModal();
+            closeAdminModal();
 
             setLocalUser(updatedUser);
             setUser(updatedUser);
