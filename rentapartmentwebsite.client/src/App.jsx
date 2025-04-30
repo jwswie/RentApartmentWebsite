@@ -1,4 +1,5 @@
 import './css/login-style.css';
+import './App.css';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation, useNavigate } from 'react-router-dom';
 import HomePage from './HomePage';
