@@ -127,9 +127,9 @@ body {
     transition: ease all 0.5s;
 }
 
-        .form input.button:hover {
-            background: bisque;
-        }
+    .form input.button:hover {
+        background: bisque;
+    }
 
 .divider {
     display: flex;
