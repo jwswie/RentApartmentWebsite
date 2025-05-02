@@ -6,8 +6,42 @@ namespace RentApartmentWebsite.Server.Models
     {
         [Key]
         public int UserID { get; set; }
-        public required string UserName { get; set; }
-        public required string EmailAddress { get; set; }
-    }
 
+        [Required]
+        public string UserName { get; set; } = string.Empty;
+
+        public string? LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string EmailAddress { get; set; } = string.Empty;
+
+        public byte[]? Photo { get; set; }
+
+        public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
+
+        public double TrustRating { get; set; } = 0.0;
+
+        [MaxLength(350)]
+        public string? Biography { get; set; }
+
+        public string? Location { get; set; }
+
+        public string? University { get; set; }
+
+        [MaxLength(30)]
+        public string? Pets { get; set; }
+
+        [MaxLength(30)]
+        public string? DreamTrip { get; set; }
+
+        [MaxLength(30)]
+        public string? Profession { get; set; }
+
+        [MaxLength(30)]
+        public string? Hobby { get; set; }
+
+        [MaxLength(30)]
+        public string? BadHabits { get; set; }
+    }
 }

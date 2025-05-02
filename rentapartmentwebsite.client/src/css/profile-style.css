@@ -3,7 +3,6 @@ body {
     font-size: 15px;
     font-family: 'Source Sans Pro', sans-serif;
     line-height: 1.5;
-    
 }
 
 .modal {
@@ -332,17 +331,17 @@ body {
         cursor: pointer;
     }
 
-        .profile-nav .nav:hover{
+        .profile-nav .nav:hover {
             text-decoration: underline;
         }
 
-        .profile-nav .profile-arrow {
-            width: 10px;
-            height: 10px;
-            flex: none;
-            flex-grow: 0;
-            position: relative;
-        }
+    .profile-nav .profile-arrow {
+        width: 10px;
+        height: 10px;
+        flex: none;
+        flex-grow: 0;
+        position: relative;
+    }
 
 .profile-block {
     position: relative;
@@ -363,6 +362,26 @@ body {
         top: 35px;
         background: #D9D9D9;
         border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .profile-block .profile-picture-wrapper {
+        position: relative;
+        width: 130px;
+        height: 130px;
+        left: 30px;
+        top: 35px;
+        background: #E6E6E6;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .profile-block .no-profile-picture {
+        width: 54px;
+        height: 54px;
         object-fit: cover;
     }
 
@@ -734,6 +753,24 @@ body {
             object-fit: cover;
         }
 
+        .edit-photo-name .upload-photo-container .profile-picture-wrapper {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            background: #E6E6E6;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .edit-photo-name .upload-photo-container .no-profile-picture {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
+        }
+
         .edit-photo-name .upload-photo-container .note-text {
             position: relative;
             width: 269px;
@@ -754,7 +791,7 @@ body {
         .edit-photo-name .upload-photo-container .upload-button {
             position: relative;
             left: 170px;
-            top: -110px;
+            top: -105px;
             height: 50px;
             width: 190px;
             padding: 5px 20px;
@@ -766,7 +803,16 @@ body {
             letter-spacing: 0.5px;
             border: none;
             transition: ease all 1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
         }
+
+        .edit-photo-name .upload-photo-container .hidden-file-input {
+            display: none;
+        }
+
 
         .edit-photo-name .upload-photo-container .btn-border {
             position: relative;
@@ -801,7 +847,6 @@ body {
             height: 270px;
             left: calc(50% - 500px/2 + 0.5px);
             top: -80px;
-
         }
 
             .edit-photo-name .upload-photo-container form .form-header {

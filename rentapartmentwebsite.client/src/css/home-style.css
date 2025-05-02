@@ -42,7 +42,7 @@
 
     .banner .banner-container {
         width: 90%;
-        height: 357px;
+        height: auto;
     }
 
         .banner .banner-container .banner-img {
@@ -127,7 +127,6 @@
 }
 
 .label-title {
-    font-family: 'Source Sans Pro', sans-serif;
     font-size: 15px;
     font-weight: 600;
     color: #060606;
@@ -135,9 +134,7 @@
 }
 
 .label-subtitle {
-    font-family: 'Source Sans Pro', sans-serif;
     font-size: 13px;
-    font-weight: 400;
     color: #A0A0A0;
     margin: 0 0 -35px 0;
 }
@@ -153,8 +150,6 @@
 
     .about-us-screen .side-group {
         position: relative;
-        width: 650px;
-        height: auto;
         left: 70px;
         top: 300px;
     }
@@ -163,24 +158,15 @@
         position: relative;
         width: 155px;
         height: 31px;
-        font-family: 'Source Sans Pro';
-        font-style: normal;
         font-weight: 600;
         font-size: 36px;
         line-height: 31px;
-        display: flex;
-        align-items: center;
-        text-align: center;
         color: #FCFCFC;
     }
 
     .about-us-screen .sub-header {
         position: relative;
-        width: 1806px;
-        height: 123px;
         top: 25px;
-        font-family: 'Source Sans Pro';
-        font-style: normal;
         font-weight: 500;
         font-size: 20px;
         line-height: 35px;
@@ -201,8 +187,6 @@
             position: relative;
             width: 145px;
             height: 47px;
-            font-family: 'Source Sans Pro';
-            font-style: normal;
             font-weight: 600;
             font-size: 17px;
             line-height: 12px;
@@ -242,23 +226,17 @@
         position: relative;
         width: 153px;
         height: 12px;
-        left: 0px;
         top: 5px;
-        font-family: 'Source Sans Pro';
-        font-style: normal;
         font-weight: 600;
         font-size: 17px;
         line-height: 12px;
-        display: flex;
-        align-items: center;
-        text-align: center;
         letter-spacing: 0.5px;
         color: #FCFCFC;
     }
 
 .about-us-screen .about-img-wrapper {
     position: relative;
-    height: 525px;
+    height: 512px;
     overflow: hidden;
     left: 825px;
 }
@@ -289,7 +267,6 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        padding: 0px;
         gap: 85px;
         position: relative;
         left: 10px;
@@ -311,14 +288,9 @@
                 position: relative;
                 top: 15px;
                 left: 60px;
-                font-family: 'Source Sans Pro';
-                font-style: normal;
                 font-weight: 700;
                 font-size: 42px;
                 line-height: 26px;
-                display: flex;
-                align-items: center;
-                text-align: center;
                 letter-spacing: 0.15px;
                 color: #E84E0F;
             }
@@ -327,14 +299,9 @@
                 position: relative;
                 top: 13px;
                 left: 20px;
-                font-family: 'Source Sans Pro';
-                font-style: normal;
                 font-weight: 400;
                 font-size: 16px;
                 line-height: 26px;
-                display: flex;
-                align-items: center;
-                text-align: center;
                 letter-spacing: 0.15px;
                 white-space: nowrap;
                 color: #060606;
@@ -353,7 +320,6 @@
         height: 31px;
         left: calc(50% - 700px/2 + 0.5px);
         white-space: nowrap;
-        font-style: normal;
         font-weight: 600;
         font-size: 40px;
         line-height: 31px;
@@ -377,6 +343,19 @@
         }
 
 .category-item .category-img {
+    width: 340px;
+    height: auto;
+    border-radius: 20px 20px 0px 0px;
+}
+
+.photo-wrapper {
+    position: relative;
+    width: 340px;
+    height: 340px;
+    overflow: hidden;
+}
+
+.category-item .photo-wrapper .category-img {
     position: relative;
     width: 340px;
     height: auto;
@@ -386,6 +365,8 @@
 .category-item .category-text {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
     cursor: pointer;
 }
@@ -393,11 +374,6 @@
 .category-text .text {
     position: relative;
     top: 20px;
-    left: calc(50% - 92px/2 + 0.5px);
-    width: 92px;
-    height: 17px;
-    font-family: 'Source Sans Pro';
-    font-style: normal;
     font-weight: 550;
     font-size: 20px;
     line-height: 17px;
@@ -408,14 +384,12 @@
     width: 14px;
     height: 14px;
     position: relative;
-    top: 23px;
-    left: calc(33% - 14px/2 + 0.5px);
+    top: 16px;
 }
 
 .recomended-block {
     position: relative;
     width: 93.5%;
-    height: 1330px;
     left: 70px;
     top: 170px;
 }
@@ -450,7 +424,6 @@
     .recomended-container .recomended-item .recomended-img {
         position: relative;
         width: 460px;
-        height: auto;
         border-radius: 20px 20px 0px 0px;
     }
 
@@ -478,7 +451,7 @@
         position: relative;
         top: -20px;
         left: 50px;
-        width: 280px;
+        width: 250px;
         display: flex;
         flex-direction: column;
     }
@@ -488,8 +461,8 @@
     top: 0px;
     left: 0px;
     width: 250px;
-    font-family: 'Source Sans Pro';
-    font-style: normal;
+    white-space: normal;
+    word-wrap: break-word;
     font-weight: 600;
     font-size: 23px;
     line-height: 25px;
@@ -501,10 +474,6 @@
     position: relative;
     top: 0px;
     left: 0px;
-    width: 341px;
-    height: 12px;
-    font-family: 'Source Sans Pro';
-    font-style: normal;
     font-weight: 400;
     font-size: 15px;
     line-height: 12px;
@@ -524,13 +493,9 @@
 
     .apartment-info .container .price-big {
         position: relative;
-        width: 135px;
-        height: 29px;
         left: -35px;
         top: 20px;
         white-space: nowrap;
-        font-family: 'Source Sans Pro';
-        font-style: normal;
         font-weight: 600;
         font-size: 40px;
         line-height: 29px;
@@ -542,10 +507,8 @@
         position: relative;
         width: 135px;
         height: 29px;
-        left: -40px;
+        left: -45px;
         top: 35px;
-        font-family: 'Source Sans Pro';
-        font-style: normal;
         font-weight: 500;
         font-size: 20px;
         line-height: 29px;
@@ -556,8 +519,6 @@
     .apartment-info .container .more-button-group {
         position: relative;
         width: 220px;
-        height: auto;
-        left: 0px;
         top: 45px;
         display: flex;
         flex-direction: row;
@@ -568,8 +529,6 @@
     position: relative;
     width: 111px;
     height: 14px;
-    font-family: 'Source Sans Pro';
-    font-style: normal;
     font-weight: 600;
     font-size: 20px;
     line-height: 14px;
@@ -590,9 +549,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-end;
-    align-items: flex-start;
     align-content: flex-end;
-    padding: 0px;
     gap: 13px 8px;
     position: relative;
     width: 111px;
@@ -619,16 +576,9 @@
 }
 
 .rate-group p {
-    width: 28px;
-    height: 20px;
-    font-family: 'Source Sans Pro';
-    font-style: normal;
     font-weight: 600;
     font-size: 20px;
     line-height: 20px;
-    display: flex;
-    align-items: center;
-    text-align: right;
     letter-spacing: 0.5px;
     color: #E84E0F;
 }
@@ -636,17 +586,269 @@
 .review-container .reviews {
     position: relative;
     top: 10px;
-    left: 0px;
     width: 121px;
     height: 14px;
-    font-family: 'Source Sans Pro';
-    font-style: normal;
     font-weight: 400;
     font-size: 18px;
     line-height: 14px;
-    display: flex;
-    align-items: center;
-    text-align: right;
     letter-spacing: 0.5px;
     color: #A0A0A0;
 }
+
+.recomended-block .more-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 90px;
+    padding: 24px 36px;
+    position: relative;
+    width: 230px;
+    height: 60px;
+    left: calc(50% - 230px/2);
+    background: #E84E0F;
+    border-radius: 50px;
+    white-space: nowrap;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 14px;
+    letter-spacing: 0.5px;
+    border: none;
+    color: #FCFCFC;
+    cursor: pointer;
+}
+
+.mobile-app-block {
+    position: relative;
+    width: 100%;
+    height: 515px;
+    top: 290px;
+    background: #060606;
+}
+
+    .mobile-app-block .side-group {
+        position: relative;
+        width: 650px;
+        height: auto;
+        left: 70px;
+        top: 130px;
+        color: #FCFCFC;
+    }
+
+    .mobile-app-block .header {
+        font-weight: 600;
+        font-size: 36px;
+        line-height: 31px; 
+    }
+
+    .mobile-app-block .sub-header {
+        position: relative;
+        white-space: nowrap;
+        height: 123px;
+        top: 30px;
+        font-weight: 500;
+        font-size: 19px;
+        line-height: 35px;
+    }
+
+    .mobile-app-block .side-group .buttons-group {
+        position: relative;
+        top: 70px;
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+    }
+
+        .mobile-app-block .side-group .buttons-group .app-btn {
+            display: flex;
+            flex-direction: row;
+            padding: 10px 20px;
+            gap: 12px;
+            position: relative;
+            width: 180px;
+            height: 66px;
+            top: -55px;
+            border: 1px solid #FCFCFC;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+            .mobile-app-block .side-group .buttons-group .app-btn .app-img {
+                position: relative;
+                top: 0px;
+                left: -5px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .mobile-app-block .side-group .buttons-group .app-btn .container {
+                display: flex;
+                flex-direction: column;
+            }
+
+                .mobile-app-block .side-group .buttons-group .app-btn .container .header {
+                    position: relative;
+                    top: -5px;
+                    left: -20px;
+                    font-weight: 400;
+                    font-size: 15px;
+                    line-height: 28px;
+                }
+
+                .mobile-app-block .side-group .buttons-group .app-btn .container .sub-header {
+                    position: relative;
+                    top: -40px;
+                    left: -20px;
+                    font-weight: 600;
+                    font-size: 19px;
+                    line-height: 28px;
+                }
+
+    .mobile-app-block .app-img {
+        position: relative;
+        width: 580px;
+        height: 460px;
+        left: 910px;
+        top: -185px;
+    }
+
+.countries-carousel-block {
+    position: relative;
+    width: 820px;
+    height: 800px;
+    left: calc(50% - 820px/2);
+    top: 410px;
+    background: #FCFCFC;
+    box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
+    border-radius: 40px;
+}
+
+    .countries-carousel-block .header {
+        position: relative;
+        width: 136px;
+        height: 31px;
+        left: calc(50% - 136px/2);
+        top: 70px;
+        font-weight: 600;
+        font-size: 44px;
+        line-height: 31px;
+        color: #060606;
+    }
+
+    .countries-carousel-block .sub-header {
+        position: relative;
+        width: 595px;
+        height: 44px;
+        left: calc(50% - 595px/2 + 0.5px);
+        top: 120px;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 30px;
+        display: flex;
+        text-align: center;
+        color: #060606;
+    }
+
+    .countries-carousel-block .more-btn {
+        display: flex;
+        justify-content: center;
+        margin-top: 70px;
+        padding: 24px 36px;
+        position: relative;
+        width: 230px;
+        height: 60px;
+        top: 100px;
+        left: calc(50% - 230px/2);
+        background: #E84E0F;
+        border-radius: 50px;
+        white-space: nowrap;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 14px;
+        letter-spacing: 0.5px;
+        border: none;
+        color: #FCFCFC;
+        cursor: pointer;
+    }
+
+.countries-carousel {
+    width: 100%;
+    height: 320px;
+    margin-top: -25px;
+}
+
+    .countries-carousel .slider-item {
+        position: relative;
+        left: 470px;
+        width: 580px !important;
+        height: 320px;
+        background: #FCFCFC;
+        border-radius: 20px;
+        box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
+    }
+
+        .countries-carousel .slider-item .carousel-img-wrapper {
+            width: 580px;
+            height: 250px;
+            overflow: hidden;
+            border-radius: 20px 20px 0px 0px;
+        }
+
+            .countries-carousel .slider-item .carousel-img-wrapper .carousel-img {
+                position: relative;
+                width: auto;
+                height: 350px;
+                top: -100px;
+            }
+
+.slider-item .carousel-text {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.carousel-text .text {
+    position: relative;
+    top: 30px;
+    font-weight: 550;
+    font-size: 21px;
+    line-height: 17px;
+    color: #060606;
+}
+
+.carousel-text .arrow {
+    width: 14px !important;
+    height: 14px;
+    position: relative;
+    top: 24px;
+}
+
+.carousel-btns .carousel-btn {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid #E84E0F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.carousel-btns {
+    position: relative;
+    width: 820px;
+    left: calc(50% - 820px/2);
+    top: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+    .carousel-btns .carousel-btn .arrow-btn {
+        width: 16px;
+        height: 16px;
+    }

@@ -1,7 +1,25 @@
 import './css/home-style.css';
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useRef } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+const countries = [
+    { img: "images/italy.jpg", name: "Італія" },
+    { img: "images/france.jpg", name: "Франція", style: { top: "-45px", height: "450px" } },
+    { img: "images/germany.jpg", name: "Німеччина", style: { top: "-40px" } },
+    { img: "images/united-kingdom.png", name: "Великобританія", style: { height: "450px" } },
+    { img: "images/ireland.jpg", name: "Ірландія", style: {top: "-120px", height: "450px" } },
+    { img: "images/montenegro.jpg", name: "Чорногорія", style: {height: "380px" } },
+    { img: "images/holland.jpg", name: "Нідерланди", style: { top: "-20px" } },
+    { img: "images/chehia.jpg", name: "Чехія", style: { top: "-60px", height: "390px" } },
+    { img: "images/spain.jpg", name: "Іспанія", style: { top: "-20px" } },
+];
+
 function HomePage() {
+
+    const sliderRef = useRef();
 
     return (
         <div className="main-container">
@@ -51,7 +69,7 @@ function HomePage() {
                         </div>
 
                         <div className="search-btn">
-                            <img src="images/search-icon.svg" alt="Search button image" className="btn-search" />
+                            <img src="images/search-icon.svg" style={{ width: "25px", height: "25px" }} alt="Search button image" className="btn-search" />
                         </div>
                     </div>
 
@@ -81,7 +99,7 @@ function HomePage() {
                 <div className="info-about-block">
                     <div className="about-container">
                         <div className="about-item">
-                            <h1 className="header" style={{ left:"75px" }}>6+</h1>
+                            <h1 className="header" style={{ left: "75px" }}>6+</h1>
                             <p className="subheader">Років нашого досвіду</p>
                         </div>
                         <div className="about-item">
@@ -109,22 +127,22 @@ function HomePage() {
                     <div className="category-item">
                         <img src="images/category-photo2.png" alt="Category Photo" className="category-img" />
                         <div className="category-text">
-                            <p className="text" style={{ left: "100px" }}>Апартаменти</p>
-                            <img src="images/profile-arrow.png" style={{ left: "calc(38% - 14px/2 + 0.5px)" }} alt="Arrow image" className="arrow"></img>
+                            <p className="text">Апартаменти</p>
+                            <img src="images/profile-arrow.png" alt="Arrow image" className="arrow"></img>
                         </div>
                     </div>
                     <div className="category-item">
                         <img src="images/category-photo3.png" alt="Category Photo" className="category-img" />
                         <div className="category-text">
                             <p className="text">Котедж</p>
-                            <img src="images/profile-arrow.png" style={{ left: "calc(31% - 14px/2 + 0.5px)" }} alt="Arrow image" className="arrow"></img>
+                            <img src="images/profile-arrow.png" alt="Arrow image" className="arrow"></img>
                         </div>
                     </div>
                     <div className="category-item">
                         <img src="images/category-photo4.png" alt="Category Photo" className="category-img" />
                         <div className="category-text">
-                            <p className="text" style={{ left: "140px" }}>Вілла</p>
-                            <img src="images/profile-arrow.png" style={{ left: "calc(31% - 14px/2 + 0.5px)" }} alt="Arrow image" className="arrow"></img>
+                            <p className="text">Вілла</p>
+                            <img src="images/profile-arrow.png" alt="Arrow image" className="arrow"></img>
                         </div>
                     </div>
                 </div>
@@ -139,7 +157,7 @@ function HomePage() {
                             <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
                         </div>
                         <div className="apartment-info">
-                            <h4 className="header">Hus med grillterrass<br></br>i Joncheping County</h4>
+                            <h4 className="header">Hus med grillterrass i Joncheping County</h4>
                             <h4 className="sub-header">Швеція, Округ Йончепінг, Tånnö</h4>
                             <div className="container">
                                 <h4 className="price-big">€ 142</h4>
@@ -159,15 +177,13 @@ function HomePage() {
                         </div>
                     </div>
 
-
-
                     <div className="recomended-item">
                         <img src="images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
                         <div className="favourite">
                             <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
                         </div>
                         <div className="apartment-info">
-                            <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
+                            <h4 className="header">Charmant appartement au cœur du Marais</h4>
                             <h4 className="sub-header">Франція, Париж, Le Marais</h4>
                             <div className="container">
                                 <h4 className="price-big">€ 250</h4>
@@ -182,17 +198,19 @@ function HomePage() {
                                     <img src="images/rate-icon.png" className="icon"></img>
                                     <p>4,8</p>
                                 </div>
+                                {/*style={{ left: x < 100 ? "8px" : "0px" }}*/}
                                 <p className='reviews' style={{ left: "8px" }}>(85 відгуків)</p>
                             </div>
                         </div>
                     </div>
+
                     <div className="recomended-item">
                         <img src="images/apartment-image3.png" alt="Apartment Photo" className="recomended-img" />
                         <div className="favourite">
                             <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
                         </div>
                         <div className="apartment-info">
-                            <h4 className="header">Elegante Wohnung<br></br>am Kurfürstendamm</h4>
+                            <h4 className="header">Elegante Wohnung am Kurfürstendamm</h4>
                             <h4 className="sub-header">Німеччина, Берлін, Charlottenburg</h4>
                             <div className="container">
                                 <h4 className="price-big">€ 220</h4>
@@ -218,16 +236,124 @@ function HomePage() {
                             <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
                         </div>
                     </div>
+
                     <div className="recomended-item">
                         <img src="images/apartment-image5.png" alt="Apartment Photo" className="recomended-img" />
                         <div className="favourite">
                             <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
                         </div>
                     </div>
+
                     <div className="recomended-item">
                         <img src="images/apartment-image6.png" alt="Apartment Photo" className="recomended-img" />
                         <div className="favourite">
                             <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
+                        </div>
+                    </div>
+                </div>
+
+                <button className="more-btn">Переглянути більше</button>
+            </div>
+
+            <div className="mobile-app-block">
+                <div className='side-group'>
+                    <h2 className="header">Завантажте застосунок Dwell!</h2>
+                    <p className="sub-header">Плануйте свій час без зайвих турбот — відскануйте QR-код, знайдіть і забронюте житло<br></br>всього за хвилину та отримайте знижку -10% на бронювання після встановлення додатку!</p>
+                    <div className="buttons-group">
+                        <div className="app-btn">
+                            <img src="images/google-play.png" alt="App Image" className="app-img" />
+                            <div className="container">
+                                <p className="header">Get it on</p>
+                                <h2 className="sub-header">Google Play</h2>
+                            </div>
+                        </div>
+                        <div className="app-btn" style={{ width: "160px" }}>
+                            <img src="images/app-store.png" alt="App Image" className="app-img" />
+                            <div className="container">
+                                <p className="header">Get it on</p>
+                                <h2 className="sub-header">App Store</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <img src="images/mobile-app.png" alt="App Image" className="app-img" />
+            </div>
+
+            <div className='carousel-block'>
+                <div className="countries-carousel-block">
+                    <h3 className="header">Країни</h3>
+                    <p className="sub-header">Представляємо вам найулюбленіші країни наших клієнтів.<br />Якщо не знайдете потрібну, завжди можна переглянути більше!</p>
+                    <button className="more-btn">Переглянути більше</button>
+                </div>
+                <Slider ref={sliderRef} slidesToShow={2} slidesToScroll={1} className="countries-carousel">
+                    {countries.map((country, index) => (
+                        <div key={index} className="slider-item">
+                            <div className="carousel-img-wrapper">
+                                <img
+                                    src={country.img}
+                                    alt="Carousel Img"
+                                    className="carousel-img"
+                                    style={country.style || {}}
+                                />
+                            </div>
+                            <div className="carousel-text">
+                                <p className="text">{country.name}</p>
+                                <img src="images/black-arrow.png" alt="Arrow" className="arrow" />
+                            </div>
+                        </div>
+                    ))}
+                </Slider>
+
+
+                <div className="carousel-btns">
+                    <div className="carousel-btn" onClick={() => sliderRef.current.slickPrev()}>
+                        <img src="images/orange-arrow.png" style={{ transform: "scaleX(-1)" }} alt="Prev" className="arrow-btn" />
+                    </div>
+                    <div className="carousel-btn" onClick={() => sliderRef.current.slickNext()}>
+                        <img src="images/orange-arrow.png" alt="Next" className="arrow-btn" />
+                    </div>
+                </div>
+
+            </div>
+
+            <div className="category-block" style={{ marginTop: "200px", marginBottom: "200px" }}>
+                <h3 className="header" style={{ left: "calc(50% - 186px /2 + 0.5px)"} }>Наш блог</h3>
+                <div className="category-container">
+                    <div className="category-item">
+                        <div className="photo-wrapper">
+                            <img src="images/blog1.png" style={{ transform: "scaleX(-1)", height: "350px", width: "520px", left: "-80px" }} alt="Blog Photo" className="category-img" />
+                        </div>
+                        
+                        <div className="category-text">
+                            <p className="text">Подорожі та напрямки</p>
+                            <img src="images/profile-arrow.png" alt="Arrow image" className="arrow"></img>
+                        </div>
+                    </div>
+                    <div className="category-item">
+                        <div className="photo-wrapper">
+                            <img src="images/blog2.jpg" style={{ transform: "scaleX(-1)" }} alt="Blog Photo" className="category-img" />
+                        </div>   
+                        <div className="category-text">
+                            <p className="text">Житло та інтер’єри</p>
+                            <img src="images/profile-arrow.png" alt="Arrow image" className="arrow"></img>
+                        </div>
+                    </div>
+                    <div className="category-item">
+                        <div className="photo-wrapper">
+                            <img src="images/blog3.jpg" style={{ top: "-80px" }} alt="Blog Photo" className="category-img" />
+                        </div>   
+                        <div className="category-text">
+                            <p className="text">Історії гостей</p>
+                            <img src="images/profile-arrow.png" alt="Arrow image" className="arrow"></img>
+                        </div>
+                    </div>
+                    <div className="category-item">
+                        <div className="photo-wrapper">
+                            <img src="images/blog4.jpg" alt="Blog Photo" className="category-img" />
+                        </div> 
+                        <div className="category-text">
+                            <p className="text" >Оновлення та новини</p>
+                            <img src="images/profile-arrow.png" alt="Arrow image" className="arrow"></img>
                         </div>
                     </div>
                 </div>

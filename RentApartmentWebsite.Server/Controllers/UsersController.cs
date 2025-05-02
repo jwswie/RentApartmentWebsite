@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Net;
+using System.Text.Json;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace RentApartmentWebsite.Server.Controllers
 {
@@ -41,11 +44,6 @@ namespace RentApartmentWebsite.Server.Controllers
         [HttpPost("signup")]
         public async Task<IActionResult> Signup([FromBody] User user)
         {
-            if (user == null || string.IsNullOrEmpty(user.UserName) || string.IsNullOrEmpty(user.EmailAddress))
-            {
-                return BadRequest("Invalid user data");
-            }
-
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
@@ -154,19 +152,57 @@ namespace RentApartmentWebsite.Server.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(int id, [FromBody] User updatedUser)
+        public IActionResult UpdateUser(int id, [FromBody] UserDto updatedUser)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserID == id);
             if (user == null)
-            {
                 return NotFound(new { message = "User not found" });
-            }
 
             user.UserName = updatedUser.UserName;
-            user.EmailAddress = updatedUser.EmailAddress;
+            user.LastName = updatedUser.LastName;
+
+            if (updatedUser.PhotoBase64 != null)
+            {
+                if (updatedUser.PhotoBase64 == "")
+                {
+                    user.Photo = null;
+                }
+                else
+                {
+                    try
+                    {
+                        user.Photo = Convert.FromBase64String(updatedUser.PhotoBase64);
+                    }
+                    catch
+                    {
+                        return BadRequest("Invalid base64 string for photo");
+                    }
+                }
+            }
 
             _context.SaveChanges();
-            return Ok(new { message = "User updated successfully" });
+
+            var responseUser = new
+            {
+                user.UserID,
+                user.UserName,
+                user.LastName,
+                user.EmailAddress,
+                Photo = user.Photo != null ? Convert.ToBase64String(user.Photo) : null,
+                user.RegistrationDate,
+                user.TrustRating,
+                user.Biography,
+                user.Location,
+                user.University,
+                user.Pets,
+                user.DreamTrip,
+                user.Profession,
+                user.Hobby,
+                user.BadHabits
+            };
+
+            return Ok(responseUser);
         }
+
     }
 }

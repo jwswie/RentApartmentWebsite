@@ -1,12 +1,12 @@
 import './css/login-style.css';
 import './App.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation, useNavigate } from 'react-router-dom';
 import HomePage from './HomePage';
 import AboutPage from './AboutPage';
 import ContactPage from './ContactPage';
 import LoginPage from './LoginPage';
-import SuccessPage from './SuccessPage';
+import NotFoundPage from './NotFoundPage';
 import AccountPage from './AccountPage';
 import ProfilePage from './ProfilePage';
 import AdminPanel from './AdminPanel';
@@ -14,21 +14,21 @@ import AddPersonalData from './AddPersonalData';
 
 function ProfileProtectedRoute({ user, children }) {
     if (!user) {
-        return <SuccessPage />
+        return <NotFoundPage />
     }
     return children;
 }
 
 function AdminProtectedRoute({ user, children }) {
     if (!user || !("adminLogin" in user)) {
-        return <SuccessPage />;
+        return <NotFoundPage />;
     }
     return children;
 }
 
 function UserProtectedRoute({ user, children }) {
     if (!user || !("emailAddress" in user)) {
-        return <SuccessPage />;
+        return <NotFoundPage />;
     }
     return children;
 }
@@ -319,7 +319,14 @@ function App() {
                         <img src="images/wish-icon.svg" alt="Wish image" className="icon" style={{ width: "26px", height: "26px" }}></img>
 
                         {user ? (
-                            <Link to="/account" state={{ user: user }}><img src="images/profile-icon.svg" alt="Profile image" className="icon" style={{ width: "24px", height: "24px" }}></img></Link>
+                            <div className="profile-picture-wrapper">
+                                {user?.photo ? (
+                                    <Link to="/account" state={{ user: user }}><img src={`data:image/jpeg;base64,${user.photo}`} alt="Profile image" className="profile-pictire"></img></Link>
+                                ) : (
+                                    <Link to="/account" state={{ user: user }}><img src="images/no-pfp.png" alt="Profile image" className="profile-pictire"></img></Link>
+                                )}
+                                
+                            </div>  
                         ) : (
                             <img src="images/profile-icon.svg" alt="Profile image" onClick={() => setIsRegisterWindow(true)} className="icon" style={{ width: "24px", height: "24px" }}></img>
                         )}
@@ -438,7 +445,7 @@ function App() {
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/login" element={<LoginPage setUser={updateUser} />} />
-                <Route path="/success" element={<SuccessPage />} />
+                <Route path="/notfound" element={<NotFoundPage />} />
                 <Route path="/admin" element={<AdminProtectedRoute user={user}><AdminPanel setUser={updateUser} /></AdminProtectedRoute>} />
                 <Route path="/account" element={<ProfileProtectedRoute user={user}><AccountPage setUser={updateUser} /></ProfileProtectedRoute>} />
                 <Route path="/profile" element={<ProfileProtectedRoute user={user}><ProfilePage setUser={updateUser} /></ProfileProtectedRoute>} />
