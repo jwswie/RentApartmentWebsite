@@ -49,10 +49,51 @@ VALUES
     ('Tom', 'nmeVEQVK0XjP8h5cakbJbg+30yF8ZglL82g+gwv6U+hR+6hl', 'nmeVEQVK0XjP8h5cakbJbg==', 'site_admin_1'),
     ('Sam', 'nmeVEQVK0XjP8h5cakbJbg+30yF8ZglL82g+gwv6U+hR+6hl', 'nmeVEQVK0XjP8h5cakbJbg==', 'site_admin_2')
 
+CREATE TABLE Countries (
+    CountryID INT PRIMARY KEY IDENTITY(1,1),
+    CountryName NVARCHAR(100) NOT NULL,
+    CountryPhoto NVARCHAR(255) NOT NULL
+)
+
+INSERT INTO Countries (CountryName, CountryPhoto) VALUES
+('Чорногорія', 'montenegro.jpg'),
+('Нідерланди', 'holland.jpg'),
+('Чехія', 'chehia.jpg'),
+('Іспанія', 'spain.jpg'),
+('Італія', 'italy.jpg'),
+('Франція', 'france.jpg'),
+('Німеччина', 'germany.jpg'),
+('Великобританія', 'united-kingdom.png'),
+('Ірландія', 'ireland.jpg'),
+('Австрія', 'austria.png'),
+('Швеція', 'sweden.png'),
+('Греція', 'greece.png'),
+('Бельгія', 'belgium.jpg'),
+('Словаччина', 'slovakia.png'),
+('Фінляндія', 'finland.png'),
+('Норвегія', 'norway.png'),
+('Данія', 'denmark.png'),
+('Україна', 'ukraine.png'),
+('Румунія', 'romania.png'),
+('Андорра', 'andorra.png'),
+('Люксембург', 'luxembourg.png'),
+('Литва', 'lithuania.png'),
+('Португалія', 'portugal.png'),
+('Естонія', 'estonia.png'),
+('Швейцарія', 'switzerland.png'),
+('Монако', 'monaco.png'),
+('Болгарія', 'bulgaria.png'),
+('Ісландія', 'iceland.png'),
+('Молдова', 'moldova.png'),
+('Джерсі', 'jersey.png'),
+('Польща', 'poland.png'),
+('Хорватія', 'croatia.png')
+
 
 SELECT * FROM TestApartments
 SELECT * FROM Users
-select * from Admins
+SELECT * FROM Admins
+SELECT * FROM Countries
 
 TRUNCATE TABLE Users
 TRUNCATE TABLE Admins
