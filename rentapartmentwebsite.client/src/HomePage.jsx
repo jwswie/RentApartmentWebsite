@@ -1,6 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import './css/home-style.css';
+import React, { useRef } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+const countries = [
+    { img: "images/italy.jpg", name: "Італія" },
+    { img: "images/france.jpg", name: "Франція", style: { top: "-45px", height: "450px" } },
+    { img: "images/germany.jpg", name: "Німеччина", style: { top: "-40px" } },
+    { img: "images/united-kingdom.png", name: "Великобританія", style: { height: "450px" } },
+    { img: "images/ireland.jpg", name: "Ірландія", style: {top: "-120px", height: "450px" } },
+    { img: "images/montenegro.jpg", name: "Чорногорія", style: {height: "380px" } },
+    { img: "images/holland.jpg", name: "Нідерланди", style: { top: "-20px" } },
+    { img: "images/chehia.jpg", name: "Чехія", style: { top: "-60px", height: "390px" } },
+    { img: "images/spain.jpg", name: "Іспанія", style: { top: "-20px" } },
+];
+
 function HomePage() {
+
+    const sliderRef = useRef();
 
     return (
         <div className="main-container">
@@ -20,6 +39,7 @@ function HomePage() {
                     <img src="images/home-page-photo.png" alt="Home banner image" className="banner-img"></img>
                     <div className="search-container">
                         <div className="search-item item-1">
+                            <img src="images/search-icon1.png" className="label-search" />
                             <div className="label-group">
                                 <h6 className="label-title">Куди?</h6>
                                 <p className="label-subtitle">Оберіть потрібну країну</p>
@@ -27,34 +47,315 @@ function HomePage() {
                         </div>
 
                         <div className="search-item item-2">
-                            <div className="label-group">
+                            <input style={{ transform: "scaleX(-1)" }} type="date" className="date-picker" />
+                            <div className="label-group" style={{ position: "relative", left: "-110px", whiteSpace: "nowrap" }}>
                                 <h6 className="label-title">Прибуття</h6>
                                 <p className="label-subtitle">Додайте дату</p>
-                                <input type="date" className="date-picker" />
                             </div>
                         </div>
 
                         <div className="search-item item-3">
-                            <div className="label-group">
+                            <input style={{ transform: "scaleX(-1)" }} type="date" className="date-picker" />
+                            <div className="label-group" style={{ position: "relative", left: "-110px", whiteSpace: "nowrap" }}>
                                 <h6 className="label-title">Виїзд</h6>
                                 <p className="label-subtitle">Додайте дату</p>
-                                <input type="date" className="date-picker" />
                             </div>
                         </div>
 
                         <div className="search-item item-4">
+                            <img src="images/search-icon3.png" style={{ marginLeft: "5px" }} className="label-search" />
                             <div className="label-group">
                                 <h6 className="label-title">Гості</h6>
-                                <p className="label-subtitle">Хто вирушає з вами?</p>
+                                <p className="label-subtitle" style={{ whiteSpace: "nowrap" }}>Хто вирушає з вами?</p>
                             </div>
                         </div>
 
                         <div className="search-btn">
-                            <img src="images/search-icon.svg" alt="Search button image" className="btn-search" />
+                            <img src="images/search-icon.svg" style={{ width: "25px", height: "25px" }} alt="Search button image" className="btn-search" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="about-us-screen">
+                <div className='side-group'>
+                    <h2 className="header">Про нас</h2>
+                    <p className="sub-header"><strong>Dwell</strong> — сервіс для бронювання житла, який поєднує комфорт, прозорість<br />та сучасні технології. Ми допомагаємо мандрівникам, родинам<br />і професіоналам швидко знаходити перевірене житло<br />по всій Європі</p>
+                    <div className="buttons-group">
+                        <button className="more-btn">Детальніше</button>
+                        <div className="video-btn">
+                            <div className="circle">
+                                <img src="images/video-btn.png" alt="Play btn" className="play-btn" />
+                            </div>
+                            <p className="text">Подивитись відео</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="about-img-wrapper">
+                    <img src="images/about-us-screen.png" alt="About Banner" className="about-img" />
+                </div>
+
+                <div className="info-about-block">
+                    <div className="about-container">
+                        <div className="about-item">
+                            <h1 className="header" style={{ left: "75px" }}>6+</h1>
+                            <p className="subheader">Років нашого досвіду</p>
+                        </div>
+                        <div className="about-item">
+                            <h1 className="header" style={{ left: "35px" }}>9 000+</h1>
+                            <p className="subheader">Бронювань щодня</p>
+                        </div>
+                        <div className="about-item">
+                            <h1 className="header" style={{ left: "40px" }}>-25%</h1>
+                            <p className="subheader">Для нових клієнтів</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="category-block">
+                <h3 className="header">Популярні категорії за останній місяць</h3>
+                <div className="category-container">
+                    <div className="category-item">
+                        <img src="images/category-photo1.png" alt="Category Photo" className="category-img" />
+                        <div className="category-text">
+                            <p className="text">Будинок</p>
+                            <img src="images/profile-arrow.png" alt="Arrow image" className="arrow"></img>
+                        </div>
+                    </div>
+                    <div className="category-item">
+                        <img src="images/category-photo2.png" alt="Category Photo" className="category-img" />
+                        <div className="category-text">
+                            <p className="text">Апартаменти</p>
+                            <img src="images/profile-arrow.png" alt="Arrow image" className="arrow"></img>
+                        </div>
+                    </div>
+                    <div className="category-item">
+                        <img src="images/category-photo3.png" alt="Category Photo" className="category-img" />
+                        <div className="category-text">
+                            <p className="text">Котедж</p>
+                            <img src="images/profile-arrow.png" alt="Arrow image" className="arrow"></img>
+                        </div>
+                    </div>
+                    <div className="category-item">
+                        <img src="images/category-photo4.png" alt="Category Photo" className="category-img" />
+                        <div className="category-text">
+                            <p className="text">Вілла</p>
+                            <img src="images/profile-arrow.png" alt="Arrow image" className="arrow"></img>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="recomended-block">
+                <h3 className="header">Рекомендоване житло для вас</h3>
+                <div className="recomended-container">
+                    <div className="recomended-item">
+                        <img src="images/apartment-image1.png" alt="Apartment Photo" className="recomended-img" />
+                        <div className="favourite">
+                            <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
+                        </div>
+                        <div className="apartment-info">
+                            <h4 className="header">Hus med grillterrass i Joncheping County</h4>
+                            <h4 className="sub-header">Швеція, Округ Йончепінг, Tånnö</h4>
+                            <div className="container">
+                                <h4 className="price-big">€ 142</h4>
+                                <p className='price-small'>/ ніч</p>
+                                <div className='more-button-group'>
+                                    <p>Детальніше</p>
+                                    <img src="images/arrow.svg" className="icon"></img>
+                                </div>
+                            </div>
+                            <div className="review-container">
+                                <div className='rate-group'>
+                                    <img src="images/rate-icon.png" className="icon"></img>
+                                    <p>4,9</p>
+                                </div>
+                                <p className='reviews'>(176 відгуків)</p>
+                            </div>
                         </div>
                     </div>
 
+                    <div className="recomended-item">
+                        <img src="images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
+                        <div className="favourite">
+                            <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
+                        </div>
+                        <div className="apartment-info">
+                            <h4 className="header">Charmant appartement au cœur du Marais</h4>
+                            <h4 className="sub-header">Франція, Париж, Le Marais</h4>
+                            <div className="container">
+                                <h4 className="price-big">€ 250</h4>
+                                <p className='price-small'>/ ніч</p>
+                                <div className='more-button-group'>
+                                    <p>Детальніше</p>
+                                    <img src="images/arrow.svg" className="icon"></img>
+                                </div>
+                            </div>
+                            <div className="review-container">
+                                <div className='rate-group'>
+                                    <img src="images/rate-icon.png" className="icon"></img>
+                                    <p>4,8</p>
+                                </div>
+                                {/*style={{ left: x < 100 ? "8px" : "0px" }}*/}
+                                <p className='reviews' style={{ left: "8px" }}>(85 відгуків)</p>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div className="recomended-item">
+                        <img src="images/apartment-image3.png" alt="Apartment Photo" className="recomended-img" />
+                        <div className="favourite">
+                            <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
+                        </div>
+                        <div className="apartment-info">
+                            <h4 className="header">Elegante Wohnung am Kurfürstendamm</h4>
+                            <h4 className="sub-header">Німеччина, Берлін, Charlottenburg</h4>
+                            <div className="container">
+                                <h4 className="price-big">€ 220</h4>
+                                <p className='price-small'>/ ніч</p>
+                                <div className='more-button-group'>
+                                    <p>Детальніше</p>
+                                    <img src="images/arrow.svg" className="icon"></img>
+                                </div>
+                            </div>
+                            <div className="review-container">
+                                <div className='rate-group'>
+                                    <img src="images/rate-icon.png" className="icon"></img>
+                                    <p>4,7</p>
+                                </div>
+                                <p className='reviews' style={{ left: "8px" }}>(73 відгуків)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="recomended-item">
+                        <img src="images/apartment-image4.png" alt="Apartment Photo" className="recomended-img" />
+                        <div className="favourite">
+                            <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
+                        </div>
+                    </div>
+
+                    <div className="recomended-item">
+                        <img src="images/apartment-image5.png" alt="Apartment Photo" className="recomended-img" />
+                        <div className="favourite">
+                            <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
+                        </div>
+                    </div>
+
+                    <div className="recomended-item">
+                        <img src="images/apartment-image6.png" alt="Apartment Photo" className="recomended-img" />
+                        <div className="favourite">
+                            <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
+                        </div>
+                    </div>
+                </div>
+
+                <button className="more-btn">Переглянути більше</button>
+            </div>
+
+            <div className="mobile-app-block">
+                <div className='side-group'>
+                    <h2 className="header">Завантажте застосунок Dwell!</h2>
+                    <p className="sub-header">Плануйте свій час без зайвих турбот — відскануйте QR-код, знайдіть і забронюте житло<br></br>всього за хвилину та отримайте знижку -10% на бронювання після встановлення додатку!</p>
+                    <div className="buttons-group">
+                        <div className="app-btn">
+                            <img src="images/google-play.png" alt="App Image" className="app-img" />
+                            <div className="container">
+                                <p className="header">Get it on</p>
+                                <h2 className="sub-header">Google Play</h2>
+                            </div>
+                        </div>
+                        <div className="app-btn" style={{ width: "160px" }}>
+                            <img src="images/app-store.png" alt="App Image" className="app-img" />
+                            <div className="container">
+                                <p className="header">Get it on</p>
+                                <h2 className="sub-header">App Store</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <img src="images/mobile-app.png" alt="App Image" className="app-img" />
+            </div>
+
+            <div className='carousel-block'>
+                <div className="countries-carousel-block">
+                    <h3 className="header">Країни</h3>
+                    <p className="sub-header">Представляємо вам найулюбленіші країни наших клієнтів.<br />Якщо не знайдете потрібну, завжди можна переглянути більше!</p>
+                    <button className="more-btn">Переглянути більше</button>
+                </div>
+                <Slider ref={sliderRef} slidesToShow={2} slidesToScroll={1} className="countries-carousel">
+                    {countries.map((country, index) => (
+                        <div key={index} className="slider-item">
+                            <div className="carousel-img-wrapper">
+                                <img
+                                    src={country.img}
+                                    alt="Carousel Img"
+                                    className="carousel-img"
+                                    style={country.style || {}}
+                                />
+                            </div>
+                            <div className="carousel-text">
+                                <p className="text">{country.name}</p>
+                                <img src="images/black-arrow.png" alt="Arrow" className="arrow" />
+                            </div>
+                        </div>
+                    ))}
+                </Slider>
+
+
+                <div className="carousel-btns">
+                    <div className="carousel-btn" onClick={() => sliderRef.current.slickPrev()}>
+                        <img src="images/orange-arrow.png" style={{ transform: "scaleX(-1)" }} alt="Prev" className="arrow-btn" />
+                    </div>
+                    <div className="carousel-btn" onClick={() => sliderRef.current.slickNext()}>
+                        <img src="images/orange-arrow.png" alt="Next" className="arrow-btn" />
+                    </div>
+                </div>
+
+            </div>
+
+            <div className="category-block" style={{ marginTop: "200px", marginBottom: "200px" }}>
+                <h3 className="header" style={{ left: "calc(50% - 186px /2 + 0.5px)"} }>Наш блог</h3>
+                <div className="category-container">
+                    <div className="category-item">
+                        <div className="photo-wrapper">
+                            <img src="images/blog1.png" style={{ transform: "scaleX(-1)", height: "350px", width: "520px", left: "-80px" }} alt="Blog Photo" className="category-img" />
+                        </div>
+                        
+                        <div className="category-text">
+                            <p className="text">Подорожі та напрямки</p>
+                            <img src="images/profile-arrow.png" alt="Arrow image" className="arrow"></img>
+                        </div>
+                    </div>
+                    <div className="category-item">
+                        <div className="photo-wrapper">
+                            <img src="images/blog2.jpg" style={{ transform: "scaleX(-1)" }} alt="Blog Photo" className="category-img" />
+                        </div>   
+                        <div className="category-text">
+                            <p className="text">Житло та інтер’єри</p>
+                            <img src="images/profile-arrow.png" alt="Arrow image" className="arrow"></img>
+                        </div>
+                    </div>
+                    <div className="category-item">
+                        <div className="photo-wrapper">
+                            <img src="images/blog3.jpg" style={{ top: "-80px" }} alt="Blog Photo" className="category-img" />
+                        </div>   
+                        <div className="category-text">
+                            <p className="text">Історії гостей</p>
+                            <img src="images/profile-arrow.png" alt="Arrow image" className="arrow"></img>
+                        </div>
+                    </div>
+                    <div className="category-item">
+                        <div className="photo-wrapper">
+                            <img src="images/blog4.jpg" alt="Blog Photo" className="category-img" />
+                        </div> 
+                        <div className="category-text">
+                            <p className="text" >Оновлення та новини</p>
+                            <img src="images/profile-arrow.png" alt="Arrow image" className="arrow"></img>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -38,7 +38,7 @@ function AccountPage({ setUser }) {
     }
 
     return (
-        <div className="main-container">
+        <div className="main-container" style={{ marginTop: "-100px" }}>
             <div className="account-header">
                 <h2>Обліковий запис</h2>
                 <div className='underline'></div>
@@ -102,7 +102,7 @@ function AccountPage({ setUser }) {
                 </div>
             </div>
 
-            <div className="deactivate-buttons">
+            <div className="deactivate-buttons" style={{ marginTop: "35px" }}>
                 <p>Бажаєте деактивувати обліковий запис?</p>
                 <button className="deactivate-btn" onClick={handleLogout}>Деактивувати</button>
             </div>

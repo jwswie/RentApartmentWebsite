@@ -129,7 +129,7 @@ function ProfilePage({ setUser }) {
     }
 
     return (
-        <div className="main-container" style={{ marginTop: "105px" }}>
+        <div className="main-container" style={{ marginTop: "-20px" }}>
             <img src="images/profile-banner.png" alt="Banner image" className="profile-banner"></img>
             <div className="profile-nav">
                 <p className="nav" onClick={goToAccount}>Обліковий запис</p>
