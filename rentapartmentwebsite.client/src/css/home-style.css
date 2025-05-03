@@ -105,6 +105,9 @@
 }
 
 .date-picker {
+    position: relative;
+    left: 5px;
+    margin-right: 5px;
     width: 100%;
     height: 100%;
     border: none;
@@ -112,7 +115,16 @@
     background: transparent;
     padding: 0 10px;
     color: transparent;
+    user-select: none;
     cursor: pointer;
+}
+
+.label-search {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    left: 10px;
+    margin-right: 5px;
 }
 
 .label-group {
@@ -124,6 +136,7 @@
     padding: 6px 10px;
     box-sizing: border-box;
     margin-left: 5px;
+    cursor: pointer;
 }
 
 .label-title {

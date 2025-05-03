@@ -39,6 +39,7 @@ function HomePage() {
                     <img src="images/home-page-photo.png" alt="Home banner image" className="banner-img"></img>
                     <div className="search-container">
                         <div className="search-item item-1">
+                            <img src="images/search-icon1.png" className="label-search" />
                             <div className="label-group">
                                 <h6 className="label-title">Куди?</h6>
                                 <p className="label-subtitle">Оберіть потрібну країну</p>
@@ -46,25 +47,26 @@ function HomePage() {
                         </div>
 
                         <div className="search-item item-2">
-                            <div className="label-group">
+                            <input style={{ transform: "scaleX(-1)" }} type="date" className="date-picker" />
+                            <div className="label-group" style={{ position: "relative", left: "-110px", whiteSpace: "nowrap" }}>
                                 <h6 className="label-title">Прибуття</h6>
                                 <p className="label-subtitle">Додайте дату</p>
-                                <input type="date" className="date-picker" />
                             </div>
                         </div>
 
                         <div className="search-item item-3">
-                            <div className="label-group">
+                            <input style={{ transform: "scaleX(-1)" }} type="date" className="date-picker" />
+                            <div className="label-group" style={{ position: "relative", left: "-110px", whiteSpace: "nowrap" }}>
                                 <h6 className="label-title">Виїзд</h6>
                                 <p className="label-subtitle">Додайте дату</p>
-                                <input type="date" className="date-picker" />
                             </div>
                         </div>
 
                         <div className="search-item item-4">
+                            <img src="images/search-icon3.png" style={{ marginLeft: "5px" }} className="label-search" />
                             <div className="label-group">
                                 <h6 className="label-title">Гості</h6>
-                                <p className="label-subtitle">Хто вирушає з вами?</p>
+                                <p className="label-subtitle" style={{ whiteSpace: "nowrap" }}>Хто вирушає з вами?</p>
                             </div>
                         </div>
 
@@ -72,8 +74,6 @@ function HomePage() {
                             <img src="images/search-icon.svg" style={{ width: "25px", height: "25px" }} alt="Search button image" className="btn-search" />
                         </div>
                     </div>
-
-
                 </div>
             </div>
 
