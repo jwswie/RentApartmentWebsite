@@ -82,7 +82,7 @@ function HomePage() {
                     <h2 className="header">Про нас</h2>
                     <p className="sub-header"><strong>Dwell</strong> — сервіс для бронювання житла, який поєднує комфорт, прозорість<br />та сучасні технології. Ми допомагаємо мандрівникам, родинам<br />і професіоналам швидко знаходити перевірене житло<br />по всій Європі</p>
                     <div className="buttons-group">
-                        <button className="more-btn">Детальніше</button>
+                        <Link to="/about"><button className="more-btn">Детальніше</button></Link>
                         <div className="video-btn">
                             <div className="circle">
                                 <img src="images/video-btn.png" alt="Play btn" className="play-btn" />
@@ -261,14 +261,14 @@ function HomePage() {
                     <p className="sub-header">Плануйте свій час без зайвих турбот — відскануйте QR-код, знайдіть і забронюте житло<br></br>всього за хвилину та отримайте знижку -10% на бронювання після встановлення додатку!</p>
                     <div className="buttons-group">
                         <div className="app-btn">
-                            <img src="images/google-play.png" alt="App Image" className="app-img" />
+                            <Link to="https://play.google.com/store/games?device=windows"><img src="images/google-play.png" alt="App Image" className="app-img" /></Link>
                             <div className="container">
                                 <p className="header">Get it on</p>
                                 <h2 className="sub-header">Google Play</h2>
                             </div>
                         </div>
                         <div className="app-btn" style={{ width: "160px" }}>
-                            <img src="images/app-store.png" alt="App Image" className="app-img" />
+                            <Link to="https://www.apple.com/app-store/"><img src="images/app-store.png" alt="App Image" className="app-img" /></Link>
                             <div className="container">
                                 <p className="header">Get it on</p>
                                 <h2 className="sub-header">App Store</h2>

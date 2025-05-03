@@ -498,10 +498,13 @@ function App() {
                                 <p className='group2-item'>info@dwell.com</p>
                                 <p id='date' style={{ fontSize: "14px" }}>Пн - Пт 09:00 - 18:00</p>
                                 <div className="icon-group">
-                                    <img src="images/instagram-icon.svg" alt="Instagram image" className="group-icon"></img>
-                                    <img src="images/vyber-icon.svg" alt="Vyber image" className="group-icon"></img>
-                                    <img src="images/telegram-icon.svg" alt="Telegram image" className="group-icon"></img>
-                                    <img src="images/facebook-icon.svg" alt="Facebook image" className="group-icon"></img>
+                                    <Link to="https://www.instagram.com/"><img src="images/instagram-icon.svg" alt="Instagram image" className="group-icon"></img></Link>
+                                    <Link to="https://www.viber.com/en/"><img src="images/vyber-icon.svg" alt="Vyber image" className="group-icon"></img></Link>
+                                    <Link to="https://web.telegram.org/"><img src="images/telegram-icon.svg" alt="Telegram image" className="group-icon"></img></Link>
+                                    <Link to="https://www.facebook.com/"><img src="images/facebook-icon.svg" alt="Facebook image" className="group-icon"></img></Link>
+                                    
+                                    
+                                    
                                 </div>
                             </div>
                         </div>

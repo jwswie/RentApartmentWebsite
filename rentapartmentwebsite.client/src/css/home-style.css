@@ -102,6 +102,7 @@
     background: #E84E0F;
     box-shadow: 0px 5px 20px 3px rgba(6, 6, 6, 0.08);
     border-radius: 12px;
+    cursor: pointer;
 }
 
 .date-picker {
