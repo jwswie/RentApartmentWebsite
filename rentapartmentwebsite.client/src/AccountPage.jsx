@@ -95,7 +95,7 @@ function AccountPage({ setUser }) {
                     <p className='block-subheader'>Додайте робочу електронну адресу і скористайтеся<br></br>додатковими привілеями для ділових поїздок.</p>
                 </div>
 
-                <div className='block'> 
+                <div className='block'>
                     <img src="images/block-icon8.png" alt="Block image" className="block-icon"></img>
                     <p className='block-header'>Допомога та зворотній зв'язок</p>
                     <p className='block-subheader'>Знайдіть відповіді на часті запитання<br></br>або надішліть звернення до служби підтримки.</p>

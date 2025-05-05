@@ -19,8 +19,21 @@ VALUES
 CREATE TABLE Users (
     UserID INT IDENTITY(1,1) PRIMARY KEY,
     UserName NVARCHAR(100) NOT NULL,
-    EmailAddress NVARCHAR(100) NOT NULL
-)
+    LastName NVARCHAR(100),
+    EmailAddress NVARCHAR(100) NOT NULL,
+    Photo VARBINARY(MAX),
+    RegistrationDate DATETIME DEFAULT GETDATE(),
+    TrustRating FLOAT DEFAULT 0.0,
+    Biography NVARCHAR(350),
+    Location NVARCHAR(100),
+    University NVARCHAR(100),
+    Pets NVARCHAR(30),
+    DreamTrip NVARCHAR(30),
+    Profession NVARCHAR(30),
+    Hobby NVARCHAR(30),
+    BadHabits NVARCHAR(30) 
+);
+
 
 CREATE TABLE Admins (
     AdminId INT PRIMARY KEY IDENTITY(1,1),
