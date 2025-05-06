@@ -1,19 +1,41 @@
 CREATE DATABASE RentApartmentDatabase
 
-CREATE TABLE TestApartments(
-	TestID INT IDENTITY(1,1) PRIMARY KEY,
-    TestName NVARCHAR(255) NOT NULL,
-    TestPrice DECIMAL(10, 2) NOT NULL,
-    TestLocation NVARCHAR(50)
+CREATE TABLE Apartments(
+	ApartmentID INT IDENTITY(1,1) PRIMARY KEY,
+    ApartmentName NVARCHAR(255) NOT NULL,
+    ApartmentPrice FLOAT DEFAULT 0.0,
+	ApartmentLocation NVARCHAR(255) NOT NULL,
+    ApartmentCountry NVARCHAR(255) NOT NULL,
+	ApartmentRate FLOAT DEFAULT 0.0,
+	ApartmentPhoto NVARCHAR(255) NOT NULL
 )
 
-INSERT INTO TestApartments (TestName, TestPrice, TestLocation)
-VALUES 
-    ('Luxury Loft', 1200.50, 'New York'),
-    ('Cozy Studio', 850.00, 'Los Angeles'),
-    ('Modern Apartment', 950.75, 'Chicago'),
-    ('Spacious Condo', 1100.00, 'Miami'),
-    ('Budget Room', 600.00, 'Houston')
+INSERT INTO Apartments (ApartmentName, ApartmentPrice, ApartmentLocation, ApartmentCountry, ApartmentRate, ApartmentPhoto)
+VALUES
+('Hus med grillterrass i Joncheping County', 142, 'Округ Йончепінг, Tånnö', 'Швеція', 4.9, 'apartment-image1.png'),
+('Charmant appartement au cœur du Marais', 250, 'Париж, Le Marais', 'Франція', 4.8, 'apartment-image2.png'),
+('Elegante Wohnung am Kurfürstendamm', 220, 'Берлін, Charlottenburg', 'Німеччина', 4.7, 'apartment-image3.png'),
+('Un angolo di quiete a Roma', 185, 'Рим, Trastevere', 'Італія', 4.8, 'apartment-image4.png'),
+('Un petit refuge à Paris', 276, 'Париж, Rue Oberkampf', 'Франція', 4.9, 'apartment-image5.png'),
+('Ein schönes Zuhause in Berlin', 204, 'Берлін, Prenzlauer Allee', 'Німеччина', 4.7, 'apartment-image6.png'),
+('A cozy loft near the canals of Amsterdam', 278, 'Амстердам, Prinsengracht', 'Нідерланди', 5.0, 'apartment-image7.png'),
+('En liten dröm i hjärtat av Stockholm', 212, 'Стокгольм, Södermalm', 'Швеція', 4.7, 'apartment-image8.png'),
+('A hidden nest in Temple Bar', 177, 'Дублін, Temple Bar', 'Ірландія', 4.8, 'apartment-image9.png'),
+('Malý byt v srdci Prahy', 190, 'Прага, Malá Strana', 'Чехія', 4.6, 'apartment-image10.png'),
+('Малък дом близо до плажа във Варна', 139, 'Варна, Приморски', 'Болгарія', 4.8, 'apartment-image11.png'),
+('Mi rincón tranquilo en Madrid', 255, 'Мадрид, Barrio de Salamanca', 'Іспанія', 4.7, 'apartment-image12.png'),
+('Un appartement zen au cœur de Lyon', 214, 'Ліон, Croix-Rousse', 'Франція', 4.6, 'apartment-image13.png'),
+('Chalet au bord du lac à Lucerne', 288, 'Люцерн, Haldenstrasse', 'Швейцарія', 5.0, 'apartment-image14.png'),
+('Tichý byt u parku v Brně', 134, 'Брно, Cejl', 'Чехія', 4.4, 'apartment-image15.png'),
+('Kuća sa pogledom na Dubrovnik', 198, 'Дубровник, Ploče', 'Хорватія', 4.7, 'apartment-image16.png'),
+('Petit bijou dans le cœur de Genève', 267, 'Женева, Vieille Ville', 'Швейцарія', 4.8, 'apartment-image17.png'),
+('Dom z widokiem na Rynek w Krakowie', 185, 'Краків, Rynek Główny', 'Польща', 4.7, 'apartment-image18.png'),
+('Tichá vila pod hradom v Bratislave', 322, 'Братислава, Staré Mesto', 'Словаччина', 4.8, 'apartment-image19.png'),
+('Ferienwohnung mit Seeblick in Salzburg', 224, 'Зальцбург, Giselakai', 'Австрія', 4.8, 'apartment-image20.png'),
+('Hubane kodu Tallinna vanalinnas', 188, 'Таллінн, Vanalinn', 'Естонія', 4.6, 'apartment-image21.png'),
+('Peaceful apartment near the castle in Edinburgh', 260, 'Единбург, Stockbridge', 'Великобританія', 4.9, 'apartment-image22.png'),
+('Casetta tranquilla sopra Firenze', 272, 'Флоренція, San Niccolò', 'Італія', 4.8, 'apartment-image23.png'),
+('Starý dům u mostu v Českém Krumlově', 149, 'Чеський Крумлов, Latrán', 'Чехія', 4.9, 'apartment-image24.png')
 
 
 CREATE TABLE Users (
@@ -33,7 +55,6 @@ CREATE TABLE Users (
     Hobby NVARCHAR(30),
     BadHabits NVARCHAR(30) 
 );
-
 
 CREATE TABLE Admins (
     AdminId INT PRIMARY KEY IDENTITY(1,1),
@@ -90,7 +111,7 @@ INSERT INTO Countries (CountryName, CountryPhoto) VALUES
 ('Хорватія', 'croatia.jpg')
 
 
-SELECT * FROM TestApartments
+SELECT * FROM Apartments
 SELECT * FROM Users
 SELECT * FROM Admins
 SELECT * FROM Countries
@@ -100,3 +121,4 @@ TRUNCATE TABLE Admins
 
 drop table Users
 drop table Admins
+drop table Apartments
