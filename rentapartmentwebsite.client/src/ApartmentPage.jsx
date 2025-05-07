@@ -21,9 +21,10 @@ function ApartmentPage() {
 
     useEffect(() => {
         fetchApartments();
+        window.scrollTo(0, 0);
     }, []);
 
-
+    
     const visibleApartments = showAll ? apartments : apartments.slice(0, 12);
     const toggleShowAll = () => setShowAll(prev => !prev);
 
@@ -110,7 +111,8 @@ function ApartmentPage() {
                             <div className="info">
                                 <h4 className="header">{apartment.apartmentName}</h4>
                                 <h4 className="sub-header">{apartment.apartmentCountry}, {apartment.apartmentLocation}</h4>
-                                <div className="container">
+                                <div className="container" style={apartment.apartmentName.length < 25 ? { top: '20px' } : {}} >
+
                                     <h4 className="price-big">€ {apartment.apartmentPrice}</h4>
                                     <p className='price-small'>/ ніч</p>
                                     <div className='more-button-group'>

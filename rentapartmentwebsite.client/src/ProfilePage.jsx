@@ -172,7 +172,7 @@ function ProfilePage({ setUser }) {
             <div className="info-profile-block">
                 <div className="info-container">
                     <div className="info-item">
-                        <h1 className="header">4</h1>
+                        <h1 className="header">{user?.registrationDate ? new Date().getFullYear() - new Date(user.registrationDate).getFullYear() : '0'}</h1>
                         <p className="subheader">Роки на Dwell</p>
                     </div>
                     <div className="info-item">

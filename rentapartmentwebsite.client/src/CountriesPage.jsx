@@ -22,12 +22,8 @@ function CountriesPage() {
 
     useEffect(() => {
         fetchCountries();
+        window.scrollTo(0, 0);
     }, []);
-
-    useEffect(() => {
-        console.log('Нові країни:', countries);
-    }, [countries]);
-
 
     const visibleCountries = showAll ? countries : countries.slice(0, 16);
     const toggleShowAll = () => setShowAll(prev => !prev);
