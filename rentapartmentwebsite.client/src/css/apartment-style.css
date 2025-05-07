@@ -1,0 +1,479 @@
+.apartment-header {
+    position: relative;
+    left: 70px;
+    top: 80px;
+    height: 120px;
+}
+
+    .apartment-header .apartment-nav {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+        .apartment-header .apartment-nav .nav {
+            font-family: 'Source Sans Pro';
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 12px;
+            cursor: pointer;
+            color: #060606;
+        }
+
+        .apartment-header .apartment-nav .nav-arrow {
+            width: 10px;
+            height: 10px;
+        }
+
+    .apartment-header h2 {
+        position: relative;
+        left: 39%;
+        top: 60px;
+        font-weight: 600;
+        font-size: 38px;
+        color: #060606;
+    }
+
+
+.apartment-banner {
+    position: relative;
+    top: 130px;
+    width: 100%;
+    height: auto;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+    .apartment-banner .banner-container {
+        width: 90%;
+        height: auto;
+    }
+
+        .apartment-banner .banner-container .banner-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 40px;
+        }
+
+        .apartment-banner .banner-container .search-container {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            width: 75%;
+            height: 100px;
+            background: #FCFCFC;
+            box-shadow: 0px 5px 20px 3px rgba(6, 6, 6, 0.08);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 22px;
+            padding: 0 20px;
+        }
+
+.search-item {
+    height: 60px;
+    background: #FCFCFC;
+    border: 1px solid #A0A0A0;
+    box-shadow: 0px 5px 20px 3px rgba(6, 6, 6, 0.08);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+}
+
+    .search-item.item-1 {
+        flex: 1.5;
+    }
+
+    .search-item.item-2,
+    .search-item.item-3 {
+        flex: 1;
+    }
+
+    .search-item.item-4 {
+        flex: 1;
+    }
+
+.search-app-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 33px;
+    width: 76px;
+    height: 60px;
+    background: #E84E0F;
+    box-shadow: 0px 5px 20px 3px rgba(6, 6, 6, 0.08);
+    border-radius: 12px;
+}
+
+.date-picker {
+    position: relative;
+    left: 5px;
+    margin-right: 5px;
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0 10px;
+    color: transparent;
+    user-select: none;
+    cursor: pointer;
+}
+
+.label-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    padding: 6px 10px;
+    box-sizing: border-box;
+    margin-left: 5px;
+}
+
+.label-search {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    left: 10px;
+    margin-right: 5px;
+}
+
+.label-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #060606;
+    margin: 4px 0 0 0;
+}
+
+.label-subtitle {
+    font-size: 13px;
+    color: #A0A0A0;
+    margin: 0 0 -35px 0;
+}
+
+.apartment-search {
+    position: relative;
+    width: 93.5%;
+    left: 70px;
+    top: 220px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 300px;
+}
+
+    .apartment-search .sort-btn {
+        width: 320px;
+        height: 55px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 1px solid #E84E0F;
+        border-radius: 50px;
+        cursor: pointer;
+    }
+
+        .apartment-search .sort-btn .text {
+            position: relative;
+            top: 7px;
+            font-family: 'Source Sans Pro';
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 12px;
+            color: #E84E0F;
+        }
+
+        .apartment-search .sort-btn .icon {
+            width: 12px;
+            height: 10px;
+        }
+
+    .apartment-search .map-btn {
+        width: 220px;
+        height: 55px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 1px solid #E84E0F;
+        border-radius: 50px;
+        cursor: pointer;
+    }
+
+        .apartment-search .map-btn .text {
+            position: relative;
+            top: 7px;
+            font-family: 'Source Sans Pro';
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 12px;
+            color: #E84E0F;
+        }
+
+        .apartment-search .map-btn .icon {
+            width: 22px;
+            height: 22px;
+        }
+
+    .apartment-search .filter-btn {
+        margin-left: 70px;
+        width: 180px;
+        height: 55px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 1px solid #E84E0F;
+        border-radius: 50px;
+        cursor: pointer;
+    }
+
+        .apartment-search .filter-btn .text {
+            position: relative;
+            top: 7px;
+            font-family: 'Source Sans Pro';
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 12px;
+            color: #E84E0F;
+        }
+
+        .apartment-search .filter-btn .filter-icon {
+            width: 22px;
+            height: 22px;
+        }
+
+        .apartment-search .filter-btn .icon {
+            width: 12px;
+            height: 10px;
+        }
+
+.apartment-block {
+    position: relative;
+    width: 93.5%;
+    left: 70px;
+    top: 200px;
+    margin-bottom: 250px
+}
+
+.apartment-block .apartment-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.apartment-container .apartment-item {
+    position: relative;
+    width: 460px;
+    height: 500px;
+    top: 50px;
+    border-radius: 20px;
+    box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
+    background-color: #FCFCFC;
+}
+
+.apartment-container .apartment-item .apartment-img {
+    position: relative;
+    width: 460px;
+    border-radius: 20px 20px 0px 0px;
+}
+
+.apartment-container .apartment-item .favourite {
+    position: relative;
+    top: -230px;
+    left: 40px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #FCFCFC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.apartment-container .apartment-item .favourite-btn {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.apartment-container .apartment-item .info {
+    position: relative;
+    top: -20px;
+    left: 50px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.info .header {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    width: 260px;
+    white-space: normal;
+    word-wrap: break-word;
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 25px;
+    letter-spacing: 0.5px;
+    color: #060606;
+}
+
+.info .sub-header {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 12px;
+    letter-spacing: 0.5px;
+    color: #060606;
+    white-space: nowrap;
+}
+
+.info .container {
+    position: relative;
+    top: 10px;
+    width: 410px;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+    .info .container .price-big {
+        position: relative;
+        left: -35px;
+        top: 20px;
+        white-space: nowrap;
+        font-weight: 600;
+        font-size: 40px;
+        line-height: 29px;
+        letter-spacing: 0.5px;
+        color: #060606;
+    }
+
+    .info .container .price-small {
+        position: relative;
+        width: 135px;
+        height: 29px;
+        left: -45px;
+        top: 35px;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 29px;
+        letter-spacing: 0.5px;
+        color: #A0A0A0;
+    }
+
+    .info .container .more-button-group {
+        position: relative;
+        width: 220px;
+        top: 45px;
+        display: flex;
+        flex-direction: row;
+        cursor: pointer;
+    }
+
+.more-button-group p {
+    position: relative;
+    width: 111px;
+    height: 14px;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 14px;
+    letter-spacing: 0.5px;
+    color: #E84E0F;
+}
+
+.more-button-group .icon {
+    position: relative;
+    top: 3px;
+    margin-left: 10px;
+    width: 11px;
+    height: 11px;
+}
+
+.info .review-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-content: flex-end;
+    gap: 13px 8px;
+    position: relative;
+    width: 111px;
+    height: 47px;
+    left: 260px;
+    top: -170px;
+}
+
+.review-container .rate-group {
+    position: relative;
+    top: 20px;
+    left: -5px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.rate-group .icon {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    left: 0px;
+    top: 0px;
+}
+
+.rate-group p {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    color: #E84E0F;
+}
+
+.review-container .reviews {
+    position: relative;
+    top: 10px;
+    width: 121px;
+    height: 14px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 14px;
+    letter-spacing: 0.5px;
+    color: #A0A0A0;
+}
+
+.apartment-block .more-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 90px;
+    padding: 24px 36px;
+    position: relative;
+    width: 230px;
+    height: 60px;
+    left: calc(50% - 230px/2);
+    background: #E84E0F;
+    border-radius: 50px;
+    white-space: nowrap;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 14px;
+    letter-spacing: 0.5px;
+    border: none;
+    color: #FCFCFC;
+    cursor: pointer;
+}

@@ -1,6 +1,6 @@
 import './css/home-style.css';
 import React, { useRef } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation, useNavigate } from 'react-router-dom';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -18,8 +18,16 @@ const countries = [
 ];
 
 function HomePage() {
-
+    const navigate = useNavigate();
     const sliderRef = useRef();
+
+    const goToApartments = () => {
+        navigate('/apartments');
+    }
+
+    const goToCountries = () => {
+        navigate('/countries');
+    }
 
     return (
         <div className="main-container">
@@ -198,7 +206,6 @@ function HomePage() {
                                     <img src="images/rate-icon.png" className="icon"></img>
                                     <p>4,8</p>
                                 </div>
-                                {/*style={{ left: x < 100 ? "8px" : "0px" }}*/}
                                 <p className='reviews' style={{ left: "8px" }}>(85 відгуків)</p>
                             </div>
                         </div>
@@ -252,7 +259,7 @@ function HomePage() {
                     </div>
                 </div>
 
-                <button className="more-btn">Переглянути більше</button>
+                <button className="more-btn" onClick={goToApartments}>Переглянути більше</button>
             </div>
 
             <div className="mobile-app-block">
@@ -283,7 +290,7 @@ function HomePage() {
                 <div className="countries-carousel-block">
                     <h3 className="header">Країни</h3>
                     <p className="sub-header">Представляємо вам найулюбленіші країни наших клієнтів.<br />Якщо не знайдете потрібну, завжди можна переглянути більше!</p>
-                    <button className="more-btn">Переглянути більше</button>
+                    <button className="more-btn" onClick={goToCountries}>Переглянути більше</button>
                 </div>
                 <Slider ref={sliderRef} slidesToShow={2} slidesToScroll={1} className="countries-carousel">
                     {countries.map((country, index) => (
