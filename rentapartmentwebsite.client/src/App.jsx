@@ -10,7 +10,7 @@ import NotFoundPage from './NotFoundPage';
 import AccountPage from './AccountPage';
 import ProfilePage from './ProfilePage';
 import AdminPanel from './AdminPanel';
-import AddPersonalData from './AddPersonalData';
+import ApartmentPage from './ApartmentPage';
 
 function ProfileProtectedRoute({ user, children }) {
     if (!user) {
@@ -317,7 +317,7 @@ function App() {
                     <div className="navigation">
                         <p className={location.pathname === "/" ? "nav-active" : "nav-li"}><Link to="/">Головна</Link></p>
                         <p className={location.pathname === "/about" ? "nav-active" : "nav-li"}><Link to="/about">Про нас</Link></p>
-                        <p className="nav-li"><Link to="/about">Житло</Link></p>
+                        <p className={location.pathname === "/apartments" ? "nav-active" : "nav-li"}><Link to="/apartments">Житло</Link></p>
                         <p className={location.pathname === "/countries" ? "nav-active" : "nav-li"}><Link to="/countries">Країни</Link></p>
 
                     </div>
@@ -456,7 +456,7 @@ function App() {
                 <Route path="/admin" element={<AdminProtectedRoute user={user}><AdminPanel setUser={updateUser} /></AdminProtectedRoute>} />
                 <Route path="/account" element={<ProfileProtectedRoute user={user}><AccountPage setUser={updateUser} /></ProfileProtectedRoute>} />
                 <Route path="/profile" element={<ProfileProtectedRoute user={user}><ProfilePage setUser={updateUser} /></ProfileProtectedRoute>} />
-                <Route path="/personal" element={<UserProtectedRoute user={user}><AddPersonalData setUser={updateUser} /></UserProtectedRoute>} />
+                <Route path="/apartments" element={<ApartmentPage />} />
             </Routes>
 
             {!isAdminPage && (

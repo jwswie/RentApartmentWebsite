@@ -15,8 +15,6 @@ function CountriesPage() {
             }
             const data = await response.json();
             setCountries(data);
-            console.log(data)
-            console.log(countries)
         } catch (error) {
             console.error('Помилка:', error);
         }
@@ -50,7 +48,7 @@ function CountriesPage() {
                 <div className="search-container">
                     <form>
                         <input type="text" className="country-input" placeholder="Введіть потрібну країну" required />
-                        <div className="search-btn">
+                        <div className="country-search-btn">
                             <img src="images/search-icon.svg" style={{ width: "23px", height: "23px" }} />
                         </div>
                     </form>
