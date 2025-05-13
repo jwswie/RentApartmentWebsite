@@ -5,6 +5,8 @@ function ApartmentPage() {
 
     const [apartments, setApartments] = useState([]);
     const [showAll, setShowAll] = useState(false);
+    const visibleApartments = showAll ? apartments : apartments.slice(0, 12);
+    const [isSortOpen, setIsSortOpen] = useState(false);
 
     const fetchApartments = async () => {
         try {
@@ -23,10 +25,10 @@ function ApartmentPage() {
         fetchApartments();
         window.scrollTo(0, 0);
     }, []);
-
     
-    const visibleApartments = showAll ? apartments : apartments.slice(0, 12);
+    
     const toggleShowAll = () => setShowAll(prev => !prev);
+    const toggleSort = () => setIsSortOpen(prev => !prev);
 
     return (
         <div className="main-container">
@@ -84,9 +86,9 @@ function ApartmentPage() {
             </div>
 
             <div className='apartment-search'>
-                <div className="sort-btn">
+                <div className="sort-btn" onClick={toggleSort}>
                     <p className="text">Сортувати за рекомендаціями</p>
-                    <img className="icon" style={{ transform: "rotate(90deg) " }} src="images/orange-arrow.png" />
+                    <img className="icon" style={{ transform: isSortOpen ? "rotate(270deg)" : "rotate(90deg)", transition: "transform 0.3s" }} src="images/orange-arrow.png" />
                 </div>
                 <div className="map-btn">
                     <img className="icon" src="images/map-icon.png" />
@@ -99,6 +101,19 @@ function ApartmentPage() {
                     <img className="icon" style={{ transform: "rotate(90deg) " }} src="images/orange-arrow.png" />
                 </div>
             </div>
+
+            {isSortOpen && (
+                <div className="sort-window">
+                    <div className="sort-container">
+                        <div className="sort-item"><p className="text">Популярним</p></div>
+                        <div className="sort-item"><p className="text">Рекомендаціями</p></div>
+                        <div className="sort-item"><p className="text">Найдорожчими цінами</p></div>
+                        <div className="sort-item"><p className="text">Найдешевшими цінами</p></div>
+                        <div className="sort-item"><p className="text">Найкращими відгуками</p></div>
+                        <div className="sort-item"><p className="text">Знижками</p></div>
+                    </div>
+                </div>
+            )}
 
             <div className="apartment-block">
                 <div className="apartment-container">
