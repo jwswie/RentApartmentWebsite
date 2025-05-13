@@ -1,5 +1,11 @@
 CREATE DATABASE RentApartmentDatabase
 
+CREATE TABLE ApartmentInfrastructures (
+    InfrastructureID INT IDENTITY(1,1) PRIMARY KEY,
+    ApartmentID INT NOT NULL FOREIGN KEY REFERENCES Apartments(ApartmentID),
+    Description NVARCHAR(255) NOT NULL
+)
+
 CREATE TABLE Apartments(
 	ApartmentID INT IDENTITY(1,1) PRIMARY KEY,
     ApartmentName NVARCHAR(255) NOT NULL,
@@ -7,35 +13,44 @@ CREATE TABLE Apartments(
 	ApartmentLocation NVARCHAR(255) NOT NULL,
     ApartmentCountry NVARCHAR(255) NOT NULL,
 	ApartmentRate FLOAT DEFAULT 0.0,
-	ApartmentPhoto NVARCHAR(255) NOT NULL
+	ApartmentPhoto NVARCHAR(255) NOT NULL,
+	ApartmentArea INT NOT NULL,
+	ApartmentCapacity INT NOT NULL,
+	Bedroom INT NOT NULL,
+	Bathroom INT NOT NULL,
+	AllowedEvents NVARCHAR(255) NOT NULL,
+	AllowedChildren NVARCHAR(255) NOT NULL,
+	AllowedPets NVARCHAR(255) NOT NULL,
+	AllowedSmoking NVARCHAR(255) NOT NULL,
+	OwnerID INT NOT NULL
 )
 
-INSERT INTO Apartments (ApartmentName, ApartmentPrice, ApartmentLocation, ApartmentCountry, ApartmentRate, ApartmentPhoto)
+INSERT INTO Apartments
 VALUES
-('Hus med grillterrass i Joncheping County', 142, 'Округ Йончепінг, Tånnö', 'Швеція', 4.9, 'apartment-image1.png'),
-('Charmant appartement au cœur du Marais', 250, 'Париж, Le Marais', 'Франція', 4.8, 'apartment-image2.png'),
-('Elegante Wohnung am Kurfürstendamm', 220, 'Берлін, Charlottenburg', 'Німеччина', 4.7, 'apartment-image3.png'),
-('Un angolo di quiete a Roma', 185, 'Рим, Trastevere', 'Італія', 4.8, 'apartment-image4.png'),
-('Un petit refuge à Paris', 276, 'Париж, Rue Oberkampf', 'Франція', 4.9, 'apartment-image5.png'),
-('Ein schönes Zuhause in Berlin', 204, 'Берлін, Prenzlauer Allee', 'Німеччина', 4.7, 'apartment-image6.png'),
-('A cozy loft near the canals of Amsterdam', 278, 'Амстердам, Prinsengracht', 'Нідерланди', 5.0, 'apartment-image7.png'),
-('En liten dröm i hjärtat av Stockholm', 212, 'Стокгольм, Södermalm', 'Швеція', 4.7, 'apartment-image8.png'),
-('A hidden nest in Temple Bar', 177, 'Дублін, Temple Bar', 'Ірландія', 4.8, 'apartment-image9.png'),
-('Malý byt v srdci Prahy', 190, 'Прага, Malá Strana', 'Чехія', 4.6, 'apartment-image10.png'),
-('Малък дом близо до плажа във Варна', 139, 'Варна, Приморски', 'Болгарія', 4.8, 'apartment-image11.png'),
-('Mi rincón tranquilo en Madrid', 255, 'Мадрид, Barrio de Salamanca', 'Іспанія', 4.7, 'apartment-image12.png'),
-('Un appartement zen au cœur de Lyon', 214, 'Ліон, Croix-Rousse', 'Франція', 4.6, 'apartment-image13.png'),
-('Chalet au bord du lac à Lucerne', 288, 'Люцерн, Haldenstrasse', 'Швейцарія', 5.0, 'apartment-image14.png'),
-('Tichý byt u parku v Brně', 134, 'Брно, Cejl', 'Чехія', 4.4, 'apartment-image15.png'),
-('Kuća sa pogledom na Dubrovnik', 198, 'Дубровник, Ploče', 'Хорватія', 4.7, 'apartment-image16.png'),
-('Petit bijou dans le cœur de Genève', 267, 'Женева, Vieille Ville', 'Швейцарія', 4.8, 'apartment-image17.png'),
-('Dom z widokiem na Rynek w Krakowie', 185, 'Краків, Rynek Główny', 'Польща', 4.7, 'apartment-image18.png'),
-('Tichá vila pod hradom v Bratislave', 322, 'Братислава, Staré Mesto', 'Словаччина', 4.8, 'apartment-image19.png'),
-('Ferienwohnung mit Seeblick in Salzburg', 224, 'Зальцбург, Giselakai', 'Австрія', 4.8, 'apartment-image20.png'),
-('Hubane kodu Tallinna vanalinnas', 188, 'Таллінн, Vanalinn', 'Естонія', 4.6, 'apartment-image21.png'),
-('Peaceful apartment near the castle in Edinburgh', 260, 'Единбург, Stockbridge', 'Великобританія', 4.9, 'apartment-image22.png'),
-('Casetta tranquilla sopra Firenze', 272, 'Флоренція, San Niccolò', 'Італія', 4.8, 'apartment-image23.png'),
-('Starý dům u mostu v Českém Krumlově', 149, 'Чеський Крумлов, Latrán', 'Чехія', 4.9, 'apartment-image24.png')
+('Hus med grillterrass i Joncheping County', 142, 'Округ Йончепінг, Tånnö', 'Швеція', 4.9, 'apartment-image1.png', 60, 4, 2, 1, 'Дозволені заходи: сімейні зустрічі та дні народження', 'Дозволено дітям: віком від 1 до 17 років', 'Дозволено з домашніми тваринами: собаки та коти вагою до 10 кг', 'Куріння дозволено: у спеціально відведених місцях', 1),
+('Charmant appartement au cœur du Marais', 250, 'Париж, Le Marais', 'Франція', 4.8, 'apartment-image2.png', 55, 3, 1, 1, 'Дозволені заходи: романтичні вечори', 'Дозволено дітям: віком від 5 років', 'Дозволено з домашніми тваринами: тільки невеликі собаки', 'Куріння не дозволено', 2),
+('Elegante Wohnung am Kurfürstendamm', 220, 'Берлін, Charlottenburg', 'Німеччина', 4.7, 'apartment-image3.png', 70, 4, 2, 1, 'Дозволені заходи: ділові зустрічі', 'Дозволено дітям: будь-якого віку', 'Не дозволено з домашніми тваринами', 'Куріння дозволено: тільки на балконі', 3),
+('Un angolo di quiete a Roma', 185, 'Рим, Trastevere', 'Італія', 4.8, 'apartment-image4.png', 48, 2, 1, 1, 'Дозволені заходи: сімейні вечері', 'Дозволено дітям: віком від 3 до 12 років', 'Дозволено з домашніми тваринами: коти', 'Куріння не дозволено', 1),
+('Un petit refuge à Paris', 276, 'Париж, Rue Oberkampf', 'Франція', 4.9, 'apartment-image5.png', 52, 3, 1, 1, 'Дозволені заходи: індивідуальні відпочинки', 'Дозволено дітям: будь-якого віку', 'Не дозволено з домашніми тваринами', 'Куріння дозволено: у внутрішньому дворику', 2),
+('Ein schönes Zuhause in Berlin', 204, 'Берлін, Prenzlauer Allee', 'Німеччина', 4.7, 'apartment-image6.png', 65, 4, 2, 2, 'Дозволені заходи: художні майстер-класи', 'Дозволено дітям: віком від 6 років', 'Дозволено з домашніми тваринами: з попереднім узгодженням', 'Куріння не дозволено', 3),
+('A cozy loft near the canals of Amsterdam', 278, 'Амстердам, Prinsengracht', 'Нідерланди', 5.0, 'apartment-image7.png', 60, 2, 1, 1, 'Дозволені заходи: фотосесії', 'Дозволено дітям: тільки з 12 років', 'Не дозволено з домашніми тваринами', 'Куріння дозволено: у спеціально відведених місцях', 1),
+('En liten dröm i hjärtat av Stockholm', 212, 'Стокгольм, Södermalm', 'Швеція', 4.7, 'apartment-image8.png', 45, 2, 1, 1, 'Заходи не дозволені', 'Дозволено дітям: будь-якого віку', 'Дозволено з домашніми тваринами: з попереднім узгодженням', 'Куріння дозволено: тільки на балконі', 2),
+('A hidden nest in Temple Bar', 177, 'Дублін, Temple Bar', 'Ірландія', 4.8, 'apartment-image9.png', 50, 3, 1, 1, 'Дозволені заходи: музичні вечори', 'Дозволено дітям: від 5 до 16 років', 'Не дозволено з домашніми тваринами', 'Куріння дозволено: у спеціально відведених місцях', 3),
+('Malý byt v srdci Prahy', 190, 'Прага, Malá Strana', 'Чехія', 4.6, 'apartment-image10.png', 47, 2, 1, 1, 'Дозволені заходи: творчі вечори', 'Дозволено дітям: будь-якого віку', 'Дозволено з домашніми тваринами: коти', 'Куріння дозволено: у дворі', 1),
+('Малък дом близо до плажа във Варна', 139, 'Варна, Приморски', 'Болгарія', 4.8, 'apartment-image11.png', 58, 4, 2, 1, 'Дозволені заходи: пляжні вечірки', 'Дозволено дітям: віком від 2 років', 'Дозволено з домашніми тваринами: собаки', 'Куріння дозволено: тільки зовні', 2),
+('Mi rincón tranquilo en Madrid', 255, 'Мадрид, Barrio de Salamanca', 'Іспанія', 4.7, 'apartment-image12.png', 66, 3, 2, 2, 'Дозволені заходи: йога-сеанси', 'Дозволено дітям: будь-якого віку', 'Не дозволено з домашніми тваринами', 'Куріння дозволено: у спеціально відведених місцях', 3),
+('Un appartement zen au cœur de Lyon', 214, 'Ліон, Croix-Rousse', 'Франція', 4.6, 'apartment-image13.png', 54, 3, 1, 1, 'Дозволені заходи: арт-вечори', 'Дозволено дітям: з 4 років', 'Дозволено з домашніми тваринами: коти і маленькі собаки', 'Куріння не дозволено', 1),
+('Chalet au bord du lac à Lucerne', 288, 'Люцерн, Haldenstrasse', 'Швейцарія', 5.0, 'apartment-image14.png', 75, 5, 2, 2, 'Дозволені заходи: відпочинок на природі', 'Дозволено дітям: будь-якого віку', 'Дозволено з домашніми тваринами: з попереднім узгодженням', 'Куріння не дозволено', 2),
+('Tichý byt u parku v Brně', 134, 'Брно, Cejl', 'Чехія', 4.4, 'apartment-image15.png', 49, 2, 1, 1, 'Заходи не дозволені', 'Дозволено дітям: будь-якого віку', 'Не дозволено з домашніми тваринами', 'Куріння дозволено: тільки на балконі', 3),
+('Kuća sa pogledom na Dubrovnik', 198, 'Дубровник, Ploče', 'Хорватія', 4.7, 'apartment-image16.png', 62, 4, 2, 2, 'Дозволені заходи: сімейні свята', 'Дозволено дітям: будь-якого віку', 'Дозволено з домашніми тваринами: з попереднім узгодженням', 'Куріння дозволено: у дворі', 1),
+('Petit bijou dans le cœur de Genève', 267, 'Женева, Vieille Ville', 'Швейцарія', 4.8, 'apartment-image17.png', 57, 3, 2, 1, 'Дозволені заходи: камерні концерти', 'Дозволено дітям: будь-якого віку', 'Не дозволено з домашніми тваринами', 'Куріння не дозволено', 2),
+('Dom z widokiem na Rynek w Krakowie', 185, 'Краків, Rynek Główny', 'Польща', 4.7, 'apartment-image18.png', 61, 3, 2, 2, 'Дозволені заходи: зустрічі друзів', 'Дозволено дітям: з 3 років', 'Дозволено з домашніми тваринами: з попереднім узгодженням', 'Куріння дозволено: тільки зовні', 3),
+('Tichá vila pod hradom v Bratislave', 322, 'Братислава, Staré Mesto', 'Словаччина', 4.8, 'apartment-image19.png', 80, 5, 3, 2, 'Дозволені заходи: весілля', 'Дозволено дітям: будь-якого віку', 'Дозволено з домашніми тваринами: з попереднім узгодженням', 'Куріння дозволено: у спеціально відведених місцях', 1),
+('Ferienwohnung mit Seeblick in Salzburg', 224, 'Зальцбург, Giselakai', 'Австрія', 4.8, 'apartment-image20.png', 68, 4, 2, 1, 'Дозволені заходи: ретрити', 'Дозволено дітям: з 7 років', 'Дозволено з домашніми тваринами: коти', 'Куріння не дозволено', 2),
+('Hubane kodu Tallinna vanalinnas', 188, 'Таллінн, Vanalinn', 'Естонія', 4.6, 'apartment-image21.png', 53, 2, 1, 1, 'Дозволені заходи: тихі зустрічі', 'Дозволено дітям: будь-якого віку', 'Дозволено з домашніми тваринами: тільки коти', 'Куріння дозволено: на вулиці', 3),
+('Peaceful apartment near the castle in Edinburgh', 260, 'Единбург, Stockbridge', 'Великобританія', 4.9, 'apartment-image22.png', 69, 3, 2, 2, 'Дозволені заходи: літературні вечори', 'Дозволено дітям: з 10 років', 'Дозволено з домашніми тваринами: з попереднім узгодженням', 'Куріння дозволено: тільки зовні', 1),
+('Casetta tranquilla sopra Firenze', 272, 'Флоренція, San Niccolò', 'Італія', 4.8, 'apartment-image23.png', 64, 4, 2, 2, 'Дозволені заходи: кулінарні майстер-класи', 'Дозволено дітям: віком від 5 років', 'Дозволено з домашніми тваринами: з попереднім узгодженням', 'Куріння не дозволено', 2),
+('Starý dům u mostu v Českém Krumlově', 149, 'Чеський Крумлов, Latrán', 'Чехія', 4.9, 'apartment-image24.png', 59, 3, 2, 1, 'Дозволені заходи: історичні екскурсії', 'Дозволено дітям: будь-якого віку', 'Дозволено з домашніми тваринами: собаки до 15 кг', 'Куріння дозволено: на терасі', 3)
 
 
 CREATE TABLE Users (
@@ -110,6 +125,11 @@ INSERT INTO Countries (CountryName, CountryPhoto) VALUES
 ('Польща', 'poland.jpg'),
 ('Хорватія', 'croatia.jpg')
 
+CREATE TABLE Reviews (
+    ReviewID INT PRIMARY KEY IDENTITY(1,1),
+    ApartmentID INT NOT NULL,
+    CountryPhoto NVARCHAR(255) NOT NULL
+)
 
 SELECT * FROM Apartments
 SELECT * FROM Users
@@ -121,4 +141,5 @@ TRUNCATE TABLE Admins
 
 drop table Users
 drop table Admins
+drop table ApartmentInfrastructures
 drop table Apartments
