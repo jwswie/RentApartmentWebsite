@@ -525,7 +525,7 @@
     width: 770px;
     height: 540px;
     left: 690px;
-    top: 820px;
+    top: 840px;
     z-index: 10;
     border-radius: 12px;
     background-color: #FCFCFC;
@@ -557,8 +557,6 @@
             height: 50px;
             background: #FCFCFC;
             border-radius: 8px;
-            font-family: 'Source Sans Pro';
-            font-style: normal;
             font-weight: 600;
             font-size: 18px;
             line-height: 20px;
@@ -579,8 +577,6 @@
             height: 50px;
             background: #E84E0F;
             border-radius: 8px;
-            font-family: 'Source Sans Pro';
-            font-style: normal;
             font-weight: 600;
             font-size: 18px;
             line-height: 20px;
@@ -616,8 +612,6 @@
         }
 
             .filter-window .right-filter-container .category-container h2 {
-                font-family: 'Source Sans Pro';
-                font-style: normal;
                 font-weight: 600;
                 font-size: 22px;
                 line-height: 20px;
@@ -627,12 +621,11 @@
 
             .filter-window .right-filter-container .category-container .checkbox-container {
                 position: relative;
-                top: -10px;
-                left: -5px;
+                top: -15px;
                 display: flex;
                 flex-direction: column;
                 flex-wrap: wrap;
-                height: 200px;
+                height: 240px;
                 padding-top: 20px;
                 row-gap: 5px;
                 column-gap: 40px;
@@ -647,8 +640,6 @@
                 }
 
             .filter-window .right-filter-container .category-container label {
-                font-family: 'Source Sans Pro';
-                font-style: normal;
                 font-weight: 400;
                 font-size: 18px;
                 margin: 5px;
@@ -671,8 +662,6 @@
                 position: relative;
                 top: 15px;
                 left: 0px;
-                font-family: 'Source Sans Pro';
-                font-style: normal;
                 font-weight: 400;
                 font-size: 18px;
                 line-height: 20px;
@@ -694,7 +683,6 @@ input[type="checkbox"] {
 }
 
     .checkbox-grid label {
-        font-family: 'Source Sans Pro';
         font-size: 18px;
         display: flex;
         align-items: center;
@@ -732,8 +720,6 @@ input[type="checkbox"] {
         .filter-window .right-filter-container .category-container .switch-container .active-btn .text {
             position: relative;
             top: 8px;
-            font-family: 'Source Sans Pro';
-            font-style: normal;
             font-weight: 600;
             font-size: 18px;
             color: #E84E0F;
@@ -754,8 +740,6 @@ input[type="checkbox"] {
         .filter-window .right-filter-container .category-container .switch-container .unactive-btn .text {
             position: relative;
             top: 8px;
-            font-family: 'Source Sans Pro';
-            font-style: normal;
             font-weight: 600;
             font-size: 18px;
             color: #A0A0A0;
@@ -769,6 +753,7 @@ input[type="checkbox"] {
         background: #FCFCFC;
         border: 1px solid #A0A0A0;
         border-radius: 8px;
+        color: #060606;
     }
 
 .filter-window .right-filter-container .category-container .text-container {
@@ -781,8 +766,6 @@ input[type="checkbox"] {
     .filter-window .right-filter-container .category-container .text-container .text {
         position: relative;
         top: 10px;
-        font-family: 'Source Sans Pro';
-        font-style: normal;
         font-weight: 400;
         font-size: 14px;
         color: #060606;
@@ -835,7 +818,6 @@ input[type="checkbox"] {
     left: 0px;
     width: 450px;
     border: 1px solid #E6E6E6;
-    margin-bottom: 20px;
 }
 
 .filter-window .bottom-filter-container {
@@ -859,8 +841,6 @@ input[type="checkbox"] {
         padding-top: 15px;
         border: 1px solid #E84E0F;
         color: #E84E0F;
-        font-family: 'Source Sans Pro';
-        font-style: normal;
         font-weight: 600;
         font-size: 15px;
         border-radius: 8px;
@@ -877,8 +857,6 @@ input[type="checkbox"] {
         height: 44px;
         background: #E84E0F;
         color: #FCFCFC;
-        font-family: 'Source Sans Pro';
-        font-style: normal;
         font-weight: 600;
         font-size: 15px;
         border-radius: 8px;
