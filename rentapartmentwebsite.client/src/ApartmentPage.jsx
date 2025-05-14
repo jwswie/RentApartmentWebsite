@@ -5,9 +5,28 @@ function ApartmentPage() {
     const { country } = useParams();
     const [apartments, setApartments] = useState([]);
     const [showAll, setShowAll] = useState(false);
-    const visibleApartments = showAll ? apartments : apartments.slice(0, 12);
     const [showMore, setShowMore] = useState(false);
     const [isSortOpen, setIsSortOpen] = useState(false);
+    const [sortOption, setSortOption] = useState(null);
+    const getSortedApartments = () => {
+        let sorted = [...apartments];
+        switch (sortOption) {
+            case "rate":
+                sorted.sort((a, b) => b.apartmentRate - a.apartmentRate);
+                break;
+            case "priceHigh":
+                sorted.sort((a, b) => b.apartmentPrice - a.apartmentPrice);
+                break;
+            case "priceLow":
+                sorted.sort((a, b) => a.apartmentPrice - b.apartmentPrice);
+                break;
+            default:
+                break;
+        }
+        return sorted;
+    };
+    const sortedApartments = getSortedApartments();
+    const visibleApartments = showAll ? sortedApartments : sortedApartments.slice(0, 12);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [activeSection, setActiveSection] = useState("Категорії житла");
     const housingRef = useRef();
@@ -154,7 +173,7 @@ function ApartmentPage() {
 
             <div className='apartment-search'>
                 <div className="sort-btn" onClick={toggleSort}>
-                    <p className="text">Сортувати за рекомендаціями</p>
+                    <p className="text">Сортувати за {sortOption === "rate" ? "популярним" : sortOption === "priceHigh" ? "найдорожчими" : sortOption === "priceLow" ? "найдешевшими" : "рекомендаціями"}</p>
                     <img className="icon" style={{ transform: isSortOpen ? "rotate(270deg)" : "rotate(90deg)", transition: "transform 0.3s" }} src="/images/orange-arrow.png" />
                 </div>
                 <div className="map-btn">
@@ -172,10 +191,10 @@ function ApartmentPage() {
             {isSortOpen && (
                 <div className="sort-window">
                     <div className="sort-container">
-                        <div className="sort-item"><p className="text">Популярним</p></div>
-                        <div className="sort-item"><p className="text">Рекомендаціями</p></div>
-                        <div className="sort-item"><p className="text">Найдорожчими цінами</p></div>
-                        <div className="sort-item"><p className="text">Найдешевшими цінами</p></div>
+                        <div className="sort-item" onClick={() => { setSortOption("rate"); setIsSortOpen(false); }}><p className="text">Популярним</p></div>
+                        <div className="sort-item" onClick={() => { setSortOption("default"); setIsSortOpen(false); }}><p className="text">Рекомендаціями</p></div>
+                        <div className="sort-item" onClick={() => { setSortOption("priceHigh"); setIsSortOpen(false); }}><p className="text">Найдорожчими цінами</p></div>
+                        <div className="sort-item" onClick={() => { setSortOption("priceLow"); setIsSortOpen(false); }}><p className="text">Найдешевшими цінами</p></div>
                         <div className="sort-item"><p className="text">Найкращими відгуками</p></div>
                         <div className="sort-item"><p className="text">Знижками</p></div>
                     </div>
