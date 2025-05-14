@@ -44,7 +44,6 @@ function ApartmentPage() {
         'Місто', 'Культура', 'Сім’я', 'Розкіш', 'Природа',
         'Оздоровлення', 'Активний відпочинок', 'Романтика', 'Екзотика', 'Розслаблення',
     ];
-
     const directions2 = [
         'Холодильник', 'Гідромасажна ванна', 'Wi-Fi', 'Сауна', 'Двоспальне ліжко',
         'Басейн', 'Кондиціонер', 'Сад або задній двір', 'Гриль', 'Тераса', 'Балкон', 'ТБ', 'Постільна білизна', 'Камін',
@@ -53,6 +52,12 @@ function ApartmentPage() {
     ];
     const displayed = showMore ? directions : directions.slice(0, 6);
     const displayed2 = showMore ? directions2 : directions2.slice(0, 6);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedStars, setSelectedStars] = useState([]);
+    const [selectedFeatures, setSelectedFeatures] = useState([]);
+    const [selectedDirections, setSelectedDirections] = useState([]);
+    const [selectedAccessibilities, setSelectedAccessibilities] = useState([]);
+    const [selectedSafeties, setSelectedSafeties] = useState([]);
 
     const fetchApartments = async () => {
         try {
@@ -83,11 +88,49 @@ function ApartmentPage() {
         const value = Math.min(Number(e.target.value), maxPrice - 1);
         setMinPrice(value);
     };
-
     const handleMaxChange = (e) => {
         const value = Math.max(Number(e.target.value), minPrice + 1);
         setMaxPrice(value);
     };
+    const handleCheckboxChange = (value, stateSetter) => {
+        stateSetter(prev =>
+            prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]
+        );
+    };
+    const applyFilters = () => {
+        const filtered = apartments.filter(ap => {
+            const byCategory = selectedCategories.length === 0 || selectedCategories.includes(ap.apartmentCategory); // если добавлено поле
+            const byStars =
+                selectedStars.length === 0 ||
+                selectedStars.some(star => {
+                    const starNum = parseInt(star, 10);
+                    return ap.apartmentRate >= starNum && ap.apartmentRate < starNum + 1;
+                });
+
+            const byDirections = selectedDirections.length === 0 || selectedDirections.some(dir => ap.apartmentName.includes(dir));
+            const byFeatures = selectedFeatures.length === 0 || selectedFeatures.every(f => ap.apartmentName.includes(f)); // можно заменить логикой по вашему полю
+            const byAccess = selectedAccessibilities.length === 0; // заглушка — подстраивай под структуру
+            const bySafety = selectedSafeties.length === 0; // заглушка
+            const byPrice = ap.apartmentPrice >= minPrice && ap.apartmentPrice <= maxPrice;
+
+            return byCategory && byStars && byDirections && byFeatures && byAccess && bySafety && byPrice;
+        });
+
+        setApartments(filtered);
+        setIsFilterOpen(false);
+    };
+    const clearFilters = () => {
+        setSelectedCategories([]);
+        setSelectedStars([]);
+        setSelectedFeatures([]);
+        setSelectedDirections([]);
+        setSelectedAccessibilities([]);
+        setSelectedSafeties([]);
+        setMinPrice(0);
+        setMaxPrice(2500);
+        fetchApartments();
+    };
+
 
     useEffect(() => {
         const container = rightFilterRef.current;
@@ -218,14 +261,14 @@ function ApartmentPage() {
                             <div className="category-container" ref={housingRef} data-section="Категорії житла">
                                 <h2>Категорії житла</h2>
                                 <div className='checkbox-container'>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="house" /> Будинок</label>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="apartment" /> Апартаменти</label>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="cottage" /> Котедж</label>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="villa" /> Вілла</label>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="glamping" /> Глемпінг</label>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="townhouse" /> Таунхаус</label>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="chalet" /> Шале</label>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="camping" /> Кемпінг</label>
+                                    <label><input className='checkbox-square' type="checkbox" name="category" value="house" onChange={() => handleCheckboxChange("Будинок", setSelectedCategories)} /> Будинок</label>
+                                    <label><input className='checkbox-square' type="checkbox" name="category" value="apartment" onChange={() => handleCheckboxChange("Апартаменти", setSelectedCategories)} /> Апартаменти</label>
+                                    <label><input className='checkbox-square' type="checkbox" name="category" value="cottage" onChange={() => handleCheckboxChange("Котедж", setSelectedCategories)} /> Котедж</label>
+                                    <label><input className='checkbox-square' type="checkbox" name="category" value="villa" onChange={() => handleCheckboxChange("Вілла", setSelectedCategories)} /> Вілла</label>
+                                    <label><input className='checkbox-square' type="checkbox" name="category" value="glamping" onChange={() => handleCheckboxChange("Глемпінг", setSelectedCategories)} /> Глемпінг</label>
+                                    <label><input className='checkbox-square' type="checkbox" name="category" value="townhouse" onChange={() => handleCheckboxChange("Таунхаус", setSelectedCategories)} /> Таунхаус</label>
+                                    <label><input className='checkbox-square' type="checkbox" name="category" value="chalet" onChange={() => handleCheckboxChange("Шале", setSelectedCategories)} /> Шале</label>
+                                    <label><input className='checkbox-square' type="checkbox" name="category" value="camping" onChange={() => handleCheckboxChange("Кемпінг", setSelectedCategories)} /> Кемпінг</label>
                                 </div>
                             </div>
 
@@ -253,10 +296,10 @@ function ApartmentPage() {
                             <div className="category-container" ref={starsRef} data-section="Кількість зірок">
                                 <h2>Кількість зірок</h2>
                                 <div className='checkbox-container' style={{ height: "140px" }}>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="2" /> 2 <img src="/images/rate-icon.png" className="icon"></img></label>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="3" /> 3 <img src="/images/rate-icon.png" className="icon"></img></label>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="4" /> 4 <img src="/images/rate-icon.png" className="icon"></img></label>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="5" /> 5 <img src="/images/rate-icon.png" className="icon"></img></label>
+                                    <label> <input className='checkbox-square' type="checkbox" value="2" checked={selectedStars.includes("2")} onChange={() => handleCheckboxChange("2", setSelectedStars)} /> 2 <img src="/images/rate-icon.png" className="icon" /></label>
+                                    <label> <input className='checkbox-square' type="checkbox" value="3" checked={selectedStars.includes("3")} onChange={() => handleCheckboxChange("3", setSelectedStars)} /> 3 <img src="/images/rate-icon.png" className="icon" /> </label>
+                                    <label> <input className='checkbox-square' type="checkbox" value="4" checked={selectedStars.includes("4")} onChange={() => handleCheckboxChange("4", setSelectedStars)} /> 4 <img src="/images/rate-icon.png" className="icon" /> </label>
+                                    <label> <input className='checkbox-square' type="checkbox" value="5" checked={selectedStars.includes("5")} onChange={() => handleCheckboxChange("5", setSelectedStars)} /> 5 <img src="/images/rate-icon.png" className="icon" /> </label>
                                 </div>
                             </div>
 
@@ -339,10 +382,10 @@ function ApartmentPage() {
                     </div>
 
                     <div className="bottom-filter-container">
-                        <div className="clear-btn">
+                        <div className="clear-btn" onClick={clearFilters}>
                             <p>Скинути все</p>
                         </div>
-                        <div className="apply-btn">
+                        <div className="apply-btn" onClick={applyFilters}>
                             <p>Застосувати</p>
                         </div>
                     </div>
