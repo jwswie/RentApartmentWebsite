@@ -457,6 +457,7 @@ function App() {
                 <Route path="/account" element={<ProfileProtectedRoute user={user}><AccountPage setUser={updateUser} /></ProfileProtectedRoute>} />
                 <Route path="/profile" element={<ProfileProtectedRoute user={user}><ProfilePage setUser={updateUser} /></ProfileProtectedRoute>} />
                 <Route path="/apartments" element={<ApartmentPage />} />
+                <Route path="/apartments/:country" element={<ApartmentPage />} />
             </Routes>
 
             {!isAdminPage && (
@@ -502,9 +503,6 @@ function App() {
                                     <Link to="https://www.viber.com/en/"><img src="images/vyber-icon.svg" alt="Vyber image" className="group-icon"></img></Link>
                                     <Link to="https://web.telegram.org/"><img src="images/telegram-icon.svg" alt="Telegram image" className="group-icon"></img></Link>
                                     <Link to="https://www.facebook.com/"><img src="images/facebook-icon.svg" alt="Facebook image" className="group-icon"></img></Link>
-                                    
-                                    
-                                    
                                 </div>
                             </div>
                         </div>

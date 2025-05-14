@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './css/country-style.css';
 
 function CountriesPage() {
@@ -6,6 +7,9 @@ function CountriesPage() {
     const [showAll, setShowAll] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
+    const visibleCountries = showAll ? countries : countries.slice(0, 16);
+    const displayedCountries = searchResults.length > 0 ? searchResults : visibleCountries;
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch("/api/countries")
@@ -15,8 +19,12 @@ function CountriesPage() {
         window.scrollTo(0, 0);
     }, []);
 
-    const visibleCountries = showAll ? countries : countries.slice(0, 16);
+    const toggleShowAll = () => setShowAll(prev => !prev);
 
+    const handleCountryClick = (countryName) => {
+        navigate(`/apartments/${encodeURIComponent(countryName)}`);
+    };
+    
     const handleSearch = (e) => {
         e.preventDefault();
         const results = countries.filter(country =>
@@ -24,10 +32,6 @@ function CountriesPage() {
         );
         setSearchResults(results);
     };
-
-    const displayedCountries = searchResults.length > 0 ? searchResults : visibleCountries;
-
-    const toggleShowAll = () => setShowAll(prev => !prev);
 
     return (
         <div className="main-container">
@@ -71,7 +75,7 @@ function CountriesPage() {
             <div className="country-block">
                 <div className="country-container">
                     {displayedCountries.map((country, index) => (
-                        <div className="country-item" key={index}>
+                        <div className="country-item" key={index} onClick={() => handleCountryClick(country.countryName)}>
                             <div className="country-img-wrapper">
                                 <img
                                     src={`images/${country.countryPhoto}`}

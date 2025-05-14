@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import './css/apartment-style.css';
 function ApartmentPage() {
-
+    const { country } = useParams();
     const [apartments, setApartments] = useState([]);
     const [showAll, setShowAll] = useState(false);
     const visibleApartments = showAll ? apartments : apartments.slice(0, 12);
@@ -38,11 +38,12 @@ function ApartmentPage() {
     const fetchApartments = async () => {
         try {
             const response = await fetch("/api/apartment");
-            if (!response.ok) {
-                throw new Error('Не вдалося завантажити житло');
-            }
+            if (!response.ok) throw new Error('Не вдалося завантажити житло');
             const data = await response.json();
-            setApartments(data);
+
+            const filtered = country ? data.filter(ap => ap.apartmentCountry === decodeURIComponent(country)) : data;
+            setApartments(filtered);
+            console.log(filtered)
         } catch (error) {
             console.error('Помилка:', error);
         }
@@ -53,7 +54,10 @@ function ApartmentPage() {
         window.scrollTo(0, 0);
     }, []);
 
-    const toggleShowAll = () => setShowAll(prev => !prev);
+    const toggleShowAll = () => {
+        setShowAll(prev => !prev);
+        window.scrollTo(0, 0);
+    };
     const toggleSort = () => setIsSortOpen(prev => !prev);
     const toggleFilter = () => setIsFilterOpen(prev => !prev);
     const handleMinChange = (e) => {
@@ -99,7 +103,7 @@ function ApartmentPage() {
             <div className="apartment-header">
                 <div className="apartment-nav">
                     <p className="nav">Головна</p>
-                    <img src="images/black-arrow.png" className="nav-arrow"></img>
+                    <img src="/images/black-arrow.png" className="nav-arrow"></img>
                     <p className="nav" style={{ fontWeight: "100" }}><u>Вибір житла</u></p>
                 </div>
                 <h2>Вибір житла</h2>
@@ -107,10 +111,10 @@ function ApartmentPage() {
 
             <div className="apartment-banner">
                 <div className="banner-container">
-                    <img src="images/apartment-banner.png" alt="Home banner image" className="banner-img"></img>
+                    <img src="/images/apartment-banner.png" alt="Home banner image" className="banner-img"></img>
                     <div className="search-container">
                         <div className="search-item item-1">
-                            <img src="images/search-icon1.png" className="label-search" />
+                            <img src="/images/search-icon1.png" className="label-search" />
                             <div className="label-group">
                                 <h6 className="label-title">Куди?</h6>
                                 <p className="label-subtitle">Оберіть потрібну країну</p>
@@ -134,7 +138,7 @@ function ApartmentPage() {
                         </div>
 
                         <div className="search-item item-4">
-                            <img src="images/search-icon3.png" style={{ marginLeft: "5px" }} className="label-search" />
+                            <img src="/images/search-icon3.png" style={{ marginLeft: "5px" }} className="label-search" />
                             <div className="label-group">
                                 <h6 className="label-title">Гості</h6>
                                 <p className="label-subtitle" style={{ whiteSpace: "nowrap" }}>Хто вирушає з вами?</p>
@@ -142,7 +146,7 @@ function ApartmentPage() {
                         </div>
 
                         <div className="search-app-btn">
-                            <img src="images/search-icon.svg" style={{ width: "25px", height: "25px" }} alt="Search button image" className="btn-search" />
+                            <img src="/images/search-icon.svg" style={{ width: "25px", height: "25px" }} alt="Search button image" className="btn-search" />
                         </div>
                     </div>
                 </div>
@@ -151,17 +155,17 @@ function ApartmentPage() {
             <div className='apartment-search'>
                 <div className="sort-btn" onClick={toggleSort}>
                     <p className="text">Сортувати за рекомендаціями</p>
-                    <img className="icon" style={{ transform: isSortOpen ? "rotate(270deg)" : "rotate(90deg)", transition: "transform 0.3s" }} src="images/orange-arrow.png" />
+                    <img className="icon" style={{ transform: isSortOpen ? "rotate(270deg)" : "rotate(90deg)", transition: "transform 0.3s" }} src="/images/orange-arrow.png" />
                 </div>
                 <div className="map-btn">
-                    <img className="icon" src="images/map-icon.png" />
+                    <img className="icon" src="/images/map-icon.png" />
                     <p className="text">Перейти до карти</p>
                 </div>
 
                 <div className="filter-btn" onClick={toggleFilter}>
-                    <img className="filter-icon" src="images/filter-icon.png" />
+                    <img className="filter-icon" src="/images/filter-icon.png" />
                     <p className="text">Фільтри</p>
-                    <img className="icon" style={{ transform: isFilterOpen ? "rotate(270deg)" : "rotate(90deg)", transition: "transform 0.3s" }} src="images/orange-arrow.png" />
+                    <img className="icon" style={{ transform: isFilterOpen ? "rotate(270deg)" : "rotate(90deg)", transition: "transform 0.3s" }} src="/images/orange-arrow.png" />
                 </div>
             </div>
 
@@ -230,10 +234,10 @@ function ApartmentPage() {
                             <div className="category-container" ref={starsRef} data-section="Кількість зірок">
                                 <h2>Кількість зірок</h2>
                                 <div className='checkbox-container' style={{ height: "140px" }}>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="2" /> 2 <img src="images/rate-icon.png" className="icon"></img></label>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="3" /> 3 <img src="images/rate-icon.png" className="icon"></img></label>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="4" /> 4 <img src="images/rate-icon.png" className="icon"></img></label>
-                                    <label><input className='checkbox-square' type="checkbox" name="category" value="5" /> 5 <img src="images/rate-icon.png" className="icon"></img></label>
+                                    <label><input className='checkbox-square' type="checkbox" name="category" value="2" /> 2 <img src="/images/rate-icon.png" className="icon"></img></label>
+                                    <label><input className='checkbox-square' type="checkbox" name="category" value="3" /> 3 <img src="/images/rate-icon.png" className="icon"></img></label>
+                                    <label><input className='checkbox-square' type="checkbox" name="category" value="4" /> 4 <img src="/images/rate-icon.png" className="icon"></img></label>
+                                    <label><input className='checkbox-square' type="checkbox" name="category" value="5" /> 5 <img src="/images/rate-icon.png" className="icon"></img></label>
                                 </div>
                             </div>
 
@@ -330,9 +334,9 @@ function ApartmentPage() {
                 <div className="apartment-container">
                     {visibleApartments.map((apartment, index) => (
                         <div className="apartment-item" key={index}>
-                            <img src={`images/${apartment.apartmentPhoto}`} alt="Apartment Photo" className="apartment-img" />
+                            <img src={`/images/${apartment.apartmentPhoto}`} alt="Apartment Photo" className="apartment-img" />
                             <div className="favourite">
-                                <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
+                                <img src="/images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
                             </div>
                             <div className="info">
                                 <h4 className="header">{apartment.apartmentName}</h4>
@@ -343,12 +347,12 @@ function ApartmentPage() {
                                     <p className='price-small'>/ ніч</p>
                                     <div className='more-button-group'>
                                         <p>Детальніше</p>
-                                        <img src="images/arrow.svg" className="icon"></img>
+                                        <img src="/images/arrow.svg" className="icon"></img>
                                     </div>
                                 </div>
                                 <div className="review-container">
                                     <div className='rate-group'>
-                                        <img src="images/rate-icon.png" className="icon"></img>
+                                        <img src="/images/rate-icon.png" className="icon"></img>
                                         <p>{apartment.apartmentRate}</p>
                                     </div>
                                     <p className='reviews'>(176 відгуків)</p>
@@ -359,7 +363,7 @@ function ApartmentPage() {
                 </div>
                 <button className="more-btn" onClick={toggleShowAll}>
                     {showAll ? 'Переглянути менше' : 'Переглянути більше'}
-                    <img src="images/profile-arrow.png" style={{ transform: showAll ? 'rotate(-90deg)' : 'rotate(90deg)', marginLeft: '10px' }} />
+                    <img src="/images/profile-arrow.png" style={{ transform: showAll ? 'rotate(-90deg)' : 'rotate(90deg)', marginLeft: '10px' }} />
                 </button>
             </div>
         </div>

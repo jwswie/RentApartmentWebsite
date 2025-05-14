@@ -182,8 +182,7 @@
 
         .apartment-search .sort-btn .text {
             position: relative;
-            top: 7px;
-            font-family: 'Source Sans Pro';
+            top: 5px;
             font-weight: 600;
             font-size: 18px;
             line-height: 12px;
@@ -239,8 +238,7 @@
 
         .apartment-search .filter-btn .text {
             position: relative;
-            top: 7px;
-            font-family: 'Source Sans Pro';
+            top: 5px;
             font-weight: 600;
             font-size: 18px;
             line-height: 12px;
