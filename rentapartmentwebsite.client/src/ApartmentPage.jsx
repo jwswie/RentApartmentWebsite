@@ -6,6 +6,8 @@ function ApartmentPage() {
     const [apartments, setApartments] = useState([]);
     const [showAll, setShowAll] = useState(false);
     const [showMore, setShowMore] = useState(false);
+
+    //#region SortVariables
     const [isSortOpen, setIsSortOpen] = useState(false);
     const [sortOption, setSortOption] = useState(null);
     const getSortedApartments = () => {
@@ -26,8 +28,12 @@ function ApartmentPage() {
         return sorted;
     };
     const sortedApartments = getSortedApartments();
+    //#endregion
+
     const visibleApartments = showAll ? sortedApartments : sortedApartments.slice(0, 12);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+    //#region SectionVariables
     const [activeSection, setActiveSection] = useState("Категорії житла");
     const housingRef = useRef();
     const directionRef = useRef();
@@ -36,6 +42,8 @@ function ApartmentPage() {
     const featuresRef = useRef();
     const safetyRef = useRef();
     const accessRef = useRef();
+    //#endregion
+
     const rightFilterRef = useRef();
     const [activeType, setActiveType] = useState('night');
     const [minPrice, setMinPrice] = useState(0);
@@ -52,12 +60,15 @@ function ApartmentPage() {
     ];
     const displayed = showMore ? directions : directions.slice(0, 6);
     const displayed2 = showMore ? directions2 : directions2.slice(0, 6);
+
+    //#region CheckboxVariables
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedStars, setSelectedStars] = useState([]);
     const [selectedFeatures, setSelectedFeatures] = useState([]);
     const [selectedDirections, setSelectedDirections] = useState([]);
     const [selectedAccessibilities, setSelectedAccessibilities] = useState([]);
     const [selectedSafeties, setSelectedSafeties] = useState([]);
+    //#endregion
 
     const fetchApartments = async () => {
         try {
@@ -97,9 +108,16 @@ function ApartmentPage() {
             prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]
         );
     };
+
     const applyFilters = () => {
         const filtered = apartments.filter(ap => {
-            const byCategory = selectedCategories.length === 0 || selectedCategories.includes(ap.apartmentCategory); // если добавлено поле
+            const byCategory =
+                selectedCategories.length === 0 ||
+                selectedCategories.some(cat =>
+                    ap.categories && ap.categories.includes(cat)
+                );
+
+
             const byStars =
                 selectedStars.length === 0 ||
                 selectedStars.some(star => {
@@ -119,6 +137,7 @@ function ApartmentPage() {
         setApartments(filtered);
         setIsFilterOpen(false);
     };
+
     const clearFilters = () => {
         setSelectedCategories([]);
         setSelectedStars([]);
@@ -130,7 +149,6 @@ function ApartmentPage() {
         setMaxPrice(2500);
         fetchApartments();
     };
-
 
     useEffect(() => {
         const container = rightFilterRef.current;

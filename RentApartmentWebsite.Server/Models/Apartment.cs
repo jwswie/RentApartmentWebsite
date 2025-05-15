@@ -55,5 +55,8 @@ namespace RentApartmentWebsite.Server.Models
 
         [Required]
         public int OwnerID { get; set; }
+
+        public ICollection<ApartmentInfrastructure> Infrastructures { get; set; } = new List<ApartmentInfrastructure>();
+        public ICollection<ApartmentCategory> Categories { get; set; } = new List<ApartmentCategory>();
     }
 }
