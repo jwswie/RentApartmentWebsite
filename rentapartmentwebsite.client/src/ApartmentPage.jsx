@@ -40,7 +40,7 @@ function ApartmentPage() {
     const directionRef = useRef();
     const starsRef = useRef();
     const priceRef = useRef();
-    const featuresRef = useRef();
+    const amenitiesRef = useRef();
     const safetyRef = useRef();
     const accessRef = useRef();
     //#endregion
@@ -53,19 +53,19 @@ function ApartmentPage() {
         'Місто', 'Культура', 'Сім’я', 'Розкіш', 'Природа',
         'Оздоровлення', 'Активний відпочинок', 'Романтика', 'Екзотика', 'Розслаблення',
     ];
-    const directions2 = [
+    const amenities = [
         'Холодильник', 'Гідромасажна ванна', 'Wi-Fi', 'Сауна', 'Двоспальне ліжко',
         'Басейн', 'Кондиціонер', 'Сад або задній двір', 'Гриль', 'Тераса', 'Балкон', 'ТБ', 'Постільна білизна', 'Камін',
         'Пральна машинка', 'Сушарка', 'Мікрохвильова піч', 'Духовка', 'Електрична піч', 'Посудомийна машина', 'Дитяче ліжко', 'Праска',
         'Дитячий стільчик', 'Прасувальна дошка'
     ];
     const displayed = showMore ? directions : directions.slice(0, 6);
-    const displayed2 = showMore ? directions2 : directions2.slice(0, 6);
+    const displayedAmenities = showMore ? amenities : amenities.slice(0, 6);
 
     //#region CheckboxVariables
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedStars, setSelectedStars] = useState([]);
-    const [selectedFeatures, setSelectedFeatures] = useState([]);
+    const [selectedAmenities, setSelectedAmenities] = useState([]);
     const [selectedDirections, setSelectedDirections] = useState([]);
     const [selectedAccessibilities, setSelectedAccessibilities] = useState([]);
     const [selectedSafeties, setSelectedSafeties] = useState([]);
@@ -119,12 +119,15 @@ function ApartmentPage() {
                 return ap.apartmentRate >= starNum && ap.apartmentRate < starNum + 1;
             });
             const byDirections = selectedDirections.length === 0 || selectedDirections.some(dir => ap.apartmentName.includes(dir));
-            const byFeatures = selectedFeatures.length === 0 || selectedFeatures.every(f => ap.apartmentName.includes(f));
+            const byAmenities =
+                selectedAmenities.length === 0 ||
+                selectedAmenities.every(f => ap.amenities?.includes(f));
+
             const byAccess = selectedAccessibilities.length === 0;
             const bySafety = selectedSafeties.length === 0;
             const byPrice = ap.apartmentPrice >= minPrice && ap.apartmentPrice <= maxPrice;
 
-            return byCategory && byStars && byDirections && byFeatures && byAccess && bySafety && byPrice;
+            return byCategory && byStars && byDirections && byAmenities && byAccess && bySafety && byPrice;
         });
 
         setApartments(filtered);
@@ -134,7 +137,7 @@ function ApartmentPage() {
     const clearFilters = () => {
         setSelectedCategories([]);
         setSelectedStars([]);
-        setSelectedFeatures([]);
+        setSelectedAmenities([]);
         setSelectedDirections([]);
         setSelectedAccessibilities([]);
         setSelectedSafeties([]);
@@ -263,7 +266,7 @@ function ApartmentPage() {
                             <div className={activeSection === 'Напрямки' ? "filter-item-active" : "filter-item"} onClick={() => scrollToRef(directionRef)}><p className="text">Напрямки</p></div>
                             <div className={activeSection === 'Кількість зірок' ? "filter-item-active" : "filter-item"} onClick={() => scrollToRef(starsRef)}><p className="text">Кількість зірок</p></div>
                             <div className={activeSection === 'Ціна' ? "filter-item-active" : "filter-item"} onClick={() => scrollToRef(priceRef)}><p className="text">Ціна</p></div>
-                            <div className={activeSection === 'Особливості та зручності' ? "filter-item-active" : "filter-item"} onClick={() => scrollToRef(featuresRef)}><p className="text">Особливості та зручності</p></div>
+                            <div className={activeSection === 'Особливості та зручності' ? "filter-item-active" : "filter-item"} onClick={() => scrollToRef(amenitiesRef)}><p className="text">Особливості та зручності</p></div>
                             <div className={activeSection === 'Безпека' ? "filter-item-active" : "filter-item"} onClick={() => scrollToRef(safetyRef)}><p className="text">Безпека</p></div>
                             <div className={activeSection === 'Доступність' ? "filter-item-active" : "filter-item"} onClick={() => scrollToRef(accessRef)}><p className="text">Доступність</p></div>
                         </div>
@@ -347,16 +350,28 @@ function ApartmentPage() {
 
                             <div className='underline' style={{ marginTop: "15px" }}> </div>
 
-                            <div className="category-container" ref={featuresRef} data-section="Особливості та зручності">
+                            <div className="category-container" ref={amenitiesRef} data-section="Особливості та зручності">
                                 <h2>Особливості та зручності</h2>
 
                                 <div className="checkbox-grid" style={{ columnGap: "40px" }}>
-                                    {displayed2.map((item, index) => (
+                                    {displayedAmenities.map((item, index) => (
                                         <label key={index} style={{ whiteSpace: "nowrap" }}>
-                                            <input className="checkbox-square" type="checkbox" />
+                                            <input
+                                                className="checkbox-square"
+                                                type="checkbox"
+                                                value={item}
+                                                checked={selectedAmenities.includes(item)}
+                                                onChange={(e) => {
+                                                    const { value, checked } = e.target;
+                                                    setSelectedAmenities(prev =>
+                                                        checked ? [...prev, value] : prev.filter(f => f !== value)
+                                                    );
+                                                }}
+                                            />
                                             {item}
                                         </label>
                                     ))}
+
                                 </div>
 
                                 <p className="more-text" onClick={() => setShowMore(prev => !prev)}>

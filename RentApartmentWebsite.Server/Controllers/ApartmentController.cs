@@ -19,6 +19,7 @@ namespace RentApartmentWebsite.Server.Controllers
         {
             var apartments = _context.Apartments
                 .Include(a => a.Categories)
+                .Include(a => a.Amenities)
                 .Select(a => new ApartmentDto
                 {
                     ApartmentID = a.ApartmentID,
@@ -28,7 +29,8 @@ namespace RentApartmentWebsite.Server.Controllers
                     ApartmentCountry = a.ApartmentCountry,
                     ApartmentRate = a.ApartmentRate,
                     ApartmentPhoto = a.ApartmentPhoto,
-                    Categories = a.Categories.Select(c => c.CategoryName).ToList()
+                    Categories = a.Categories.Select(c => c.CategoryName).ToList(),
+                    Amenities = a.Amenities.Select(c => c.AmenityName).ToList()
                 })
                 .ToList();
 

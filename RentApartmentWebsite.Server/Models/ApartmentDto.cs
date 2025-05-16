@@ -10,6 +10,7 @@
         public double ApartmentRate { get; set; }
         public string ApartmentPhoto { get; set; } = "";
         public List<string> Categories { get; set; } = new();
+        public List<string> Amenities { get; set; } = new();
     }
 
 }
