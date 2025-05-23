@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useSearchParams, useParams, useNavigate } from 'react-router-dom';
 import './css/apartment-style.css';
+
 function ApartmentPage() {
     const { country } = useParams();
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
+    const initialCategory = searchParams.get('category');
     const [allApartments, setAllApartments] = useState([]);
     const [apartments, setApartments] = useState([]);
     const [showAll, setShowAll] = useState(false);
@@ -79,6 +83,12 @@ function ApartmentPage() {
             const filtered = country ? data.filter(ap => ap.apartmentCountry === decodeURIComponent(country)) : data;
             setAllApartments(filtered);
             setApartments(filtered);
+
+            if (initialCategory) {
+                setSelectedCategories([initialCategory]);
+                const categoryFiltered = filtered.filter(ap => ap.categories?.includes(initialCategory));
+                setApartments(categoryFiltered);
+            }
         } catch (error) {
             console.error('Помилка:', error);
         }
@@ -88,6 +98,17 @@ function ApartmentPage() {
         fetchApartments();
         window.scrollTo(0, 0);
     }, []);
+
+    useEffect(() => {
+        if (initialCategory) {
+            setSelectedCategories([initialCategory]);
+            const categoryFiltered = allApartments.filter(ap => ap.categories?.includes(initialCategory));
+            setApartments(categoryFiltered);
+
+            navigate("/apartments", { replace: true });
+        }
+    }, [initialCategory, allApartments]);
+
 
     const toggleShowAll = () => {
         setShowAll(prev => !prev);
@@ -187,7 +208,7 @@ function ApartmentPage() {
 
             <div className="apartment-banner">
                 <div className="banner-container">
-                    <img src="/images/apartment-banner.png" alt="Home banner image" className="banner-img"></img>
+                    <img src="/images/apartment-banner.png" className="banner-img"></img>
                     <div className="search-container">
                         <div className="search-item item-1">
                             <img src="/images/search-icon1.png" className="label-search" />
@@ -222,7 +243,7 @@ function ApartmentPage() {
                         </div>
 
                         <div className="search-app-btn">
-                            <img src="/images/search-icon.svg" style={{ width: "25px", height: "25px" }} alt="Search button image" className="btn-search" />
+                            <img src="/images/search-icon.svg" style={{ width: "25px", height: "25px" }} className="btn-search" />
                         </div>
                     </div>
                 </div>
@@ -422,9 +443,9 @@ function ApartmentPage() {
                 <div className="apartment-container">
                     {visibleApartments.map((apartment, index) => (
                         <div className="apartment-item" key={index}>
-                            <img src={`/images/${apartment.apartmentPhoto}`} alt="Apartment Photo" className="apartment-img" />
+                            <img src={`/images/${apartment.apartmentPhoto}`} className="apartment-img" />
                             <div className="favourite">
-                                <img src="/images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
+                                <img src="/images/favourite-icon.png" className="favourite-btn" />
                             </div>
                             <div className="info">
                                 <h4 className="header">{apartment.apartmentName}</h4>

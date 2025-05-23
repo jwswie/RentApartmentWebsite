@@ -92,8 +92,6 @@ function ProfilePage({ setUser }) {
         }
     };
 
-
-
     const handlePasswordSave = async () => {
         try {
             if (!editingAdminPassword || !editingAdminPassword.password) {
@@ -124,40 +122,28 @@ function ProfilePage({ setUser }) {
         navigate('/admin');
     };
 
-    const goToAccount = () => {
-        navigate('/account');
-    }
-
     return (
         <div className="main-container" style={{ marginTop: "-20px" }}>
-            <img src="images/profile-banner.png" alt="Banner image" className="profile-banner"></img>
+            <img src="images/profile-banner.png" className="profile-banner"></img>
             <div className="profile-nav">
-                <p className="nav" onClick={goToAccount}>Обліковий запис</p>
-                <img src="images/profile-arrow.png" alt="Arrow image" className="profile-arrow"></img>
+                <p className="nav" onClick={() => navigate('/account')}>Обліковий запис</p>
+                <img src="images/profile-arrow.png" className="profile-arrow"></img>
                 <p className="nav" style={{ fontWeight: "100" }}><u>Профіль</u></p>
             </div>
 
             <div className="profile-block">
                 {user?.photo ? (
-                    <img
-                        src={`data:image/jpeg;base64,${user.photo}`}
-                        alt="Profile"
-                        className="profile-pictire"
-                    />
+                    <img src={`data:image/jpeg;base64,${user.photo}`} className="profile-pictire" />
                 ) : (
                     <div className="profile-picture-wrapper">
-                        <img src="images/no-pfp.png" alt="No Profile" className="no-profile-picture" />
+                        <img src="images/no-pfp.png" className="no-profile-picture" />
                     </div>
                 )}
-
 
                 <p className="user-name">{user?.userName || user?.adminName || 'User not found'}</p>
                 <p className="role">{adminRole ? adminRole : "Гість"}</p>
                 <div className="edit-name-button">
-                    <img
-                        src="images/edit-icon.svg"
-                        alt="Edit image"
-                        className="edit-pictire"
+                    <img src="images/edit-icon.svg" className="edit-pictire"
                         onClick={() => {
                             if (adminRole) {
                                 setEditingAdminName(user);
@@ -193,42 +179,42 @@ function ProfilePage({ setUser }) {
 
             <div className="user-info">
                 <div className="user-info-item">
-                    <img src="images/user-info-icon1.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/user-info-icon1.png" className="info-icon"></img>
                     <h1 className="header">Місце проживання:</h1>
                     <p className="sub-header">Київ, Україна</p>
                 </div>
                 <div className="user-info-item">
-                    <img src="images/user-info-icon2.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/user-info-icon2.png" className="info-icon"></img>
                     <h1 className="header">Навчальний заклад:</h1>
                     <p className="sub-header">КПІ ім. Ігоря Сікорського</p>
                 </div>
                 <div className="user-info-item">
-                    <img src="images/user-info-icon3.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/user-info-icon3.png" className="info-icon"></img>
                     <h1 className="header">Домашні тварини:</h1>
                     <p className="sub-header">Кролик</p>
                 </div>
                 <div className="user-info-item">
-                    <img src="images/user-info-icon4.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/user-info-icon4.png" className="info-icon"></img>
                     <h1 className="header">Подорож моєї мрії:</h1>
                     <p className="sub-header">Колізей у центрі Риму в Італії</p>
                 </div>
                 <div className="user-info-item">
-                    <img src="images/user-info-icon5.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/user-info-icon5.png" className="info-icon"></img>
                     <h1 className="header">Моя професія:</h1>
                     <p className="sub-header">Frontend Developer</p>
                 </div>
                 <div className="user-info-item">
-                    <img src="images/user-info-icon6.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/user-info-icon6.png" className="info-icon"></img>
                     <h1 className="header">Володіє такими мовами:</h1>
                     <p className="sub-header">Англійська, Українська</p>
                 </div>
                 <div className="user-info-item">
-                    <img src="images/user-info-icon7.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/user-info-icon7.png" className="info-icon"></img>
                     <h1 className="header">Найбільше захоплення:</h1>
                     <p className="sub-header">Гори, море та закат</p>
                 </div>
                 <div className="user-info-item">
-                    <img src="images/user-info-icon8.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/user-info-icon8.png" className="info-icon"></img>
                     <h1 className="header">Шкідливі звички:</h1>
                     <p className="sub-header">Алкоголь</p>
                 </div>
@@ -247,51 +233,51 @@ function ProfilePage({ setUser }) {
 
             <div className="interests-info" style={{ marginBottom: "300px" }}>
                 <div className="interests-info-item">
-                    <img src="images/interests-icon1.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/interests-icon1.png" className="info-icon"></img>
                     <p className="sub-header">Більярд</p>
                 </div>
                 <div className="interests-info-item">
-                    <img src="images/interests-icon2.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/interests-icon2.png" className="info-icon"></img>
                     <p className="sub-header">Відеоігри</p>
                 </div>
                 <div className="interests-info-item">
-                    <img src="images/interests-icon3.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/interests-icon3.png" className="info-icon"></img>
                     <p className="sub-header">Гастрономія</p>
                 </div>
                 <div className="interests-info-item">
-                    <img src="images/interests-icon4.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/interests-icon4.png" className="info-icon"></img>
                     <p className="sub-header">Гумор</p>
                 </div>
                 <div className="interests-info-item">
-                    <img src="images/interests-icon5.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/interests-icon5.png" className="info-icon"></img>
                     <p className="sub-header">Жива музика</p>
                 </div>
                 <div className="interests-info-item">
-                    <img src="images/interests-icon6.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/interests-icon6.png" className="info-icon"></img>
                     <p className="sub-header">Кава</p>
                 </div>
                 <div className="interests-info-item">
-                    <img src="images/interests-icon7.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/interests-icon7.png" className="info-icon"></img>
                     <p className="sub-header">Кіно</p>
                 </div>
                 <div className="interests-info-item">
-                    <img src="images/interests-icon8.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/interests-icon8.png" className="info-icon"></img>
                     <p className="sub-header">Подорожі</p>
                 </div>
                 <div className="interests-info-item">
-                    <img src="images/interests-icon9.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/interests-icon9.png" className="info-icon"></img>
                     <p className="sub-header">Піші прогулянки</p>
                 </div>
                 <div className="interests-info-item">
-                    <img src="images/interests-icon10.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/interests-icon10.png" className="info-icon"></img>
                     <p className="sub-header">Технології</p>
                 </div>
                 <div className="interests-info-item">
-                    <img src="images/interests-icon11.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/interests-icon11.png" className="info-icon"></img>
                     <p className="sub-header">Читання</p>
                 </div>
                 <div className="interests-info-item">
-                    <img src="images/interests-icon12.png" alt="Icon image" className="info-icon"></img>
+                    <img src="images/interests-icon12.png" className="info-icon"></img>
                     <p className="sub-header">Шопінг</p>
                 </div>
             </div>
@@ -299,14 +285,14 @@ function ProfilePage({ setUser }) {
             {editingAdminName !== null || editingUser !== null && (
                 <div className="modal-window">
                     <div className="edit-photo-name">
-                        <img src="images/cross.png" alt="Cross image" className="close-btn" onClick={closeModal}></img>
+                        <img src="images/cross.png" className="close-btn" onClick={closeModal}></img>
                         <header>Редагування даних</header>
                         <div class="upload-photo-container">
                             {editingUser?.photo ? (
-                                <img src={`data:image/jpeg;base64,${editingUser?.photoBase64 || editingUser?.photo}`} alt="PFP image" className="edit-photo"></img>
+                                <img src={`data:image/jpeg;base64,${editingUser?.photoBase64 || editingUser?.photo}`} className="edit-photo"></img>
                             ) : (
                                 <div className="profile-picture-wrapper">
-                                    <img src="images/no-pfp.png" alt="PFP image" className="no-profile-picture" />
+                                    <img src="images/no-pfp.png" className="no-profile-picture" />
                                 </div>
                             )}
 
@@ -323,7 +309,7 @@ function ProfilePage({ setUser }) {
 
 
                             <div className='btn-border' onClick={handleDeletePhoto}>
-                                <img src="images/delete-photo-icon.png" alt="delete image" className="delete-photo"></img>
+                                <img src="images/delete-photo-icon.png" className="delete-photo"></img>
                             </div>
 
                             <form>
