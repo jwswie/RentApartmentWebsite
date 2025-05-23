@@ -1,7 +1,7 @@
 .countries-header {
     position: relative;
-    left: 70px;
-    top: 80px;
+    left: 80px;
+    top: 60px;
     height: 120px;
 }
 
@@ -19,6 +19,10 @@
             color: #060606;
         }
 
+            .countries-header .countries-nav .nav:hover {
+                text-decoration: underline;
+            }
+
         .countries-header .countries-nav .nav-arrow {
             width: 10px;
             height: 10px;
@@ -27,7 +31,7 @@
     .countries-header h2 {
         position: relative;
         left: 39%;
-        top: 60px;
+        top: 50px;
         font-weight: 600;
         font-size: 38px;
         color: #060606;
@@ -36,7 +40,7 @@
 .country-search {
     position: relative;
     width: 93.5%;
-    left: 70px;
+    left: 80px;
     top: 150px;
     display: flex;
     flex-direction: row;
@@ -78,7 +82,13 @@
         box-shadow: 0px 5px 20px 3px rgba(6, 6, 6, 0.08);
         border-radius: 12px;
         cursor: pointer;
+        border: none;
+        transition: all 0.1s ease;
     }
+
+        .search-container .country-search-btn:hover {
+            background: #CA4008;
+        }
 
 .country-search .map-btn {
     width: 220px;
@@ -140,8 +150,8 @@
     position: relative;
     width: 92.5%;
     height: auto;
-    left: 70px;
-    top: 180px;
+    left: 80px;
+    top: 190px;
     margin-bottom: 300px;
 }
 
@@ -237,4 +247,9 @@
     border: none;
     color: #FCFCFC;
     cursor: pointer;
+    transition: all 0.1s ease;
 }
+
+    .country-block .more-btn:hover {
+        background: #CA4008;
+    }

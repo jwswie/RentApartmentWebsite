@@ -11,6 +11,7 @@ import AccountPage from './AccountPage';
 import ProfilePage from './ProfilePage';
 import AdminPanel from './AdminPanel';
 import ApartmentPage from './ApartmentPage';
+import ApartmentDetailPage from './ApartmentDetailPage';
 
 function ProfileProtectedRoute({ user, children }) {
     if (!user) {
@@ -457,6 +458,7 @@ function App() {
                 <Route path="/account" element={<ProfileProtectedRoute user={user}><AccountPage setUser={updateUser} /></ProfileProtectedRoute>} />
                 <Route path="/profile" element={<ProfileProtectedRoute user={user}><ProfilePage setUser={updateUser} /></ProfileProtectedRoute>} />
                 <Route path="/apartments" element={<ApartmentPage />} />
+                <Route path="/detail" element={<ApartmentDetailPage />} />
             </Routes>
 
             {!isAdminPage && (
