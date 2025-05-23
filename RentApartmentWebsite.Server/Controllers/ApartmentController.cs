@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RentApartmentWebsite.Server.Models;
 
 namespace RentApartmentWebsite.Server.Controllers
 {
@@ -16,8 +17,25 @@ namespace RentApartmentWebsite.Server.Controllers
         [HttpGet]
         public IActionResult GetApartments()
         {
-            var apartments = _context.Apartments.ToList();
+            var apartments = _context.Apartments
+                .Include(a => a.Categories)
+                .Include(a => a.Amenities)
+                .Select(a => new ApartmentDto
+                {
+                    ApartmentID = a.ApartmentID,
+                    ApartmentName = a.ApartmentName,
+                    ApartmentPrice = a.ApartmentPrice,
+                    ApartmentLocation = a.ApartmentLocation,
+                    ApartmentCountry = a.ApartmentCountry,
+                    ApartmentRate = a.ApartmentRate,
+                    ApartmentPhoto = a.ApartmentPhoto,
+                    Categories = a.Categories.Select(c => c.CategoryName).ToList(),
+                    Amenities = a.Amenities.Select(c => c.AmenityName).ToList()
+                })
+                .ToList();
+
             return Ok(apartments);
         }
+
     }
 }
