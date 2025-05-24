@@ -265,7 +265,6 @@ function App() {
         }
     };
 
-
     //#region HandleCodeInput
     const handleChange = (value, index) => {
         const upperValue = value.toUpperCase();
@@ -312,7 +311,7 @@ function App() {
             {!isAdminPage && (
                 <nav className="navbar">
                     <div className="container">
-                        <Link to="/"><img src="images/logo.png" alt="Logo image" className="logo"></img></Link>
+                        <Link to="/"><img src="/images/logo.png" alt="Logo image" className="logo"></img></Link>
                     </div>
 
                     <div className="navigation">
@@ -324,22 +323,22 @@ function App() {
                     </div>
 
                     <div className="icon-container">
-                        <img src="images/wish-icon.svg" alt="Wish image" className="icon" style={{ width: "26px", height: "26px" }}></img>
+                        <img src="/images/wish-icon.svg" alt="Wish image" className="icon" style={{ width: "26px", height: "26px" }}></img>
 
                         {user ? (
                             <div className="profile-picture-wrapper">
                                 {user?.photo ? (
                                     <Link to="/account" state={{ user: user }}><img src={`data:image/jpeg;base64,${user.photo}`} alt="Profile image" className="profile-pictire"></img></Link>
                                 ) : (
-                                    <Link to="/account" state={{ user: user }}><img src="images/no-pfp.png" alt="Profile image" className="profile-pictire"></img></Link>
+                                    <Link to="/account" state={{ user: user }}><img src="/images/no-pfp.png" alt="Profile image" className="profile-pictire"></img></Link>
                                 )}
                                 
                             </div>  
                         ) : (
-                            <img src="images/profile-icon.svg" alt="Profile image" onClick={() => setIsRegisterWindow(true)} className="icon" style={{ width: "24px", height: "24px" }}></img>
+                            <img src="/images/profile-icon.svg" alt="Profile image" onClick={() => setIsRegisterWindow(true)} className="icon" style={{ width: "24px", height: "24px" }}></img>
                         )}
 
-                        <img src="images/menu-icon.svg" alt="Menu image" className="icon" style={{ width: "24px", height: "24px" }}></img>
+                        <img src="/images/menu-icon.svg" alt="Menu image" className="icon" style={{ width: "24px", height: "24px" }}></img>
                     </div>
                 </nav>
             )}
@@ -349,7 +348,7 @@ function App() {
                     {!isAdmin && !isVerifying ? ( // Если входит пользователь и не стоит проверка кода
                         <div className="login-container">
                             <div className="login form">
-                                <img src="images/cross.png" alt="Cross image" onClick={() => setIsRegisterWindow(false)} className="close-btn"></img>
+                                <img src="/images/cross.png" alt="Cross image" onClick={() => setIsRegisterWindow(false)} className="close-btn"></img>
                                 <header>Вхід / Реєстрація</header>
                                 <form onSubmit={handleLogin}>
                                     <p className="form-header">Електронна пошта</p>
@@ -367,15 +366,15 @@ function App() {
 
                                 <div className="other">
                                     <div className="other-item">
-                                        <img src="images/google-icon.png" alt="Google image" className="other-icon"></img>
+                                        <img src="/images/google-icon.png" alt="Google image" className="other-icon"></img>
                                         <p className="other-text">Увійти з Google</p>
                                     </div>
                                     <div className="other-item">
-                                        <img src="images/facebook-icon.png" alt="Facebook image" className="other-icon" style={{ width: "14px" }}></img>
+                                        <img src="/images/facebook-icon.png" alt="Facebook image" className="other-icon" style={{ width: "14px" }}></img>
                                         <p className="other-text">Увійти з Facebook</p>
                                     </div>
                                     <div className="other-item">
-                                        <img src="images/apple-icon.png" alt="Apple image" className="other-icon"></img>
+                                        <img src="/images/apple-icon.png" alt="Apple image" className="other-icon"></img>
                                         <p className="other-text">Увійти з Apple</p>
                                     </div>
                                 </div>
@@ -388,8 +387,8 @@ function App() {
 
                         <div className="code-container">
                             <div className="login form">
-                                <img src="images/cross.png" onClick={() => setIsRegisterWindow(false)} alt="Cross image" className="close-btn"></img>
-                                <img src="images/arrow.png" onClick={() => setIsVerifying(false)} alt="Arrow image" className="back-btn"></img>
+                                <img src="/images/cross.png" onClick={() => setIsRegisterWindow(false)} alt="Cross image" className="close-btn"></img>
+                                <img src="/images/arrow.png" onClick={() => setIsVerifying(false)} alt="Arrow image" className="back-btn"></img>
                                 <header>Введіть пароль</header>
                                 <form onSubmit={handleAdminLogin} style={{ marginTop: "70px" }}>
                                     <input type="password" className="form-input" placeholder="Введіть пароль" value={password}
@@ -403,8 +402,8 @@ function App() {
                     ) : isVerifying && !isAdmin ? ( // Если стоит проверка кода и входит пользователь
                         <div className="code-container">
                             <div className="login form">
-                                <img src="images/cross.png" onClick={() => setIsRegisterWindow(false)} alt="Cross image" className="close-btn"></img>
-                                <img src="images/arrow.png" onClick={() => setIsVerifying(false)} alt="Arrow image" className="back-btn"></img>
+                                <img src="/images/cross.png" onClick={() => setIsRegisterWindow(false)} alt="Cross image" className="close-btn"></img>
+                                <img src="/images/arrow.png" onClick={() => setIsVerifying(false)} alt="Arrow image" className="back-btn"></img>
                                 <header id='code-header'>Введіть код перевірки</header>
                                 <p className="code-header">Ми надіслали код перевірки на <b>Вашу електронну пошту</b>.<br></br>Перевірте папку з вхідними повідомленнями<br></br>та введіть код нижче.</p>
                                 <p className="code-subheader">*Код підтвердження дійсний протягом 20 хвилин після його отримання.</p>
@@ -459,13 +458,14 @@ function App() {
                 <Route path="/profile" element={<ProfileProtectedRoute user={user}><ProfilePage setUser={updateUser} /></ProfileProtectedRoute>} />
                 <Route path="/apartments" element={<ApartmentPage />} />
                 <Route path="/detail" element={<ApartmentDetailPage />} />
+                <Route path="/apartment/:id" element={<ApartmentDetailPage />} />
             </Routes>
 
             {!isAdminPage && (
                 <div className="footer-area">
                     <div className="container">
                         <div className="col">
-                            <img src="images/footer-logo.png" alt="Logo image" className="footer-logo"></img>
+                            <img src="/images/footer-logo.png" alt="Logo image" className="footer-logo"></img>
                             <div className="col-group">
                                 <p id='copyright'>© 2025 Dwell. Всі права захищені.</p>
                                 <p className='group1-item'>Налаштування файлів cookie</p>
@@ -500,10 +500,10 @@ function App() {
                                 <p className='group2-item'>info@dwell.com</p>
                                 <p id='date' style={{ fontSize: "14px" }}>Пн - Пт 09:00 - 18:00</p>
                                 <div className="icon-group">
-                                    <img src="images/instagram-icon.svg" alt="Instagram image" className="group-icon"></img>
-                                    <img src="images/vyber-icon.svg" alt="Vyber image" className="group-icon"></img>
-                                    <img src="images/telegram-icon.svg" alt="Telegram image" className="group-icon"></img>
-                                    <img src="images/facebook-icon.svg" alt="Facebook image" className="group-icon"></img>
+                                    <img src="/images/instagram-icon.svg" alt="Instagram image" className="group-icon"></img>
+                                    <img src="/images/vyber-icon.svg" alt="Vyber image" className="group-icon"></img>
+                                    <img src="/images/telegram-icon.svg" alt="Telegram image" className="group-icon"></img>
+                                    <img src="/images/facebook-icon.svg" alt="Facebook image" className="group-icon"></img>
                                 </div>
                             </div>
                         </div>

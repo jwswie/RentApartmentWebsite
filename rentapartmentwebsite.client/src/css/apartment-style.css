@@ -12,12 +12,15 @@
     }
 
         .apartment-header .apartment-nav .nav {
-            font-family: 'Source Sans Pro';
             font-weight: 600;
             font-size: 18px;
             line-height: 12px;
             cursor: pointer;
             color: #060606;
+        }
+
+        .apartment-header .apartment-nav .nav:hover {
+            text-decoration: underline;
         }
 
         .apartment-header .apartment-nav .nav-arrow {
@@ -33,7 +36,6 @@
         font-size: 38px;
         color: #060606;
     }
-
 
 .apartment-banner {
     position: relative;
@@ -88,12 +90,7 @@
         flex: 1.5;
     }
 
-    .search-item.item-2,
-    .search-item.item-3 {
-        flex: 1;
-    }
-
-    .search-item.item-4 {
+    .search-item.item-2, .search-item.item-3, .search-item.item-4 {
         flex: 1;
     }
 
@@ -107,7 +104,13 @@
     background: #E84E0F;
     box-shadow: 0px 5px 20px 3px rgba(6, 6, 6, 0.08);
     border-radius: 12px;
+    transition: all 0.1s ease;
+    cursor: pointer;
 }
+
+    .search-app-btn:hover {
+        background: #CA4008;
+    }
 
 .date-picker {
     position: relative;
@@ -210,7 +213,6 @@
         .apartment-search .map-btn .text {
             position: relative;
             top: 7px;
-            font-family: 'Source Sans Pro';
             font-weight: 600;
             font-size: 18px;
             line-height: 12px;
@@ -474,7 +476,12 @@
     border: none;
     color: #FCFCFC;
     cursor: pointer;
+    transition: all 0.1s ease;
 }
+
+    .apartment-block .more-btn:hover {
+        background: #CA4008;
+    }
 
 .sort-window {
     position: absolute;
@@ -514,6 +521,11 @@
             }
 
             .sort-window .sort-container .sort-item:hover {
+                background: #E84E0F;
+                color: #FCFCFC;
+            }
+
+            .sort-window .sort-container .sort-item.active {
                 background: #E84E0F;
                 color: #FCFCFC;
             }

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSearchParams, useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { Link, useSearchParams, useParams, useNavigate } from 'react-router-dom';
 import './css/apartment-style.css';
 
 function ApartmentPage() {
@@ -53,16 +53,8 @@ function ApartmentPage() {
     const [activeType, setActiveType] = useState('night');
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(2500);
-    const directions = [
-        'Місто', 'Культура', 'Сім’я', 'Розкіш', 'Природа',
-        'Оздоровлення', 'Активний відпочинок', 'Романтика', 'Екзотика', 'Розслаблення',
-    ];
-    const amenities = [
-        'Холодильник', 'Гідромасажна ванна', 'Wi-Fi', 'Сауна', 'Двоспальне ліжко',
-        'Басейн', 'Кондиціонер', 'Сад або задній двір', 'Гриль', 'Тераса', 'Балкон', 'ТБ', 'Постільна білизна', 'Камін',
-        'Пральна машинка', 'Сушарка', 'Мікрохвильова піч', 'Духовка', 'Електрична піч', 'Посудомийна машина', 'Дитяче ліжко', 'Праска',
-        'Дитячий стільчик', 'Прасувальна дошка'
-    ];
+    const directions = [ 'Місто', 'Культура', 'Сім’я', 'Розкіш', 'Природа', 'Оздоровлення', 'Активний відпочинок', 'Романтика', 'Екзотика', 'Розслаблення', ];
+    const amenities = [ 'Холодильник', 'Гідромасажна ванна', 'Wi-Fi', 'Сауна', 'Двоспальне ліжко', 'Басейн', 'Кондиціонер', 'Сад або задній двір', 'Гриль', 'Тераса', 'Балкон', 'ТБ', 'Постільна білизна', 'Камін', 'Пральна машинка', 'Сушарка', 'Мікрохвильова піч', 'Духовка', 'Електрична піч', 'Посудомийна машина', 'Дитяче ліжко', 'Праска', 'Дитячий стільчик', 'Прасувальна дошка' ];
     const displayed = showMore ? directions : directions.slice(0, 6);
     const displayedAmenities = showMore ? amenities : amenities.slice(0, 6);
 
@@ -109,10 +101,8 @@ function ApartmentPage() {
         }
     }, [initialCategory, allApartments]);
 
-
     const toggleShowAll = () => {
         setShowAll(prev => !prev);
-        window.scrollTo(0, 0);
     };
     const toggleSort = () => setIsSortOpen(prev => !prev);
     const toggleFilter = () => setIsFilterOpen(prev => !prev);
@@ -168,38 +158,58 @@ function ApartmentPage() {
     };
 
     useEffect(() => {
+        if (!isFilterOpen) return;
+
         const container = rightFilterRef.current;
         if (!container) return;
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setActiveSection(entry.target.getAttribute("data-section"));
-                        console.log(activeSection)
-                        console.log(entry.target.getAttribute("data-section"))
-                    }
-                });
-            },
-            { root: container, threshold: 0.3 }
-        );
+        const handleScroll = () => {
+            const sections = container.querySelectorAll(".category-container[data-section]");
 
-        const sections = container.querySelectorAll(".category-container[data-section]");
-        sections.forEach((section) => observer.observe(section));
+            let closestSection = null;
+            let minDistance = Infinity;
 
-        return () => observer.disconnect();
-    }, []);
+            sections.forEach((section) => {
+                const rect = section.getBoundingClientRect();
+                const containerTop = container.getBoundingClientRect().top;
+                const distance = Math.abs(rect.top - containerTop);
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestSection = section;
+                }
+            });
+
+            if (closestSection) {
+                const sectionName = closestSection.getAttribute("data-section");
+                setActiveSection(sectionName);
+            }
+        };
+
+        container.addEventListener("scroll", handleScroll);
+
+        handleScroll();
+
+        return () => container.removeEventListener("scroll", handleScroll);
+    }, [isFilterOpen]); // Отображение выбранной категории фильтров
 
     const scrollToRef = (ref) => {
-        ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    };
+        const container = rightFilterRef.current;
+        const target = ref.current;
+
+        if (container && target) {
+            const containerTop = container.getBoundingClientRect().top;
+            const targetTop = target.getBoundingClientRect().top;
+            const scrollOffset = targetTop - containerTop + container.scrollTop;
+            container.scrollTo({ top: scrollOffset, behavior: "smooth", });
+        }
+    }; // Прокрутка right-filter-container до нужной категории фильтров
 
     return (
         <div className="main-container">
-
             <div className="apartment-header">
                 <div className="apartment-nav">
-                    <p className="nav">Головна</p>
+                    <p className="nav" onClick={() => navigate('/')}>Головна</p>
                     <img src="/images/black-arrow.png" className="nav-arrow"></img>
                     <p className="nav" style={{ fontWeight: "100" }}><u>Вибір житла</u></p>
                 </div>
@@ -269,12 +279,20 @@ function ApartmentPage() {
             {isSortOpen && (
                 <div className="sort-window">
                     <div className="sort-container">
-                        <div className="sort-item" onClick={() => { setSortOption("rate"); setIsSortOpen(false); }}><p className="text">Популярним</p></div>
-                        <div className="sort-item" onClick={() => { setSortOption("default"); setIsSortOpen(false); }}><p className="text">Рекомендаціями</p></div>
-                        <div className="sort-item" onClick={() => { setSortOption("priceHigh"); setIsSortOpen(false); }}><p className="text">Найдорожчими цінами</p></div>
-                        <div className="sort-item" onClick={() => { setSortOption("priceLow"); setIsSortOpen(false); }}><p className="text">Найдешевшими цінами</p></div>
-                        <div className="sort-item"><p className="text">Найкращими відгуками</p></div>
-                        <div className="sort-item"><p className="text">Знижками</p></div>
+                        <div className={`sort-item ${sortOption === "rate" ? "active" : ""}`} onClick={() => { setSortOption("rate"); setIsSortOpen(false); }} >
+                            <p className="text">Популярним</p>
+                        </div>
+                        <div className={`sort-item ${sortOption === "default" || sortOption === null ? "active" : ""}`} onClick={() => { setSortOption("default"); setIsSortOpen(false); }} >
+                            <p className="text">Рекомендаціями</p>
+                        </div>
+                        <div className={`sort-item ${sortOption === "priceHigh" ? "active" : ""}`} onClick={() => { setSortOption("priceHigh"); setIsSortOpen(false); }} >
+                            <p className="text">Найдорожчими цінами</p>
+                        </div>
+                        <div className={`sort-item ${sortOption === "priceLow" ? "active" : ""}`} onClick={() => { setSortOption("priceLow"); setIsSortOpen(false); }} >
+                            <p className="text">Найдешевшими цінами</p>
+                        </div>
+                        <div className="sort-item"> <p className="text">Найкращими відгуками</p> </div>
+                        <div className="sort-item"> <p className="text">Знижками</p> </div>
                     </div>
                 </div>
             )}
@@ -454,10 +472,10 @@ function ApartmentPage() {
 
                                     <h4 className="price-big">€ {apartment.apartmentPrice}</h4>
                                     <p className='price-small'>/ ніч</p>
-                                    <div className='more-button-group'>
+                                    <Link to={`/apartment/${apartment.apartmentID}`} state={{ apartment }} className="more-button-group" >
                                         <p>Детальніше</p>
                                         <img src="/images/arrow.svg" className="icon"></img>
-                                    </div>
+                                    </Link>
                                 </div>
                                 <div className="review-container">
                                     <div className='rate-group'>

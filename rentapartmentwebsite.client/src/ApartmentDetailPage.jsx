@@ -1,11 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './css/apartment-detail-style.css';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+function chunkArray(array, size) {
+    const chunked = [];
+    for (let i = 0; i < array.length; i += size) {
+        chunked.push(array.slice(i, i + size));
+    }
+    return chunked;
+}
 
 function ApartmentDetailPage() {
+    const { state } = useLocation();
+    const apartment = state?.apartment;
     const [showMore, setShowMore] = useState(false);
     const [showMore2, setShowMore2] = useState(false);
     const sliderRef = useRef();
@@ -60,22 +69,22 @@ function ApartmentDetailPage() {
         <div className="main-container">
             <div className="detail-nav">
                 <p className="nav" onClick={() => navigate('/')}>Головна</p>
-                <img src="images/black-arrow.png" className="profile-arrow"></img>
+                <img src="/images/black-arrow.png" className="profile-arrow"></img>
                 <p className="nav" onClick={() => navigate('/apartments')}>Вибір житла</p>
-                <img src="images/black-arrow.png" className="profile-arrow"></img>
+                <img src="/images/black-arrow.png" className="profile-arrow"></img>
                 <p className="nav" style={{ fontWeight: "100" }}><u>Інформація про житло</u></p>
             </div>
 
             <div className="detail-photo-container">
-                <img src="images/apartment-image1.png" className="main-photo"></img>
+                <img src={`/images/${apartment.apartmentPhoto}`} className="main-photo" />
                 <div className="other-photo-container">
-                    <img src="images/other-image1.jpg" className="other-photo"></img>
-                    <img src="images/other-image2.jpg" className="other-photo"></img>
-                    <img src="images/other-image3.jpg" className="other-photo"></img>
-                    <img src="images/other-image4.jpg" className="other-photo"></img>
+                    <img src="/images/other-image1.jpg" className="other-photo"></img>
+                    <img src="/images/other-image2.jpg" className="other-photo"></img>
+                    <img src="/images/other-image3.jpg" className="other-photo"></img>
+                    <img src="/images/other-image4.jpg" className="other-photo"></img>
 
                     <div className="more-photo-btn">
-                        <img src="images/photo-icon.png" className="icon"></img>
+                        <img src="/images/photo-icon.png" className="icon"></img>
                         <p className="text">23+</p>
                     </div>
                 </div>
@@ -92,10 +101,10 @@ function ApartmentDetailPage() {
 
                 <div className="button-container">
                     <div className="circle">
-                        <img src="images/share-icon.png" className="circle-icon" />
+                        <img src="/images/share-icon.png" className="circle-icon" />
                     </div>
                     <div className="circle">
-                        <img src="images/favourite-icon.png" className="circle-icon" />
+                        <img src="/images/favourite-icon.png" className="circle-icon" />
                     </div>
                 </div>
             </nav>
@@ -122,7 +131,7 @@ function ApartmentDetailPage() {
                     </div>
 
                     <div className="search-item">
-                        <img src="images/search-icon3.png" style={{ marginLeft: "5px" }} className="label-search" />
+                        <img src="/images/search-icon3.png" style={{ marginLeft: "5px" }} className="label-search" />
                         <div className="label-group">
                             <h6 className="label-title">Гості</h6>
                             <p className="label-subtitle" style={{ whiteSpace: "nowrap" }}>Хто вирушає з вами?</p>
@@ -142,41 +151,41 @@ function ApartmentDetailPage() {
                     <div className="text-group">
                         <p className="text">Приймаються банківські карти:</p>
                         <div className="cards">
-                            <img src="images/card-image1.svg" className="card-img" />
-                            <img src="images/card-image2.svg" className="card-img" />
+                            <img src="/images/card-image1.svg" className="card-img" />
+                            <img src="/images/card-image2.svg" className="card-img" />
                         </div>
                     </div>
                 </div>
                 <div className="help-btn">
-                    <img src="images/help-icon.png" className="icon" />
+                    <img src="/images/help-icon.png" className="icon" />
                     <p className="text">Допомога</p>
                 </div>
             </div>
 
             <div className="name-info">
-                <h1 className="name">Hus med grillterrass i Joncheping County</h1>
+                <h1 className="name">{apartment.apartmentName}</h1>
                 <div className="location">
-                    <img src="images/search-icon1.png" className="icon"></img>
-                    <p className="text">Швеція, Округ Йончепінг, Tånnö</p>
+                    <img src="/images/search-icon1.png" className="icon"></img>
+                    <p className="text">{apartment.apartmentCountry}, {apartment.apartmentLocation}</p>
                 </div>
             </div>
 
             <div className="general-info">
                 <div className="item">
-                    <img src="images/general-icon1.png" className="icon"></img>
-                    <p className="text">60 м²</p>
+                    <img src="/images/general-icon1.png" className="icon"></img>
+                    <p className="text">{apartment.apartmentArea} м²</p>
                 </div>
                 <div className="item">
-                    <img src="images/general-icon2.png" className="icon"></img>
-                    <p className="text">4 гостей</p>
+                    <img src="/images/general-icon2.png" className="icon"></img>
+                    <p className="text">{apartment.apartmentCapacity} гостей</p>
                 </div>
                 <div className="item">
-                    <img src="images/general-icon3.png" className="icon"></img>
-                    <p className="text">2 спальні</p>
+                    <img src="/images/general-icon3.png" className="icon"></img>
+                    <p className="text">{apartment.bedroom} спальні</p>
                 </div>
                 <div className="item">
-                    <img src="images/general-icon4.png" className="icon"></img>
-                    <p className="text">1 ванна кімната</p>
+                    <img src="/images/general-icon4.png" className="icon"></img>
+                    <p className="text">{apartment.bathroom} ванна кімната</p>
                 </div>
             </div>
 
@@ -193,23 +202,13 @@ function ApartmentDetailPage() {
             <div className="amenties-container">
                 <h2>Зручності</h2>
                 <div className='row-container'>
-                    <div className='container'>
-                        <label>Камін</label>
-                        <label>Кухня</label>
-                        <label>Басейн</label>
-                    </div>
-
-                    <div className='container'>
-                        <label>Пральна машина</label>
-                        <label>Відкритий простір</label>
-                        <label>Паркування</label>
-                    </div>
-
-                    <div className='container'>
-                        <label>Праска</label>
-                        <label>Прасувальна дошка</label>
-                        <label>Велосипеди</label>
-                    </div>
+                    {chunkArray(apartment.amenities, 3).map((group, i) => (
+                        <div className='container' key={i}>
+                            {group.map((amenity, j) => (
+                                <label key={j}>{amenity}</label>
+                            ))}
+                        </div>
+                    ))}
                 </div>
                 <p className="show-more" onClick={() => setShowMore2(prev => !prev)}>
                     {showMore2 ? 'Показати менше' : 'Показати більше'}
@@ -220,9 +219,9 @@ function ApartmentDetailPage() {
                 <h2>Розташування</h2>
 
                 <div className="map-wrapper">
-                    <img src="images/map-image.png" className="map-image" />
+                    <img src="/images/map-image.png" className="map-image" />
                     <div className="map-btn">
-                        <img src="images/map-icon1.png" className="icon" />
+                        <img src="/images/map-icon1.png" className="icon" />
                         <p className="text">Перейти до карти</p>
                     </div>
                 </div>
@@ -230,10 +229,15 @@ function ApartmentDetailPage() {
                 <div className="row-container">
                     <h6 className="text">Що поруч:</h6>
                     <div className="near-container">
-                        <p className="near">• 70 км до аеропорту</p>
-                        <p className="near">• 17 км до ресторану</p>
-                        <p className="near">• 20 м до озера</p>
-                        <p className="near">• 60 м до пляжу</p>
+                        {apartment.infrastructures && apartment.infrastructures.length > 0 ? (
+                            apartment.infrastructures.map((item, index) => (
+                                <p className="near" key={index}>
+                                    • {item.infrastructureDistance} {item.measureUnit} до {item.infrastructureName}
+                                </p>
+                            ))
+                        ) : (
+                            <p className="near">Немає даних про інфраструктуру</p>
+                        )}
                     </div>
                 </div>
             </div>
@@ -242,24 +246,24 @@ function ApartmentDetailPage() {
                 <h2>Правила дому</h2>
                 <div className="rules-container">
                     <div className="rules-item">
-                        <img src="images/rules-icon1.png" className="icon" />
+                        <img src="/images/rules-icon1.png" className="icon" />
                         <h6 className='header'>Події</h6>
-                        <p className="text">Дозволені заходи: сімейні зустрічі та дні народження</p>
+                        <p className="text">{apartment.allowedEvents}</p>
                     </div>
                     <div className="rules-item">
-                        <img src="images/rules-icon2.png" className="icon" />
+                        <img src="/images/rules-icon2.png" className="icon" />
                         <h6 className='header'>Діти</h6>
-                        <p className="text">Дозволено дітям: віком від 1 до 17 років</p>
+                        <p className="text">{apartment.allowedChildren}</p>
                     </div>
                     <div className="rules-item">
-                        <img src="images/rules-icon3.png" className="icon" />
+                        <img src="/images/rules-icon3.png" className="icon" />
                         <h6 className='header'>Домашні тварини</h6>
-                        <p className="text">Дозволено з домашніми тваринами: собаки та коти вагою до 22 кг</p>
+                        <p className="text">{apartment.allowedPets}</p>
                     </div>
                     <div className="rules-item">
-                        <img src="images/rules-icon4.png" className="icon" />
+                        <img src="/images/rules-icon4.png" className="icon" />
                         <h6 className='header'>Куріння</h6>
-                        <p className="text">Куріння дозволено: у спеціально відведених місцях</p>
+                        <p className="text">{apartment.allowedSmoking}</p>
                     </div>
                 </div>
             </div>
@@ -292,7 +296,7 @@ function ApartmentDetailPage() {
                     <div className="owner-item">
                         <div className="owner-block">
                             <div className="profile-picture-wrapper">
-                                <img src="images/owner-pfp.jpg" className="picture" />
+                                <img src="/images/owner-pfp.jpg" className="picture" />
                             </div>
 
                             <p className="user-name">Lucía Herrera</p>
@@ -328,7 +332,7 @@ function ApartmentDetailPage() {
                             <div className="top-container">
                                 <div className="user-block">
                                     <div className="profile-picture-wrapper">
-                                        <img src="images/owner-pfp.jpg" className="picture" />
+                                        <img src="/images/owner-pfp.jpg" className="picture" />
                                     </div>
 
                                     <div className="text-wrapper">
@@ -338,7 +342,7 @@ function ApartmentDetailPage() {
                                 </div>
 
                                 <div className='mark-group'>
-                                    <img src="images/rate-icon.png" className="icon"></img>
+                                    <img src="/images/rate-icon.png" className="icon"></img>
                                     <p>5,0</p>
                                 </div>
                             </div>
@@ -350,7 +354,7 @@ function ApartmentDetailPage() {
                             <div className="top-container">
                                 <div className="user-block">
                                     <div className="profile-picture-wrapper">
-                                        <img src="images/owner-pfp.jpg" className="picture" />
+                                        <img src="/images/owner-pfp.jpg" className="picture" />
                                     </div>
 
                                     <div className="text-wrapper">
@@ -360,7 +364,7 @@ function ApartmentDetailPage() {
                                 </div>
 
                                 <div className='mark-group'>
-                                    <img src="images/rate-icon.png" className="icon"></img>
+                                    <img src="/images/rate-icon.png" className="icon"></img>
                                     <p>4,6</p>
                                 </div>
                             </div>
@@ -372,7 +376,7 @@ function ApartmentDetailPage() {
                             <div className="top-container">
                                 <div className="user-block">
                                     <div className="profile-picture-wrapper">
-                                        <img src="images/owner-pfp.jpg" className="picture" />
+                                        <img src="/images/owner-pfp.jpg" className="picture" />
                                     </div>
 
                                     <div className="text-wrapper">
@@ -382,7 +386,7 @@ function ApartmentDetailPage() {
                                 </div>
 
                                 <div className='mark-group'>
-                                    <img src="images/rate-icon.png" className="icon"></img>
+                                    <img src="/images/rate-icon.png" className="icon"></img>
                                     <p>5,0</p>
                                 </div>
                             </div>
@@ -394,7 +398,7 @@ function ApartmentDetailPage() {
                             <div className="top-container">
                                 <div className="user-block">
                                     <div className="profile-picture-wrapper">
-                                        <img src="images/owner-pfp.jpg" className="picture" />
+                                        <img src="/images/owner-pfp.jpg" className="picture" />
                                     </div>
 
                                     <div className="text-wrapper">
@@ -404,7 +408,7 @@ function ApartmentDetailPage() {
                                 </div>
 
                                 <div className='mark-group'>
-                                    <img src="images/rate-icon.png" className="icon"></img>
+                                    <img src="/images/rate-icon.png" className="icon"></img>
                                     <p>5,0</p>
                                 </div>
                             </div>
@@ -416,7 +420,7 @@ function ApartmentDetailPage() {
                             <div className="top-container">
                                 <div className="user-block">
                                     <div className="profile-picture-wrapper">
-                                        <img src="images/owner-pfp.jpg" className="picture" />
+                                        <img src="/images/owner-pfp.jpg" className="picture" />
                                     </div>
 
                                     <div className="text-wrapper">
@@ -426,7 +430,7 @@ function ApartmentDetailPage() {
                                 </div>
 
                                 <div className='mark-group'>
-                                    <img src="images/rate-icon.png" className="icon"></img>
+                                    <img src="/images/rate-icon.png" className="icon"></img>
                                     <p>4,2</p>
                                 </div>
                             </div>
@@ -438,7 +442,7 @@ function ApartmentDetailPage() {
                             <div className="top-container">
                                 <div className="user-block">
                                     <div className="profile-picture-wrapper">
-                                        <img src="images/owner-pfp.jpg" className="picture" />
+                                        <img src="/images/owner-pfp.jpg" className="picture" />
                                     </div>
 
                                     <div className="text-wrapper">
@@ -448,7 +452,7 @@ function ApartmentDetailPage() {
                                 </div>
 
                                 <div className='mark-group'>
-                                    <img src="images/rate-icon.png" className="icon"></img>
+                                    <img src="/images/rate-icon.png" className="icon"></img>
                                     <p>5,0</p>
                                 </div>
                             </div>
@@ -460,7 +464,7 @@ function ApartmentDetailPage() {
                             <div className="top-container">
                                 <div className="user-block">
                                     <div className="profile-picture-wrapper">
-                                        <img src="images/owner-pfp.jpg" className="picture" />
+                                        <img src="/images/owner-pfp.jpg" className="picture" />
                                     </div>
 
                                     <div className="text-wrapper">
@@ -470,7 +474,7 @@ function ApartmentDetailPage() {
                                 </div>
 
                                 <div className='mark-group'>
-                                    <img src="images/rate-icon.png" className="icon"></img>
+                                    <img src="/images/rate-icon.png" className="icon"></img>
                                     <p>4,7</p>
                                 </div>
                             </div>
@@ -490,13 +494,13 @@ function ApartmentDetailPage() {
                                 border: currentSlide === 0 ? "2px solid #A0A0A0" : "2px solid #E84E0F",
                                 cursor: currentSlide === 0 ? "default" : "pointer"
                             }} >
-                            <img src={currentSlide === 0 ? "images/gray-arrow.png" : "images/orange-arrow.png"} style={{ transform: "scaleX(-1)" }} className="arrow-btn" />
+                            <img src={currentSlide === 0 ? "/images/gray-arrow.png" : "/images/orange-arrow.png"} style={{ transform: "scaleX(-1)" }} className="arrow-btn" />
                         </div>
 
                         <div className="carousel-btn"
                             onClick={() => { if (currentSlide < totalSlides - slidesToShow) { sliderRef.current.slickNext(); } }}
                             style={{ border: currentSlide >= totalSlides - slidesToShow ? "2px solid #A0A0A0" : "2px solid #E84E0F", cursor: currentSlide >= totalSlides - slidesToShow ? "default" : "pointer" }} >
-                            <img src={ currentSlide >= totalSlides - slidesToShow ? "images/gray-arrow.png" : "images/orange-arrow.png" } className="arrow-btn" />
+                            <img src={ currentSlide >= totalSlides - slidesToShow ? "/images/gray-arrow.png" : "/images/orange-arrow.png" } className="arrow-btn" />
                         </div>
 
                     </div>
@@ -509,9 +513,9 @@ function ApartmentDetailPage() {
                 </div>
                 <Slider ref={slider2Ref} slidesToShow={3} slidesToScroll={1} initialSlide={0} infinite={false} className="apartment-carousel" beforeChange={(oldIndex, newIndex) => setCurrentSlide2(newIndex)}>
                     <div className="recomended-item">
-                        <img src="images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
+                        <img src="/images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
                         <div className="favourite">
-                            <img src="images/favourite-icon.png" className="favourite-btn" />
+                            <img src="/images/favourite-icon.png" className="favourite-btn" />
                         </div>
                         <div className="apartment-info">
                             <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
@@ -521,12 +525,12 @@ function ApartmentDetailPage() {
                                 <p className='price-small'>/ ніч</p>
                                 <div className='more-button-group' onClick={() => navigate('/detail')}>
                                     <p>Детальніше</p>
-                                    <img src="images/arrow.svg" className="icon" />
+                                    <img src="/images/arrow.svg" className="icon" />
                                 </div>
                             </div>
                             <div className="review-container">
                                 <div className='rate-group'>
-                                    <img src="images/rate-icon.png" className="icon" />
+                                    <img src="/images/rate-icon.png" className="icon" />
                                     <p>2,3</p>
                                 </div>
                                 <p className='reviews'>(176 відгуків)</p>
@@ -534,24 +538,24 @@ function ApartmentDetailPage() {
                         </div>
                     </div>
                     <div className="recomended-item">
-                        <img src="images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
+                        <img src="/images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
                         <div className="favourite">
-                            <img src="images/favourite-icon.png" className="favourite-btn" />
+                            <img src="/images/favourite-icon.png" className="favourite-btn" />
                         </div>
                         <div className="apartment-info">
                             <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
                             <h4 className="sub-header">Франція, Париж, Le Marais</h4>
-                            <div className="container">
+                            <div className="container" style={{ top: "0px" }}>
                                 <h4 className="price-big">€ 123</h4>
                                 <p className='price-small'>/ ніч</p>
                                 <div className='more-button-group' onClick={() => navigate('/detail')}>
                                     <p>Детальніше</p>
-                                    <img src="images/arrow.svg" className="icon" />
+                                    <img src="/images/arrow.svg" className="icon" />
                                 </div>
                             </div>
                             <div className="review-container">
                                 <div className='rate-group'>
-                                    <img src="images/rate-icon.png" className="icon" />
+                                    <img src="/images/rate-icon.png" className="icon" />
                                     <p>2,3</p>
                                 </div>
                                 <p className='reviews'>(176 відгуків)</p>
@@ -559,50 +563,24 @@ function ApartmentDetailPage() {
                         </div>
                     </div>
                     <div className="recomended-item">
-                        <img src="images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
+                        <img src="/images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
                         <div className="favourite">
-                            <img src="images/favourite-icon.png" className="favourite-btn" />
+                            <img src="/images/favourite-icon.png" className="favourite-btn" />
                         </div>
                         <div className="apartment-info">
                             <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
                             <h4 className="sub-header">Франція, Париж, Le Marais</h4>
-                            <div className="container">
+                            <div className="container" style={{ top: "0px" }}>
                                 <h4 className="price-big">€ 123</h4>
                                 <p className='price-small'>/ ніч</p>
                                 <div className='more-button-group' onClick={() => navigate('/detail')}>
                                     <p>Детальніше</p>
-                                    <img src="images/arrow.svg" className="icon" />
+                                    <img src="/images/arrow.svg" className="icon" />
                                 </div>
                             </div>
                             <div className="review-container">
                                 <div className='rate-group'>
-                                    <img src="images/rate-icon.png" className="icon" />
-                                    <p>2,3</p>
-                                </div>
-                                <p className='reviews'>(176 відгуків)</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="recomended-item">
-                        <img src="images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
-                        <div className="favourite">
-                            <img src="images/favourite-icon.png" className="favourite-btn" />
-                        </div>
-                        <div className="apartment-info">
-                            <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
-                            <h4 className="sub-header">Франція, Париж, Le Marais</h4>
-                            <div className="container">
-                                <h4 className="price-big">€ 123</h4>
-                                <p className='price-small'>/ ніч</p>
-                                <div className='more-button-group' onClick={() => navigate('/detail')}>
-                                    <p>Детальніше</p>
-                                    <img src="images/arrow.svg" className="icon" />
-                                </div>
-                            </div>
-                            <div className="review-container">
-                                <div className='rate-group'>
-                                    <img src="images/rate-icon.png" className="icon" />
+                                    <img src="/images/rate-icon.png" className="icon" />
                                     <p>2,3</p>
                                 </div>
                                 <p className='reviews'>(176 відгуків)</p>
@@ -610,24 +588,24 @@ function ApartmentDetailPage() {
                         </div>
                     </div>
                     <div className="recomended-item">
-                        <img src="images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
+                        <img src="/images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
                         <div className="favourite">
-                            <img src="images/favourite-icon.png" className="favourite-btn" />
+                            <img src="/images/favourite-icon.png" className="favourite-btn" />
                         </div>
                         <div className="apartment-info">
                             <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
                             <h4 className="sub-header">Франція, Париж, Le Marais</h4>
-                            <div className="container">
+                            <div className="container" style={{ top: "0px" }}>
                                 <h4 className="price-big">€ 123</h4>
                                 <p className='price-small'>/ ніч</p>
                                 <div className='more-button-group' onClick={() => navigate('/detail')}>
                                     <p>Детальніше</p>
-                                    <img src="images/arrow.svg" className="icon" />
+                                    <img src="/images/arrow.svg" className="icon" />
                                 </div>
                             </div>
                             <div className="review-container">
                                 <div className='rate-group'>
-                                    <img src="images/rate-icon.png" className="icon" />
+                                    <img src="/images/rate-icon.png" className="icon" />
                                     <p>2,3</p>
                                 </div>
                                 <p className='reviews'>(176 відгуків)</p>
@@ -635,24 +613,49 @@ function ApartmentDetailPage() {
                         </div>
                     </div>
                     <div className="recomended-item">
-                        <img src="images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
+                        <img src="/images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
                         <div className="favourite">
-                            <img src="images/favourite-icon.png" className="favourite-btn" />
+                            <img src="/images/favourite-icon.png" className="favourite-btn" />
                         </div>
                         <div className="apartment-info">
                             <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
                             <h4 className="sub-header">Франція, Париж, Le Marais</h4>
-                            <div className="container">
+                            <div className="container" style={{ top: "0px" }}>
                                 <h4 className="price-big">€ 123</h4>
                                 <p className='price-small'>/ ніч</p>
                                 <div className='more-button-group' onClick={() => navigate('/detail')}>
                                     <p>Детальніше</p>
-                                    <img src="images/arrow.svg" className="icon" />
+                                    <img src="/images/arrow.svg" className="icon" />
                                 </div>
                             </div>
                             <div className="review-container">
                                 <div className='rate-group'>
-                                    <img src="images/rate-icon.png" className="icon" />
+                                    <img src="/images/rate-icon.png" className="icon" />
+                                    <p>2,3</p>
+                                </div>
+                                <p className='reviews'>(176 відгуків)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="recomended-item">
+                        <img src="/images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
+                        <div className="favourite">
+                            <img src="/images/favourite-icon.png" className="favourite-btn" />
+                        </div>
+                        <div className="apartment-info">
+                            <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
+                            <h4 className="sub-header">Франція, Париж, Le Marais</h4>
+                            <div className="container" style={{ top: "0px" }}>
+                                <h4 className="price-big">€ 123</h4>
+                                <p className='price-small'>/ ніч</p>
+                                <div className='more-button-group' onClick={() => navigate('/detail')}>
+                                    <p>Детальніше</p>
+                                    <img src="/images/arrow.svg" className="icon" />
+                                </div>
+                            </div>
+                            <div className="review-container">
+                                <div className='rate-group'>
+                                    <img src="/images/rate-icon.png" className="icon" />
                                     <p>2,3</p>
                                 </div>
                                 <p className='reviews'>(176 відгуків)</p>
@@ -665,13 +668,13 @@ function ApartmentDetailPage() {
                     <div className="carousel-btn"
                         onClick={() => currentSlide2 > 0 && slider2Ref.current.slickPrev()}
                         style={{ border: currentSlide2 === 0 ? "2px solid #A0A0A0" : "2px solid #E84E0F", cursor: currentSlide2 === 0 ? "default" : "pointer" }} >
-                        <img src={currentSlide2 === 0 ? "images/gray-arrow.png" : "images/orange-arrow.png"} style={{ transform: "scaleX(-1)" }} className="arrow-btn" />
+                        <img src={currentSlide2 === 0 ? "/images/gray-arrow.png" : "/images/orange-arrow.png"} style={{ transform: "scaleX(-1)" }} className="arrow-btn" />
                     </div>
 
                     <div className="carousel-btn"
                         onClick={() => { if (currentSlide2 < totalSlides2 - slidesToShow2) { slider2Ref.current.slickNext(); } }}
                         style={{ border: currentSlide2 >= totalSlides2 - slidesToShow2 ? "2px solid #A0A0A0" : "2px solid #E84E0F", cursor: currentSlide2 >= totalSlides2 - slidesToShow2 ? "default" : "pointer" }} >
-                        <img src={currentSlide2 >= totalSlides2 - slidesToShow2 ? "images/gray-arrow.png" : "images/orange-arrow.png"} className="arrow-btn" />
+                        <img src={currentSlide2 >= totalSlides2 - slidesToShow2 ? "/images/gray-arrow.png" : "/images/orange-arrow.png"} className="arrow-btn" />
                     </div>
                 </div>
 
