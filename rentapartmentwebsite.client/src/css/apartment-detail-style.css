@@ -210,30 +210,30 @@
     position: absolute;
     justify-content: center;
     align-items: center;
-    width: 460px;
+    width: 420px;
     height: 564px;
-    left: 1030px;
-    top: 830px;
+    left: 1040px;
+    top: 1850px;
     transition: all 0.0s ease;
 }
 
 .sticky-order {
     position: fixed;
-    top: 95px;
+    top: 125px;
     z-index: 1000;
     background-color: #FCFCFC;
 }
 
 .stop-order {
     position: absolute;
-    top: 95px;
+    top: 1255px;
     bottom: 0;
 }
 
 .order-block .main-block {
     position: relative;
     height: 564px;
-    width: 460px;
+    width: 420px;
     background: #FCFCFC;
     box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
     border-radius: 20px;
@@ -241,9 +241,8 @@
 }
 
     .order-block .main-block .order-header {
-        font-family: 'Source Sans Pro';
         font-weight: 600;
-        font-size: 20px;
+        font-size: 18px;
         color: #060606;
     }
 
@@ -254,6 +253,17 @@
         flex-direction: row;
         gap: 20px;
     }
+
+        .order-block .main-block .date-group .date-search-item {
+            width: 170px;
+            height: 60px;
+            background: #FCFCFC;
+            border: 1px solid #A0A0A0;
+            box-shadow: 0px 5px 20px 3px rgba(6, 6, 6, 0.08);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+        }
 
 .search-item {
     height: 60px;
@@ -270,19 +280,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 360px;
     height: 60px;
     background: #E84E0F;
     border-radius: 12px;
-    color: #FCFCFC;
-    font-family: 'Source Sans Pro';
-    font-weight: 600;
+    font-weight: 400;
     font-size: 18px;
     line-height: 14px;
+    letter-spacing: 0.5px;
+    border: none;
+    color: #FCFCFC;
     cursor: pointer;
+    transition: all 0.1s ease;
 }
 
-    .order-block .main-block .search-btn .text {
-        margin-top: 15px;
+    .order-block .main-block .search-btn:hover {
+        background: #CA4008;
     }
 
 .date-picker {
@@ -336,12 +349,11 @@
     margin-top: 60px;
     display: flex;
     flex-direction: row;
-    gap: 210px;
+    gap: 170px;
     border-bottom: 1px solid #C4C4C4;
 }
 
     .order-block .main-block .total-group .text {
-        font-family: 'Source Sans Pro';
         font-weight: 600;
         font-size: 20px;
         color: #060606;
@@ -354,14 +366,12 @@
     }
 
         .order-block .main-block .total-group .price p {
-            font-family: 'Source Sans Pro';
             font-weight: 400;
             font-size: 20px;
             color: #A0A0A0;
         }
 
         .order-block .main-block .total-group .price .text {
-            font-family: 'Source Sans Pro';
             font-weight: 600;
             font-size: 40px;
             color: #060606;
@@ -372,13 +382,12 @@
     margin-top: 20px;
     display: flex;
     flex-direction: row;
-    gap: 15px;
+    gap: 10px;
 }
 
     .order-block .main-block .text-group .text {
-        font-family: 'Source Sans Pro';
         font-weight: 600;
-        font-size: 20px;
+        font-size: 18px;
         color: #060606;
         white-space: nowrap;
     }
@@ -390,8 +399,8 @@
     }
 
         .order-block .main-block .text-group .cards .card-img {
-            width: 55px;
-            height: 35px;
+            width: 45px;
+            height: 25px;
         }
 
 .order-block .help-btn {
@@ -1003,6 +1012,7 @@
 
         .review-carousel .slider-item .top-container .mark-group .icon {
             position: relative;
+            top: 2px;
             width: 14px;
             height: 14px;
         }
@@ -1085,29 +1095,27 @@
     top: 100px;
     left: 70px;
     width: 95%;
-    height: 500px;
+    height: 530px;
 }
 
-    .apartment-carousel .recomended-slider-item {
+    .apartment-carousel .recomended-item {
         position: relative;
         width: 460px !important;
         height: 500px;
         border-radius: 20px;
         box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
-        background-color: #FCFCFC;
     }
 
-        .apartment-carousel .recomended-slider-item .recomended-img {
+        .apartment-carousel .recomended-item .recomended-img {
             position: relative;
-            width: 460px;
-            height: auto;
+            width: 100%;
             border-radius: 20px 20px 0px 0px;
         }
 
-        .apartment-carousel .recomended-slider-item .favourite {
+        .apartment-carousel .recomended-item .favourite {
             position: relative;
             top: -230px;
-            left: 30px;
+            left: 40px;
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -1118,168 +1126,153 @@
             cursor: pointer;
         }
 
-        .apartment-carousel .recomended-slider-item .favourite-btn {
+        .apartment-carousel .recomended-item .favourite-btn {
             width: 24px;
             height: 24px;
             object-fit: contain;
         }
 
-        .apartment-carousel .recomended-slider-item .apartment-info {
+        .apartment-carousel .recomended-item .apartment-info {
             position: relative;
-            top: -10px;
+            top: -20px;
             left: 50px;
-            width: 280px;
+            width: 250px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
         }
 
-            .apartment-carousel .recomended-slider-item .apartment-info .header {
-                position: relative;
-                top: 0px;
-                left: 0px;
-                font-weight: 600;
-                font-size: 23px;
-                line-height: 25px;
-                letter-spacing: 0.5px;
-                color: #060606;
-            }
+.apartment-info .header {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    width: 250px;
+    white-space: normal;
+    word-wrap: break-word;
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 25px;
+    color: #060606;
+}
 
-    .apartment-carousel .recomended-slider-item .apartment-info .sub-header {
+.apartment-info .sub-header {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 12px;
+    letter-spacing: 0.5px;
+    color: #060606;
+}
+
+.apartment-info .container {
+    position: relative;
+    top: 10px;
+    width: 410px;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+    .apartment-info .container .price-big {
         position: relative;
-        top: 0px;
-        left: 0px;
-        width: 341px;
-        height: 12px;
-        font-weight: 400;
-        font-size: 15px;
-        line-height: 12px;
-        letter-spacing: 0.5px;
+        left: -35px;
+        top: 20px;
+        white-space: nowrap;
+        font-weight: 600;
+        font-size: 40px;
+        line-height: 29px;
         color: #060606;
     }
 
-    .apartment-carousel .recomended-slider-item .apartment-info .container {
+    .apartment-info .container .price-small {
         position: relative;
-        top: 10px;
-        width: 410px;
-        height: 80px;
-        display: flex;
-        flex-direction: row;
-        gap: 20px;
+        width: 135px;
+        height: 29px;
+        left: -45px;
+        top: 35px;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 29px;
+        color: #A0A0A0;
     }
 
-        .apartment-carousel .recomended-slider-item .apartment-info .container .price-big {
-            position: relative;
-            width: 135px;
-            height: 29px;
-            left: -15px;
-            top: 20px;
-            font-weight: 600;
-            font-size: 40px;
-            line-height: 29px;
-            letter-spacing: 0.5px;
-            color: #060606;
-        }
+    .apartment-info .container .more-button-group {
+        position: relative;
+        width: 220px;
+        top: 45px;
+        display: flex;
+        flex-direction: row;
+        cursor: pointer;
+    }
 
-                .apartment-carousel .recomended-slider-item .apartment-info .container .price-small {
-                    position: relative;
-                    width: 135px;
-                    height: 29px;
-                    left: -30px;
-                    top: 25px;
-                    font-weight: 500;
-                    font-size: 20px;
-                    line-height: 29px;
-                    letter-spacing: 0.5px;
-                    color: #A0A0A0;
-                }
+.more-button-group p {
+    position: relative;
+    width: 111px;
+    height: 14px;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 14px;
+    color: #E84E0F;
+}
 
-        .apartment-carousel .recomended-slider-item .apartment-info .container .more-button-group {
-            position: relative;
-            width: 220px;
-            height: auto;
-            left: 0px;
-            top: 30px;
-            display: flex;
-            flex-direction: row;
-            cursor: pointer;
-        }
+.more-button-group .icon {
+    position: relative;
+    top: 3px;
+    margin-left: 10px;
+    width: 11px;
+    height: 11px;
+}
 
-            .apartment-carousel .recomended-slider-item .apartment-info .container .more-button-group p {
-                position: relative;
-                width: 111px;
-                height: 14px;
-                font-weight: 600;
-                font-size: 20px;
-                line-height: 14px;
-                letter-spacing: 0.5px;
-                color: #E84E0F;
-            }
+.apartment-info .review-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-content: flex-end;
+    gap: 13px 8px;
+    position: relative;
+    width: 111px;
+    height: 47px;
+    left: 260px;
+    top: -170px;
+}
 
-            .apartment-carousel .recomended-slider-item .apartment-info .container .more-button-group .icon {
-                position: relative;
-                top: 3px;
-                margin-left: 10px;
-                width: 11px;
-                height: 11px;
-            }
+.review-container .rate-group {
+    position: relative;
+    top: 20px;
+    left: -5px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
 
-            .apartment-carousel .recomended-slider-item .apartment-info .review-container {
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: flex-end;
-                align-items: flex-start;
-                align-content: flex-end;
-                padding: 0px;
-                gap: 13px 8px;
-                position: relative;
-                width: 111px;
-                height: 47px;
-                left: 260px;
-                top: -200px;
-            }
+.rate-group .icon {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    left: 0px;
+    top: 0px;
+}
 
-                .apartment-carousel .recomended-slider-item .apartment-info .review-container .rate-group {
-                    position: relative;
-                    top: 40px;
-                    left: -5px;
-                    display: flex;
-                    flex-direction: row;
-                    gap: 5px;
-                }
+.rate-group p {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 20px;
+    color: #E84E0F;
+}
 
-                    .apartment-carousel .recomended-slider-item .apartment-info .review-container .rate-group .rate-group .icon {
-                        position: relative;
-                        width: 20px;
-                        height: 20px;
-                        left: 0px;
-                        top: 0px;
-                    }
-
-                    .apartment-carousel .recomended-slider-item .apartment-info .review-container .rate-group .rate-group p {
-                        width: 28px;
-                        height: 20px;
-                        font-weight: 600;
-                        font-size: 20px;
-                        color: #E84E0F;
-                    }
-
-                .apartment-carousel .recomended-slider-item .apartment-info .review-container .reviews {
-                    position: relative;
-                    top: 10px;
-                    left: 0px;
-                    width: 121px;
-                    height: 14px;
-                    font-weight: 400;
-                    font-size: 18px;
-                    line-height: 14px;
-                    display: flex;
-                    align-items: center;
-                    text-align: right;
-                    letter-spacing: 0.5px;
-                    color: #A0A0A0;
-                }
+.review-container .reviews {
+    position: relative;
+    top: 10px;
+    width: 121px;
+    height: 14px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 14px;
+    color: #A0A0A0;
+}
 
 .carousel-block .carousel-btns {
     position: relative;

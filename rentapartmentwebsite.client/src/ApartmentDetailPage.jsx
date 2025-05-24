@@ -12,10 +12,13 @@ function ApartmentDetailPage() {
     const slider2Ref = useRef();
     const navigate = useNavigate();
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [currentSlide2, setCurrentSlide2] = useState(0);
     const totalSlides = 7;
+    const totalSlides2 = 6;
     const slidesToShow = 2.5;
+    const slidesToShow2 = 3;
 
-    /*useEffect(() => {
+    useEffect(() => {
         const navbar = document.getElementById("detailNavbar");
         const orderBlock = document.getElementById("orderBlock");
         const carousel = document.getElementById("carouselBlock");
@@ -42,16 +45,16 @@ function ApartmentDetailPage() {
             } else if (scrollY >= initialNavbarOffset) {
                 orderBlock.classList.add("sticky-order");
                 orderBlock.classList.remove("stopped-order");
-                orderBlock.style.top = `95px`;
+                orderBlock.style.top = `125px`;
             } else {
                 orderBlock.classList.remove("sticky-order", "stopped-order");
-                orderBlock.style.top = `830px`;
+                orderBlock.style.top = `850px`;
             }
         };
 
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []);*/
+    }, []);
 
     return (
         <div className="main-container">
@@ -101,24 +104,24 @@ function ApartmentDetailPage() {
                 <div className="main-block">
                     <h3 className="order-header">Додайте дати, щоб дізнатися загальну ціну!</h3>
                     <div className="date-group">
-                        <div className="search-item" style={{ width: "190px" }}>
+                        <div className="date-search-item">
                             <input style={{ transform: "scaleX(-1)" }} type="date" className="date-picker" />
-                            <div className="label-group" style={{ position: "relative", left: "-120px", whiteSpace: "nowrap" }}>
+                            <div className="label-group" style={{ position: "relative", left: "-110px", whiteSpace: "nowrap" }}>
                                 <h6 className="label-title">Прибуття</h6>
                                 <p className="label-subtitle">Додайте дату</p>
                             </div>
                         </div>
 
-                        <div className="search-item" style={{ width: "190px" }}>
+                        <div className="date-search-item">
                             <input style={{ transform: "scaleX(-1)" }} type="date" className="date-picker" />
-                            <div className="label-group" style={{ position: "relative", left: "-120px", whiteSpace: "nowrap" }}>
+                            <div className="label-group" style={{ position: "relative", left: "-110px", whiteSpace: "nowrap" }}>
                                 <h6 className="label-title">Виїзд</h6>
                                 <p className="label-subtitle">Додайте дату</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="search-item item-4">
+                    <div className="search-item">
                         <img src="images/search-icon3.png" style={{ marginLeft: "5px" }} className="label-search" />
                         <div className="label-group">
                             <h6 className="label-title">Гості</h6>
@@ -126,9 +129,7 @@ function ApartmentDetailPage() {
                         </div>
                     </div>
 
-                    <div className="search-btn">
-                        <p className="text">Перевірити наявність</p>
-                    </div>
+                    <button className="search-btn">Перевірити наявність</button>
 
                     <div className="total-group">
                         <p className="text">Всього:</p>
@@ -506,168 +507,174 @@ function ApartmentDetailPage() {
                 <div className="apartments-carousel-block">
                     <h3 className="header">Схоже житло</h3>
                 </div>
-                <Slider ref={slider2Ref} slidesToShow={3} slidesToScroll={1} initialSlide={0} infinite={false} className="apartment-carousel">
-                    <div className="recomended-slider-item">
-                        <img src="images/apartment-image1.png" alt="Apartment Photo" className="recomended-img" />
+                <Slider ref={slider2Ref} slidesToShow={3} slidesToScroll={1} initialSlide={0} infinite={false} className="apartment-carousel" beforeChange={(oldIndex, newIndex) => setCurrentSlide2(newIndex)}>
+                    <div className="recomended-item">
+                        <img src="images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
                         <div className="favourite">
-                            <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
+                            <img src="images/favourite-icon.png" className="favourite-btn" />
                         </div>
                         <div className="apartment-info">
-                            <h4 className="header">Hus med grillterrass<br></br>i Joncheping County</h4>
-                            <h4 className="sub-header">Швеція, Округ Йончепінг, Tånnö</h4>
-                            <div className="container">
-                                <h4 className="price-big">$ 142</h4>
+                            <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
+                            <h4 className="sub-header">Франція, Париж, Le Marais</h4>
+                            <div className="container" style={{top: "0px"} }>
+                                <h4 className="price-big">€ 123</h4>
                                 <p className='price-small'>/ ніч</p>
-                                <div className='more-button-group'>
+                                <div className='more-button-group' onClick={() => navigate('/detail')}>
                                     <p>Детальніше</p>
-                                    <img src="images/arrow.svg" className="icon"></img>
+                                    <img src="images/arrow.svg" className="icon" />
                                 </div>
                             </div>
                             <div className="review-container">
                                 <div className='rate-group'>
-                                    <img src="images/rate-icon.png" className="icon"></img>
-                                    <p>4,9</p>
+                                    <img src="images/rate-icon.png" className="icon" />
+                                    <p>2,3</p>
                                 </div>
                                 <p className='reviews'>(176 відгуків)</p>
                             </div>
                         </div>
                     </div>
-                    <div className="recomended-slider-item">
+                    <div className="recomended-item">
                         <img src="images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
                         <div className="favourite">
-                            <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
+                            <img src="images/favourite-icon.png" className="favourite-btn" />
                         </div>
                         <div className="apartment-info">
                             <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
                             <h4 className="sub-header">Франція, Париж, Le Marais</h4>
                             <div className="container">
-                                <h4 className="price-big">$ 250</h4>
+                                <h4 className="price-big">€ 123</h4>
                                 <p className='price-small'>/ ніч</p>
-                                <div className='more-button-group'>
+                                <div className='more-button-group' onClick={() => navigate('/detail')}>
                                     <p>Детальніше</p>
-                                    <img src="images/arrow.svg" className="icon"></img>
+                                    <img src="images/arrow.svg" className="icon" />
                                 </div>
                             </div>
                             <div className="review-container">
                                 <div className='rate-group'>
-                                    <img src="images/rate-icon.png" className="icon"></img>
-                                    <p>4,8</p>
+                                    <img src="images/rate-icon.png" className="icon" />
+                                    <p>2,3</p>
                                 </div>
-                                <p className='reviews' style={{ left: "8px" }}>(85 відгуків)</p>
+                                <p className='reviews'>(176 відгуків)</p>
                             </div>
                         </div>
                     </div>
-                    <div className="recomended-slider-item">
-                        <img src="images/apartment-image3.png" alt="Apartment Photo" className="recomended-img" />
+                    <div className="recomended-item">
+                        <img src="images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
                         <div className="favourite">
-                            <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
+                            <img src="images/favourite-icon.png" className="favourite-btn" />
                         </div>
                         <div className="apartment-info">
-                            <h4 className="header">Elegante Wohnung<br></br>am Kurfürstendamm</h4>
-                            <h4 className="sub-header">Німеччина, Берлін, Charlottenburg</h4>
+                            <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
+                            <h4 className="sub-header">Франція, Париж, Le Marais</h4>
                             <div className="container">
-                                <h4 className="price-big">$ 220</h4>
+                                <h4 className="price-big">€ 123</h4>
                                 <p className='price-small'>/ ніч</p>
-                                <div className='more-button-group'>
+                                <div className='more-button-group' onClick={() => navigate('/detail')}>
                                     <p>Детальніше</p>
-                                    <img src="images/arrow.svg" className="icon"></img>
+                                    <img src="images/arrow.svg" className="icon" />
                                 </div>
                             </div>
                             <div className="review-container">
                                 <div className='rate-group'>
-                                    <img src="images/rate-icon.png" className="icon"></img>
-                                    <p>4,7</p>
+                                    <img src="images/rate-icon.png" className="icon" />
+                                    <p>2,3</p>
                                 </div>
-                                <p className='reviews' style={{ left: "8px" }}>(73 відгуків)</p>
+                                <p className='reviews'>(176 відгуків)</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="recomended-slider-item">
-                        <img src="images/apartment-image1.png" alt="Apartment Photo" className="recomended-img" />
-                        <div className="favourite">
-                            <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
-                        </div>
-                        <div className="apartment-info">
-                            <h4 className="header">Hus med grillterrass<br></br>i Joncheping County</h4>
-                            <h4 className="sub-header">Швеція, Округ Йончепінг, Tånnö</h4>
-                            <div className="container">
-                                <h4 className="price-big">$ 142</h4>
-                                <p className='price-small'>/ ніч</p>
-                                <div className='more-button-group'>
-                                    <p>Детальніше</p>
-                                    <img src="images/arrow.svg" className="icon"></img>
-                                </div>
-                            </div>
-                            <div className="review-container">
-                                <div className='rate-group'>
-                                    <img src="images/rate-icon.png" className="icon"></img>
-                                    <p>4,9</p>
-                                </div>
-                                <p className='reviews'>(176 відгуків)</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="recomended-slider-item">
+                    <div className="recomended-item">
                         <img src="images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
                         <div className="favourite">
-                            <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
+                            <img src="images/favourite-icon.png" className="favourite-btn" />
                         </div>
                         <div className="apartment-info">
                             <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
                             <h4 className="sub-header">Франція, Париж, Le Marais</h4>
                             <div className="container">
-                                <h4 className="price-big">$ 250</h4>
+                                <h4 className="price-big">€ 123</h4>
                                 <p className='price-small'>/ ніч</p>
-                                <div className='more-button-group'>
+                                <div className='more-button-group' onClick={() => navigate('/detail')}>
                                     <p>Детальніше</p>
-                                    <img src="images/arrow.svg" className="icon"></img>
+                                    <img src="images/arrow.svg" className="icon" />
                                 </div>
                             </div>
                             <div className="review-container">
                                 <div className='rate-group'>
-                                    <img src="images/rate-icon.png" className="icon"></img>
-                                    <p>4,8</p>
+                                    <img src="images/rate-icon.png" className="icon" />
+                                    <p>2,3</p>
                                 </div>
-                                <p className='reviews' style={{ left: "8px" }}>(85 відгуків)</p>
+                                <p className='reviews'>(176 відгуків)</p>
                             </div>
                         </div>
                     </div>
-                    <div className="recomended-slider-item">
-                        <img src="images/apartment-image3.png" alt="Apartment Photo" className="recomended-img" />
+                    <div className="recomended-item">
+                        <img src="images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
                         <div className="favourite">
-                            <img src="images/favourite-icon.png" alt="Favourite btn" className="favourite-btn" />
+                            <img src="images/favourite-icon.png" className="favourite-btn" />
                         </div>
                         <div className="apartment-info">
-                            <h4 className="header">Elegante Wohnung<br></br>am Kurfürstendamm</h4>
-                            <h4 className="sub-header">Німеччина, Берлін, Charlottenburg</h4>
+                            <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
+                            <h4 className="sub-header">Франція, Париж, Le Marais</h4>
                             <div className="container">
-                                <h4 className="price-big">$ 220</h4>
+                                <h4 className="price-big">€ 123</h4>
                                 <p className='price-small'>/ ніч</p>
-                                <div className='more-button-group'>
+                                <div className='more-button-group' onClick={() => navigate('/detail')}>
                                     <p>Детальніше</p>
-                                    <img src="images/arrow.svg" className="icon"></img>
+                                    <img src="images/arrow.svg" className="icon" />
                                 </div>
                             </div>
                             <div className="review-container">
                                 <div className='rate-group'>
-                                    <img src="images/rate-icon.png" className="icon"></img>
-                                    <p>4,7</p>
+                                    <img src="images/rate-icon.png" className="icon" />
+                                    <p>2,3</p>
                                 </div>
-                                <p className='reviews' style={{ left: "8px" }}>(73 відгуків)</p>
+                                <p className='reviews'>(176 відгуків)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="recomended-item">
+                        <img src="images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
+                        <div className="favourite">
+                            <img src="images/favourite-icon.png" className="favourite-btn" />
+                        </div>
+                        <div className="apartment-info">
+                            <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
+                            <h4 className="sub-header">Франція, Париж, Le Marais</h4>
+                            <div className="container">
+                                <h4 className="price-big">€ 123</h4>
+                                <p className='price-small'>/ ніч</p>
+                                <div className='more-button-group' onClick={() => navigate('/detail')}>
+                                    <p>Детальніше</p>
+                                    <img src="images/arrow.svg" className="icon" />
+                                </div>
+                            </div>
+                            <div className="review-container">
+                                <div className='rate-group'>
+                                    <img src="images/rate-icon.png" className="icon" />
+                                    <p>2,3</p>
+                                </div>
+                                <p className='reviews'>(176 відгуків)</p>
                             </div>
                         </div>
                     </div>
                 </Slider>
 
                 <div className="carousel-btns">
-                    <div className="carousel-btn" onClick={() => slider2Ref.current.slickPrev()}>
-                        <img src="images/orange-arrow.png" style={{ transform: "scaleX(-1)" }} alt="Prev" className="arrow-btn" />
+                    <div className="carousel-btn"
+                        onClick={() => currentSlide2 > 0 && slider2Ref.current.slickPrev()}
+                        style={{ border: currentSlide2 === 0 ? "2px solid #A0A0A0" : "2px solid #E84E0F", cursor: currentSlide2 === 0 ? "default" : "pointer" }} >
+                        <img src={currentSlide2 === 0 ? "images/gray-arrow.png" : "images/orange-arrow.png"} style={{ transform: "scaleX(-1)" }} className="arrow-btn" />
                     </div>
-                    <div className="carousel-btn" onClick={() => slider2Ref.current.slickNext()}>
-                        <img src="images/orange-arrow.png" alt="Next" className="arrow-btn" />
+
+                    <div className="carousel-btn"
+                        onClick={() => { if (currentSlide2 < totalSlides2 - slidesToShow2) { slider2Ref.current.slickNext(); } }}
+                        style={{ border: currentSlide2 >= totalSlides2 - slidesToShow2 ? "2px solid #A0A0A0" : "2px solid #E84E0F", cursor: currentSlide2 >= totalSlides2 - slidesToShow2 ? "default" : "pointer" }} >
+                        <img src={currentSlide2 >= totalSlides2 - slidesToShow2 ? "images/gray-arrow.png" : "images/orange-arrow.png"} className="arrow-btn" />
                     </div>
                 </div>
+
             </div>
         </div>
     );
