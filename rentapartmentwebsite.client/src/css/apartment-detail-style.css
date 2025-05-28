@@ -273,6 +273,7 @@
     border-radius: 12px;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .order-block .main-block .search-btn {
@@ -310,6 +311,12 @@
     padding: 0 10px;
     color: transparent;
     user-select: none;
+    cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background: url('./images/custom-calendar-icon.svg') no-repeat center;
+    background-size: 16px 16px;
     cursor: pointer;
 }
 
@@ -423,6 +430,123 @@
         text-decoration: underline;
         color: #A0A0A0;
     }
+
+.guests-info {
+    position: absolute;
+    width: 380px;
+    height: 320px;
+    left: 630px;
+    top: 1010px;
+    background: #fcfcfc;
+    border-radius: 12px;
+    padding: 30px;
+    z-index: 1;
+}
+
+.sticky-guests {
+    position: fixed;
+    top: 300px;
+    z-index: 1000;
+}
+
+.stop-guests {
+    position: absolute;
+    top: 1255px;
+    bottom: 0;
+    z-index: 1000;
+}
+
+    .guests-info .guests-container {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+        .guests-info .guests-container .guests-block {
+            margin-top: -2px;
+            height: 45px;
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+        }
+
+            .guests-info .guests-container .guests-block .header-group {
+                display: flex;
+                flex-direction: column;
+            }
+
+                .guests-info .guests-container .guests-block .header-group .title {
+                    position: relative;
+                    font-weight: 600;
+                    font-size: 20px;
+                    color: #060606;
+                }
+
+                .guests-info .guests-container .guests-block .header-group .subtitle {
+                    position: relative;
+                    top: -5px;
+                    font-weight: 400;
+                    font-size: 14px;
+                    color: #A0A0A0;
+                }
+
+            .guests-info .guests-container .guests-block .guests-button-group {
+                position: relative;
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                align-items: center;
+            }
+
+                .guests-info .guests-container .guests-block .guests-button-group .btn {
+                    position: relative;
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 50%;
+                    border: 2px solid #E84E0F;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                }
+
+                    .guests-info .guests-container .guests-block .guests-button-group .btn .text {
+                        position: relative;
+                        top: 4px;
+                        font-weight: 400;
+                        font-size: 30px;
+                        color: #E84E0F;
+                    }
+
+                .guests-info .guests-container .guests-block .guests-button-group .amount {
+                    position: relative;
+                    top: 5px;
+                    font-weight: 400;
+                    font-size: 18px;
+                    color: #060606;
+                }
+
+        .guests-info .guests-container .save-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 45px;
+            background: #E84E0F;
+            border-radius: 8px;
+            font-weight: 400;
+            font-size: 17px;
+            line-height: 10px;
+            padding: 17px 28px;
+            letter-spacing: 0.5px;
+            border: none;
+            color: #FCFCFC;
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+
+            .guests-info .guests-container .save-btn:hover {
+                background: #CA4008;
+            }
 
 .name-info {
     position: relative;

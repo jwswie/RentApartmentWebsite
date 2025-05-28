@@ -4,6 +4,7 @@ import './css/apartment-detail-style.css';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
 function chunkArray(array, size) {
     const chunked = [];
     for (let i = 0; i < array.length; i += size) {
@@ -12,20 +13,46 @@ function chunkArray(array, size) {
     return chunked;
 }
 
+const monthsUA = ["січня", "лютого", "березня", "квітня", "травня", "червня", "липня", "серпня", "вересня", "жовтня", "листопада", "грудня"];
+
 function ApartmentDetailPage() {
     const { state } = useLocation();
+    const navigate = useNavigate();
     const apartment = state?.apartment;
     const [showMore, setShowMore] = useState(false);
     const [showMore2, setShowMore2] = useState(false);
+    const [showGuestsInfo, setShowGuestsInfo] = useState(false);
+    //#region Slider variables
     const sliderRef = useRef();
     const slider2Ref = useRef();
-    const navigate = useNavigate();
     const [currentSlide, setCurrentSlide] = useState(0);
     const [currentSlide2, setCurrentSlide2] = useState(0);
     const totalSlides = 7;
     const totalSlides2 = 6;
     const slidesToShow = 2.5;
     const slidesToShow2 = 3;
+    //#endregion
+    const [arrivalDate, setArrivalDate] = useState("");
+    const [departureDate, setDepartureDate] = useState("");
+    const [adults, setAdults] = useState(1);
+    const [children, setChildren] = useState(0);
+    const [pets, setPets] = useState(0);
+    const totalPrice = apartment.apartmentPrice * adults;
+
+
+    const handleDateChange1 = (e) => {
+        setArrivalDate(e.target.value);
+    };
+
+    const handleDateChange2 = (e) => {
+        setDepartureDate(e.target.value);
+    };
+
+    const formatDate = (isoDate) => {
+        if (!isoDate) return "Додайте дату";
+        const [year, month, day] = isoDate.split("-");
+        return `${parseInt(day)} ${monthsUA[parseInt(month) - 1]}`;
+    };
 
     useEffect(() => {
         const navbar = document.getElementById("detailNavbar");
@@ -45,7 +72,7 @@ function ApartmentDetailPage() {
 
             const orderHeight = orderBlock.offsetHeight;
             const carouselTop = carousel.getBoundingClientRect().top + scrollY;
-            const stopPoint = carouselTop - orderHeight - 20;
+            const stopPoint = carouselTop - orderHeight - 70;
 
             if (scrollY >= stopPoint) {
                 orderBlock.classList.remove("sticky-order");
@@ -58,12 +85,60 @@ function ApartmentDetailPage() {
             } else {
                 orderBlock.classList.remove("sticky-order", "stopped-order");
                 orderBlock.style.top = `850px`;
-            }
+            }  
         };
 
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+    useEffect(() => {
+        if (!showGuestsInfo) return;
+
+        const guestsBlock = document.getElementById("guestsBlock");
+        const navbar = document.getElementById("detailNavbar");
+        const carousel = document.getElementById("carouselBlock");
+
+        if (!guestsBlock || !navbar || !carousel) return;
+
+        const initialNavbarOffset = navbar.offsetTop;
+
+        const handleGuestsScroll = () => {
+            const scrollY = window.scrollY;
+            const guestsHeight = guestsBlock.offsetHeight;
+            const carouselTop = carousel.getBoundingClientRect().top + scrollY;
+            const stopPointGuests = carouselTop - guestsHeight - 70;
+
+            if (scrollY >= stopPointGuests) {
+                guestsBlock.classList.remove("sticky-guests");
+                guestsBlock.classList.add("stop-guests");
+                guestsBlock.style.top = `${stopPointGuests}px`;
+            } else if (scrollY >= initialNavbarOffset) {
+                guestsBlock.classList.add("sticky-guests");
+                guestsBlock.classList.remove("stop-guests");
+                guestsBlock.style.top = `300px`;
+            } else {
+                guestsBlock.classList.remove("sticky-guests", "stop-guests");
+                guestsBlock.style.top = `850px`;
+            }
+        };
+
+        window.addEventListener("scroll", handleGuestsScroll);
+        handleGuestsScroll(); // вызвать сразу для корректного положения
+
+        return () => {
+            window.removeEventListener("scroll", handleGuestsScroll);
+        };
+    }, [showGuestsInfo]);
+
+    const increment = (setter, value, max = 10) => {
+        if (value < max) setter(value + 1);
+    };
+
+    const decrement = (setter, value, min = 0) => {
+        if (value > min) setter(value - 1);
+    };
+
 
     return (
         <div className="main-container">
@@ -114,23 +189,23 @@ function ApartmentDetailPage() {
                     <h3 className="order-header">Додайте дати, щоб дізнатися загальну ціну!</h3>
                     <div className="date-group">
                         <div className="date-search-item">
-                            <input style={{ transform: "scaleX(-1)" }} type="date" className="date-picker" />
+                            <input type="date" className="date-picker" min={new Date().toISOString().split("T")[0]} value={arrivalDate} onChange={handleDateChange1} style={{ transform: "scaleX(-1)" }} />
                             <div className="label-group" style={{ position: "relative", left: "-110px", whiteSpace: "nowrap" }}>
                                 <h6 className="label-title">Прибуття</h6>
-                                <p className="label-subtitle">Додайте дату</p>
+                                <p className="label-subtitle">{formatDate(arrivalDate)}</p>
                             </div>
                         </div>
 
                         <div className="date-search-item">
-                            <input style={{ transform: "scaleX(-1)" }} type="date" className="date-picker" />
+                            <input type="date" className="date-picker" min={arrivalDate || new Date().toISOString().split("T")[0]} value={departureDate} onChange={handleDateChange2} style={{ transform: "scaleX(-1)" }} />
                             <div className="label-group" style={{ position: "relative", left: "-110px", whiteSpace: "nowrap" }}>
                                 <h6 className="label-title">Виїзд</h6>
-                                <p className="label-subtitle">Додайте дату</p>
+                                <p className="label-subtitle">{formatDate(departureDate)}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="search-item">
+                    <div className="search-item" onClick={() => setShowGuestsInfo(prev => !prev)}>
                         <img src="/images/search-icon3.png" style={{ marginLeft: "5px" }} className="label-search" />
                         <div className="label-group">
                             <h6 className="label-title">Гості</h6>
@@ -144,7 +219,7 @@ function ApartmentDetailPage() {
                         <p className="text">Всього:</p>
                         <div className="price">
                             <p>від</p>
-                            <h5 className="text">142 €</h5>
+                            <h5 className="text">{totalPrice} €</h5>
                         </div>
                     </div>
 
@@ -161,6 +236,63 @@ function ApartmentDetailPage() {
                     <p className="text">Допомога</p>
                 </div>
             </div>
+
+            {showGuestsInfo && (
+                <div className="guests-info" id="guestsBlock">
+                    <div className="guests-container">
+                        <div className="guests-block">
+                            <div className="header-group">
+                                <h6 className="title">Дорослі:</h6>
+                                <p className="subtitle">Вік: від 18 до 65 років</p>
+                            </div>
+
+                            <div className="guests-button-group" style={{ left: "35px" }}>
+                                <div className="btn" onClick={() => decrement(setAdults, adults, 1)}>
+                                    <p className="text">-</p>
+                                </div>
+                                <p className="amount">{adults}</p>
+                                <div className="btn" onClick={() => increment(setAdults, adults)}>
+                                    <p className="text">+</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="guests-block">
+                            <div className="header-group">
+                                <h6 className="title">Діти:</h6>
+                                <p className="subtitle">Вік: від 1 до 17 років</p>
+                            </div>
+
+                            <div className="guests-button-group" style={{ left: "43px" }}>
+                                <div className="btn" onClick={() => decrement(setChildren, children)}>
+                                    <p className="text">-</p>
+                                </div>
+                                <p className="amount">{children}</p>
+                                <div className="btn" onClick={() => increment(setChildren, children)}>
+                                    <p className="text">+</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="guests-block">
+                            <div className="header-group">
+                                <h6 className="title">Домашні тварини:</h6>
+                                <p className="subtitle">Кількість: від 0 до 4</p>
+                            </div>
+
+                            <div className="guests-button-group">
+                                <div className="btn" onClick={() => decrement(setPets, pets)}>
+                                    <p className="text">-</p>
+                                </div>
+                                <p className="amount">{pets}</p>
+                                <div className="btn" onClick={() => increment(setPets, pets, 4)}>
+                                    <p className="text">+</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button className="save-btn" onClick={() => setShowGuestsInfo(prev => !prev)}>Зберегти</button>
+                    </div>
+                </div>
+
+            )}
 
             <div className="name-info">
                 <h1 className="name">{apartment.apartmentName}</h1>

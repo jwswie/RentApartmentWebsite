@@ -533,6 +533,10 @@
         cursor: pointer;
     }
 
+    .apartment-info .container .more-button-group:hover {
+        text-decoration: none;
+    }
+
 .more-button-group p {
     position: relative;
     width: 111px;

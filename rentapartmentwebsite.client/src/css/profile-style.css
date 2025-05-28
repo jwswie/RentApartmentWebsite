@@ -289,7 +289,12 @@ body {
         border: none;
         font-size: 18px;
         color: #E6E6E6;
+        transition: 0.1s all ease;
     }
+
+        .deactivate-buttons .deactivate-btn:hover {
+            background: #CA4008;
+        }
 
 
 .profile-banner {
@@ -392,8 +397,6 @@ body {
         white-space: nowrap;
         left: 180px;
         top: -55px;
-        font-family: 'Source Sans Pro';
-        font-style: normal;
         font-weight: 600;
         font-size: 34px;
         line-height: 25px;
@@ -431,7 +434,12 @@ body {
         border-radius: 50%;
         cursor: pointer;
         background: #E84E0F;
+        transition: 0.1s all ease;
     }
+
+        .profile-block .edit-name-button:hover {
+            background: #CA4008;
+        }
 
     .profile-block .edit-pictire {
         position: relative;

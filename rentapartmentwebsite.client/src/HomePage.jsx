@@ -157,7 +157,7 @@ function HomePage() {
                                 <div className="container">
                                     <h4 className="price-big">€ {ap.apartmentPrice}</h4>
                                     <p className='price-small'>/ ніч</p>
-                                    <Link to={`/apartment/${apartment.apartmentID}`} state={{ apartment }} className="more-button-group" >
+                                    <Link to={`/apartment/${ap.apartmentID}`} state={{ ap }} className="more-button-group" >
                                         <p>Детальніше</p>
                                         <img src="/images/arrow.svg" className="icon"></img>
                                     </Link>

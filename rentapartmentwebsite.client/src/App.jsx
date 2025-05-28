@@ -330,7 +330,7 @@ function App() {
                                 {user?.photo ? (
                                     <Link to="/account" state={{ user: user }}><img src={`data:image/jpeg;base64,${user.photo}`} alt="Profile image" className="profile-pictire"></img></Link>
                                 ) : (
-                                    <Link to="/account" state={{ user: user }}><img src="/images/no-pfp.png" alt="Profile image" className="profile-pictire"></img></Link>
+                                        <Link to="/account" state={{ user: user }}><img src="/images/no-pfp.svg" style={{ width: "24px", height: "24px" }} className="profile-pictire"></img></Link>
                                 )}
                                 
                             </div>  

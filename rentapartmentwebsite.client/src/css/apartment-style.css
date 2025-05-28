@@ -406,6 +406,10 @@
     height: 11px;
 }
 
+.more-button-group:hover{
+    text-decoration: none;
+}
+
 .info .review-container {
     display: flex;
     flex-direction: row;

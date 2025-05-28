@@ -65,8 +65,6 @@ body {
     height: 24px;
     left: calc(50% - 271px/2 + 15px);
     top: 100px;
-    font-family: 'Source Sans Pro';
-    font-style: normal;
     font-weight: 700;
     font-size: 30.5px;
     line-height: 76px;
@@ -81,8 +79,6 @@ body {
     position: relative;
     left: 30px;
     top: 150px;
-    font-family: 'Source Sans Pro';
-    font-style: normal;
     font-weight: 400;
     font-size: 12px;
     line-height: 30px;
@@ -128,7 +124,7 @@ body {
 }
 
     .form input.button:hover {
-        background: bisque;
+        background: #CA4008;
     }
 
 .divider {
@@ -137,7 +133,6 @@ body {
     justify-content: center;
     color: #A0A0A0;
     margin: 165px 0;
-    font-family: 'Source Sans Pro', sans-serif;
 }
 
     .divider .line {
@@ -190,8 +185,6 @@ body {
             position: relative;
             left: 5px;
             top: 5px;
-            font-family: 'Source Sans Pro';
-            font-style: normal;
             font-weight: 400;
             font-size: 18px;
             line-height: 34px;
@@ -207,8 +200,6 @@ body {
     height: 29.91px;
     left: calc(50% - 387px/2 + 0.5px);
     top: -45px;
-    font-family: 'Source Sans Pro';
-    font-style: normal;
     font-weight: 400;
     font-size: 14px;
     align-items: center;
@@ -244,8 +235,6 @@ body {
     height: 24px;
     left: calc(50% - 320px/2);
     top: 100px;
-    font-family: 'Source Sans Pro';
-    font-style: normal;
     font-weight: 700;
     font-size: 30px;
     line-height: 76px;
@@ -262,8 +251,6 @@ body {
     height: 58px;
     left: calc(50% - 486px/2);
     top: 145px;
-    font-family: 'Source Sans Pro';
-    font-style: normal;
     font-weight: 400;
     font-size: 15px;
     line-height: 20px;
@@ -279,8 +266,6 @@ body {
     height: 10px;
     left: calc(50% - 486px/2 + 40px);
     top: 220px;
-    font-family: 'Source Sans Pro';
-    font-style: normal;
     font-weight: 400;
     font-size: 12px;
     line-height: 34px;
@@ -329,8 +314,6 @@ body {
     height: 13px;
     left: calc(50% - 248px/2);
     top: 28px;
-    font-family: 'Source Sans Pro';
-    font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 23px;
