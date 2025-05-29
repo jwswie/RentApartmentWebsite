@@ -1,4 +1,4 @@
-﻿namespace RentApartmentWebsite.Server.Models
+namespace RentApartmentWebsite.Server.Models
 {
     public class ApartmentDto
     {
@@ -21,5 +21,4 @@
         public List<InfrastructureDto> Infrastructures { get; set; } = new();
         public List<string> Amenities { get; set; } = new();
     }
-
 }
