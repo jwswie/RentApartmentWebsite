@@ -19,9 +19,9 @@
             color: #060606;
         }
 
-        .countries-header .countries-nav .nav:hover {
-            text-decoration: underline;
-        }
+            .countries-header .countries-nav .nav:hover {
+                text-decoration: underline;
+            }
 
         .countries-header .countries-nav .nav-arrow {
             width: 10px;

@@ -24,7 +24,7 @@ function CountriesPage() {
     const handleCountryClick = (countryName) => {
         navigate(`/apartments/${encodeURIComponent(countryName)}`);
     };
-    
+
     const handleSearch = (e) => {
         e.preventDefault();
         const results = countries.filter(country =>

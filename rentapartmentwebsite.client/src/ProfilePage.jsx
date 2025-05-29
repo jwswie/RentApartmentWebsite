@@ -162,7 +162,7 @@ function ProfilePage({ setUser }) {
                         <p className="subheader">Роки на Dwell</p>
                     </div>
                     <div className="info-item">
-                        <h1 className="header">25</h1>
+                        <h1 className="header">0</h1>
                         <p className="subheader">Міст відвідано</p>
                     </div>
                     <div className="info-item">

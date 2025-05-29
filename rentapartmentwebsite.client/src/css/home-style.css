@@ -533,6 +533,10 @@
         cursor: pointer;
     }
 
+    .apartment-info .container .more-button-group:hover {
+        text-decoration: none;
+    }
+
 .more-button-group p {
     position: relative;
     width: 111px;
@@ -645,7 +649,7 @@
     .mobile-app-block .header {
         font-weight: 600;
         font-size: 36px;
-        line-height: 31px; 
+        line-height: 31px;
     }
 
     .mobile-app-block .sub-header {

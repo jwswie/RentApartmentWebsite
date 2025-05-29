@@ -10,8 +10,8 @@ const countries = [
     { img: "images/france.jpg", name: "Франція", style: { top: "-45px", height: "450px" } },
     { img: "images/germany.jpg", name: "Німеччина", style: { top: "-40px" } },
     { img: "images/united-kingdom.png", name: "Великобританія", style: { height: "450px" } },
-    { img: "images/ireland.jpg", name: "Ірландія", style: {top: "-120px", height: "450px" } },
-    { img: "images/montenegro.jpg", name: "Чорногорія", style: {height: "380px" } },
+    { img: "images/ireland.jpg", name: "Ірландія", style: { top: "-120px", height: "450px" } },
+    { img: "images/montenegro.jpg", name: "Чорногорія", style: { height: "380px" } },
     { img: "images/holland.jpg", name: "Нідерланди", style: { top: "-20px" } },
     { img: "images/chehia.jpg", name: "Чехія", style: { top: "-60px", height: "390px" } },
     { img: "images/spain.jpg", name: "Іспанія", style: { top: "-20px" } },
@@ -51,7 +51,7 @@ function HomePage() {
 
             <div className="banner">
                 <div className="banner-container">
-                    <img src="images/home-page-photo.png" className="banner-img"/>
+                    <img src="images/home-page-photo.png" className="banner-img" />
                     <div className="search-container">
                         <div className="search-item item-1">
                             <img src="images/search-icon1.png" className="label-search" />
@@ -129,7 +129,7 @@ function HomePage() {
             <div className="category-block">
                 <h3 className="header">Популярні категорії за останній місяць</h3>
                 <div className="category-container">
-                    {[ { name: "Будинок", img: "category-photo1.png" }, { name: "Апартаменти", img: "category-photo2.png" }, { name: "Котедж", img: "category-photo3.png" }, { name: "Вілла", img: "category-photo4.png" },
+                    {[{ name: "Будинок", img: "category-photo1.png" }, { name: "Апартаменти", img: "category-photo2.png" }, { name: "Котедж", img: "category-photo3.png" }, { name: "Вілла", img: "category-photo4.png" },
                     ].map((cat, i) => (
                         <div className="category-item" key={i}>
                             <img src={`images/${cat.img}`} className="category-img" />
@@ -157,10 +157,10 @@ function HomePage() {
                                 <div className="container">
                                     <h4 className="price-big">€ {ap.apartmentPrice}</h4>
                                     <p className='price-small'>/ ніч</p>
-                                    <div className='more-button-group'>
+                                    <Link to={`/apartment/${ap.apartmentID}`} state={{ ap }} className="more-button-group" >
                                         <p>Детальніше</p>
-                                        <img src="images/arrow.svg" className="icon" />
-                                    </div>
+                                        <img src="/images/arrow.svg" className="icon"></img>
+                                    </Link>
                                 </div>
                                 <div className="review-container">
                                     <div className='rate-group'>
@@ -233,13 +233,13 @@ function HomePage() {
             </div>
 
             <div className="category-block" style={{ marginTop: "200px", marginBottom: "200px" }}>
-                <h3 className="header" style={{ left: "calc(50% - 186px /2 + 0.5px)"} }>Наш блог</h3>
+                <h3 className="header" style={{ left: "calc(50% - 186px /2 + 0.5px)" }}>Наш блог</h3>
                 <div className="category-container">
                     <div className="category-item">
                         <div className="photo-wrapper">
                             <img src="images/blog1.png" style={{ transform: "scaleX(-1)", height: "350px", width: "520px", left: "-80px" }} className="category-img" />
                         </div>
-                        
+
                         <div className="category-text">
                             <p className="text">Подорожі та напрямки</p>
                             <img src="images/profile-arrow.png" className="arrow"></img>
@@ -248,7 +248,7 @@ function HomePage() {
                     <div className="category-item">
                         <div className="photo-wrapper">
                             <img src="images/blog2.jpg" style={{ transform: "scaleX(-1)" }} className="category-img" />
-                        </div>   
+                        </div>
                         <div className="category-text">
                             <p className="text">Житло та інтер’єри</p>
                             <img src="images/profile-arrow.png" className="arrow"></img>
@@ -257,7 +257,7 @@ function HomePage() {
                     <div className="category-item">
                         <div className="photo-wrapper">
                             <img src="images/blog3.jpg" style={{ top: "-80px" }} className="category-img" />
-                        </div>   
+                        </div>
                         <div className="category-text">
                             <p className="text">Історії гостей</p>
                             <img src="images/profile-arrow.png" className="arrow"></img>
@@ -266,7 +266,7 @@ function HomePage() {
                     <div className="category-item">
                         <div className="photo-wrapper">
                             <img src="images/blog4.jpg" alt="Blog Photo" className="category-img" />
-                        </div> 
+                        </div>
                         <div className="category-text">
                             <p className="text" >Оновлення та новини</p>
                             <img src="images/profile-arrow.png" className="arrow"></img>

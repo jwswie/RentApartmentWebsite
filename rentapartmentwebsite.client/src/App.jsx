@@ -10,6 +10,7 @@ import AccountPage from './AccountPage';
 import ProfilePage from './ProfilePage';
 import AdminPanel from './AdminPanel';
 import ApartmentPage from './ApartmentPage';
+import ApartmentDetailPage from './ApartmentDetailPage';
 
 function ProfileProtectedRoute({ user, children }) {
     if (!user) {
@@ -322,13 +323,12 @@ function App() {
 
                     <div className="icon-container">
                         <img src="/images/wish-icon.svg" className="icon" style={{ width: "26px", height: "26px" }}/>
-
                         {user ? (
                             <div className="profile-picture-wrapper">
                                 {user?.photo ? (
                                     <Link to="/account" state={{ user: user }}><img src={`data:image/jpeg;base64,${user.photo}`}  className="profile-pictire"></img></Link>
                                 ) : (
-                                    <Link to="/account" state={{ user: user }}><img src="/images/no-pfp.png" className="profile-pictire"></img></Link>
+                                        <Link to="/account" state={{ user: user }}><img src="/images/no-pfp.png" style={{ width: "24px", height: "24px" }} className="profile-pictire"></img></Link>
                                 )}
                                 
                             </div>  
@@ -362,7 +362,7 @@ function App() {
                                     <span className="line"></span>
                                 </div>
 
-                                <div className="other">
+                                div className="other">
                                     <div className="other-item">
                                         <img src="/images/google-icon.png" className="other-icon"></img>
                                         <p className="other-text">Увійти з Google</p>
@@ -435,16 +435,18 @@ function App() {
             )}
 
             <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/countries" element={<CountriesPage />} />
-                <Route path="/notfound" element={<NotFoundPage />} />
-                <Route path="/admin" element={<AdminProtectedRoute user={user}><AdminPanel setUser={updateUser} /></AdminProtectedRoute>} />
-                <Route path="/account" element={<ProfileProtectedRoute user={user}><AccountPage setUser={updateUser} /></ProfileProtectedRoute>} />
-                <Route path="/profile" element={<ProfileProtectedRoute user={user}><ProfilePage setUser={updateUser} /></ProfileProtectedRoute>} />
-                <Route path="/apartments" element={<ApartmentPage />} />
-                <Route path="/apartments/:country" element={<ApartmentPage />} />
-            </Routes>
+    <Route path="/" element={<HomePage />} />
+    <Route path="/about" element={<AboutPage />} />
+    <Route path="/contact" element={<ContactPage />} />
+    <Route path="/countries" element={<CountriesPage />} />
+    <Route path="/notfound" element={<NotFoundPage />} />
+    <Route path="/admin" element={<AdminProtectedRoute user={user}><AdminPanel setUser={updateUser} /></AdminProtectedRoute>} />
+    <Route path="/account" element={<ProfileProtectedRoute user={user}><AccountPage setUser={updateUser} /></ProfileProtectedRoute>} />
+    <Route path="/profile" element={<ProfileProtectedRoute user={user}><ProfilePage setUser={updateUser} /></ProfileProtectedRoute>} />
+    <Route path="/apartments" element={<ApartmentPage />} />
+    <Route path="/detail" element={<ApartmentDetailPage />} />
+    <Route path="/apartment/:id" element={<ApartmentDetailPage />} />
+</Routes>
 
             {!isAdminPage && (
                 <div className="footer-area">
