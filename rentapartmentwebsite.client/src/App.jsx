@@ -322,7 +322,11 @@ function App() {
                     </div>
 
                     <div className="icon-container">
-                        <img src="/images/wish-icon.svg" className="icon" style={{ width: "26px", height: "26px" }}></img>
+                        {user && !("emailAddress" in user) ? (
+                            <Link to="/admin"><img src="/images/block-icon1.png" className="icon" style={{ width: "27px", height: "27px" }}></img></Link>
+                        ) : (
+                            <img src="/images/wish-icon.svg" className="icon" style={{ width: "26px", height: "26px" }}></img>
+                        )}
                         {user ? (
                             <div className="profile-picture-wrapper">
                                 {user?.photo ? (
@@ -386,8 +390,8 @@ function App() {
                         <div className="code-container">
                             <div className="login form">
                                 <img src="/images/cross.png" onClick={() => setIsRegisterWindow(false)} alt="Cross image" className="close-btn"></img>
-                                <img src="/images/arrow.png" onClick={() => setIsVerifying(false)} alt="Arrow image" className="back-btn"></img>
-                                <header>Введіть пароль</header>
+                                    <img src="/images/arrow.png" onClick={() => setIsVerifying(false)} alt="Arrow image" className="back-btn"></img>
+                                    <header style={{ marginLeft: "15px" }}>Введіть пароль</header>
                                 <form onSubmit={handleAdminLogin} style={{ marginTop: "70px" }}>
                                     <input type="password" className="form-input" placeholder="Введіть пароль" value={password}
                                         onChange={(e) => setPassword(e.target.value)} required />

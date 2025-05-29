@@ -4,7 +4,6 @@ import './css/apartment-detail-style.css';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 function chunkArray(array, size) {
     const chunked = [];
     for (let i = 0; i < array.length; i += size) {
@@ -38,7 +37,6 @@ function ApartmentDetailPage() {
     const [children, setChildren] = useState(0);
     const [pets, setPets] = useState(0);
     const totalPrice = apartment.apartmentPrice * adults;
-
 
     const handleDateChange1 = (e) => {
         setArrivalDate(e.target.value);
@@ -138,7 +136,6 @@ function ApartmentDetailPage() {
     const decrement = (setter, value, min = 0) => {
         if (value > min) setter(value - 1);
     };
-
 
     return (
         <div className="main-container">
