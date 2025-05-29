@@ -119,7 +119,7 @@ function ApartmentDetailPage() {
                 guestsBlock.style.top = `300px`;
             } else {
                 guestsBlock.classList.remove("sticky-guests", "stop-guests");
-                guestsBlock.style.top = `850px`;
+                guestsBlock.style.top = `1010px`;
             }
         };
 
