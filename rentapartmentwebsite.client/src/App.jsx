@@ -385,12 +385,12 @@ function App() {
                             </div>
                         </div>
 
-                    ) : isVerifying && isAdmin ? ( // Если стоит проверка кода и входит админ
+                    ) : isVerifying && isAdmin ? ( // Если стоит проверка пароля и входит админ
 
                         <div className="code-container">
                             <div className="login form">
                                 <img src="/images/cross.png" onClick={() => setIsRegisterWindow(false)} alt="Cross image" className="close-btn"></img>
-                                    <img src="/images/arrow.png" onClick={() => setIsVerifying(false)} alt="Arrow image" className="back-btn"></img>
+                                    <img src="/images/arrow.png" onClick={() => (setIsVerifying(false), setIsAdmin(false))} alt="Arrow image" className="back-btn"></img>
                                     <header style={{ marginLeft: "15px" }}>Введіть пароль</header>
                                 <form onSubmit={handleAdminLogin} style={{ marginTop: "70px" }}>
                                     <input type="password" className="form-input" placeholder="Введіть пароль" value={password}

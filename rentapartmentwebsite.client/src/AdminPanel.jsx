@@ -307,7 +307,6 @@ const AdminPanel = ({ setUser }) => {
         return filteredData;
     };
 
-
     const handleFilterChange = (filterOption) => {
         setFilter(filterOption);
     };
@@ -319,21 +318,10 @@ const AdminPanel = ({ setUser }) => {
             <div className="sidebar">
                 <div className="sidebar-footer">
                     <Link to="/profile" className="avatar-link">
-                        <img
-                            src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
-                            alt="User Avatar"
-                            className="avatar-img"
-                        />
+                        <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" className="avatar-img" />
                     </Link>
                 </div>
-                <input
-                    style={{ color: "black" }}
-                    type="text"
-                    className="search-input"
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
+                <input type="text" className="search-input" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                 {filteredMenuItems.map(item => (
                     <div key={item.key}>
                         <div className="menu-item" onClick={() => toggleMenu(item.key)}>
@@ -359,7 +347,7 @@ const AdminPanel = ({ setUser }) => {
             <div className="content">
                 {users.length > 0 ? (
                     <>
-                        <h2 style={{ margin: "20px" }}>Users</h2>
+                        <h2 style={{ margin: "20px", marginLeft: "0px" }}>Users</h2>
                         <div className="filters">
                             <input
                                 style={{ color: "black" }}
@@ -380,7 +368,7 @@ const AdminPanel = ({ setUser }) => {
                     </>
                 ) : admins.length > 0 ? (
                     <>
-                        <h2 style={{ margin: "20px" }}>Admins</h2>
+                        <h2 style={{ margin: "20px", marginLeft: "0px" }}>Admins</h2>
                         <div className="filters">
                             <input
                                 style={{ color: "black" }}
@@ -404,7 +392,7 @@ const AdminPanel = ({ setUser }) => {
                     </>
                 ) : (
                     <>
-                        <h2 style={{ margin: "20px" }}>Admin Panel</h2>
+                        <h2 style={{ margin: "20px", marginLeft: "0px" }}>Admin Panel</h2>
                         <div className="filters">
                             <input type="text" placeholder="Search..." />
                             <select>
