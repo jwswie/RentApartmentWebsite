@@ -20,14 +20,11 @@ const AdminPanel = ({ setUser }) => {
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
-        console.log(storedUser)
         if (storedUser) {
-            console.log("Админ авторизирован")
             const parsedUser = JSON.parse(storedUser);
             setLocalUser(parsedUser);
 
             if ("adminLogin" in parsedUser) {
-                console.log("У админа есть роль")
                 if (parsedUser.adminLogin.includes("org")) {
                     setAdminRole("Organisation Admin");
                 } else if (parsedUser.adminLogin.includes("site")) {
@@ -35,7 +32,6 @@ const AdminPanel = ({ setUser }) => {
                 }
             }
         } else {
-            console.log("Админ не авторизирован")
             navigate('/');
         }
     }, []);
@@ -102,7 +98,7 @@ const AdminPanel = ({ setUser }) => {
     const handleDelete = async (id, type) => {
         const url = type === "user" ? `/api/users/${id}` : `/api/admins/${id}`;
 
-        if (!window.confirm("Are you sure you want to delete this entry?")) return;
+        if (!window.confirm("Ви впевнені, що хочете видалити цей запис?")) return;
 
         try {
             const response = await fetch(url, { method: "DELETE" });
@@ -169,7 +165,7 @@ const AdminPanel = ({ setUser }) => {
             if (currentDataType === "User") {
 
                 if (!emailPattern.test(newData.email)) {
-                    alert("Please check if the email address you've entered is correct");
+                    alert("Будь ласка, перевірте правильність введеної адреси електронної пошти");
                     return;
                 }
 
@@ -178,12 +174,12 @@ const AdminPanel = ({ setUser }) => {
                     if (checkResponse.ok) {
                         const exists = await checkResponse.json();
                         if (exists) {
-                            alert('Email address already registered');
+                            alert('Електронна адреса вже зареєстрована');
                             return;
                         }
                     }
                 } catch (error) {
-                    alert('Error checking email');
+                    alert('Помилка при перевірці пошти');
                     return;
                 }
 
@@ -195,7 +191,7 @@ const AdminPanel = ({ setUser }) => {
                 dataToSend.adminName = newData.name;
 
                 if (!/^org_|^site_/.test(newData.email)) {
-                    alert("Admin login must start with 'org_' or 'site_'");
+                    alert("Логін адміністратора повинен починатися з 'org_' або 'site_''");
                     return;
                 }
 
@@ -204,12 +200,12 @@ const AdminPanel = ({ setUser }) => {
                     if (checkResponse.ok) {
                         const exists = await checkResponse.json();
                         if (exists) {
-                            alert('Login already registered');
+                            alert('Логін вже зареєстрований');
                             return;
                         }
                     }
                 } catch (error) {
-                    alert('Error checking login');
+                    alert('Помилка при перевірці логіну');
                     return;
                 }
 
@@ -219,7 +215,7 @@ const AdminPanel = ({ setUser }) => {
                     const response = await fetch(`/api/admins/convert-password?password=${encodeURIComponent(newData.password)}`);
 
                     if (!response.ok) {
-                        alert("Failed to convert password. Try again");
+                        alert("Не вдалося конвертувати пароль. Спробуйте ще раз");
                         return;
                     }
 
@@ -227,7 +223,7 @@ const AdminPanel = ({ setUser }) => {
                     dataToSend.hashedPassword = passwordHash;
                     dataToSend.salt = salt;
                 } catch (error) {
-                    alert("Error converting password");
+                    alert("Помилка при конвертації пароля");
                     return;
                 }
             }
@@ -307,7 +303,6 @@ const AdminPanel = ({ setUser }) => {
         return filteredData;
     };
 
-
     const handleFilterChange = (filterOption) => {
         setFilter(filterOption);
     };
@@ -319,21 +314,10 @@ const AdminPanel = ({ setUser }) => {
             <div className="sidebar">
                 <div className="sidebar-footer">
                     <Link to="/profile" className="avatar-link">
-                        <img
-                            src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
-                            alt="User Avatar"
-                            className="avatar-img"
-                        />
+                        <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" className="avatar-img" />
                     </Link>
                 </div>
-                <input
-                    style={{ color: "black" }}
-                    type="text"
-                    className="search-input"
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
+                <input type="text" className="search-input" placeholder="Пошук..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                 {filteredMenuItems.map(item => (
                     <div key={item.key}>
                         <div className="menu-item" onClick={() => toggleMenu(item.key)}>
@@ -341,15 +325,15 @@ const AdminPanel = ({ setUser }) => {
                         </div>
                         {menu[item.key] && item.key === "users" && (
                             <div className="submenu">
-                                <div style={{ cursor: "pointer" }} onClick={fetchUsers}>Users</div>
-                                <div style={{ cursor: "pointer" }} onClick={fetchAdmins}>Site Admins</div>
+                                <div style={{ cursor: "pointer" }} onClick={fetchUsers}>Користувачі</div>
+                                <div style={{ cursor: "pointer" }} onClick={fetchAdmins}>Адміністратори</div>
                             </div>
                         )}
                         {menu[item.key] && item.key === "apartments" && (
                             <div className="submenu">
-                                <div>All Apartments</div>
-                                <div>Booked</div>
-                                <div>Free</div>
+                                <div>Все житло</div>
+                                <div>Заброньоване</div>
+                                <div>Вільне</div>
                             </div>
                         )}
                     </div>
@@ -359,56 +343,44 @@ const AdminPanel = ({ setUser }) => {
             <div className="content">
                 {users.length > 0 ? (
                     <>
-                        <h2 style={{ margin: "20px" }}>Users</h2>
+                        <h2 style={{ margin: "20px", marginLeft: "0px" }}>Users</h2>
                         <div className="filters">
-                            <input
-                                style={{ color: "black" }}
-                                type="text"
-                                placeholder="Search user name..."
-                                value={tableSearchQuery}
-                                onChange={(e) => setTableSearchQuery(e.target.value)}
-                            />
+                            <input style={{ color: "black" }} type="text" placeholder="Пошук за іменем..." value={tableSearchQuery} onChange={(e) => setTableSearchQuery(e.target.value)} />
                             <select onChange={(e) => handleFilterChange(e.target.value)}>
-                                <option value="">Filter by</option>
-                                <option value="nameAToZ">Name, A to Z</option>
-                                <option value="nameZToA">Name, Z to A</option>
-                                <option value="emailAToZ">Email, A to Z</option>
-                                <option value="emailZToA">Email, Z to A</option>
+                                <option value="">Фільтри</option>
+                                <option value="nameAToZ">Ім'я, А до Я</option>
+                                <option value="nameZToA">Ім'я, Я до А</option>
+                                <option value="emailAToZ">Пошта, А до Я</option>
+                                <option value="emailZToA">Пошта, Я до А</option>
                             </select>
-                            <button className="add-btn" onClick={() => handleAdd("User")}>+ Add</button>
+                            <button className="add-btn" onClick={() => handleAdd("User")}>+ Додати</button>
                         </div>
                     </>
                 ) : admins.length > 0 ? (
                     <>
-                        <h2 style={{ margin: "20px" }}>Admins</h2>
+                        <h2 style={{ margin: "20px", marginLeft: "0px" }}>Admins</h2>
                         <div className="filters">
-                            <input
-                                style={{ color: "black" }}
-                                type="text"
-                                placeholder="Search admin name..."
-                                value={tableSearchQuery}
-                                onChange={(e) => setTableSearchQuery(e.target.value)}
-                            />
+                            <input style={{ color: "black" }} type="text" placeholder="Пошук за іменем..." value={tableSearchQuery} onChange={(e) => setTableSearchQuery(e.target.value)} />
                             <select onChange={(e) => handleFilterChange(e.target.value)}>
-                                <option value="">Filter by</option>
-                                <option value="nameAToZ">Name, A to Z</option>
-                                <option value="nameZToA">Name, Z to A</option>
-                                <option value="loginAToZ">Login, A to Z</option>
-                                <option value="loginZToA">Login, Z to A</option>
+                                <option value="">Фільтри</option>
+                                <option value="nameAToZ">Ім'я, А до Я</option>
+                                <option value="nameZToA">Ім'я, Я до А</option>
+                                <option value="loginAToZ">Логін, А до Я</option>
+                                <option value="loginZToA">Логін, Я до А</option>
                             </select>
                             {adminRole != "Site Admin" && (
-                                <button className="add-btn" onClick={() => handleAdd("Admin")}>+ Add</button>
+                                <button className="add-btn" onClick={() => handleAdd("Admin")}>+ Додати</button>
                             )}
 
                         </div>
                     </>
                 ) : (
                     <>
-                        <h2 style={{ margin: "20px" }}>Admin Panel</h2>
+                        <h2 style={{ margin: "20px", marginLeft: "0px" }}>Панель адміністратора</h2>
                         <div className="filters">
-                            <input type="text" placeholder="Search..." />
+                            <input type="text" placeholder="Пошук..." />
                             <select>
-                                <option value="">Filter by</option>
+                                <option value="">Фільтри</option>
                             </select>
                         </div>
                     </>
@@ -422,7 +394,7 @@ const AdminPanel = ({ setUser }) => {
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Actions</th>
+                                <th>Дії</th>
                             </tr>
                         ) : admins.length > 0 ? (
                             <tr>
@@ -431,12 +403,12 @@ const AdminPanel = ({ setUser }) => {
                                 <th>Login</th>
                                 <th>Password</th>
                                 <th>Salt</th>
-                                {adminRole != "Site Admin" && (<th>Actions</th>)}
+                                    {adminRole != "Site Admin" && (<th>Дії</th>)}
 
                             </tr>
                         ) : (
                             <tr>
-                                <td colSpan="4" style={{ textAlign: "center" }}>No data found</td>
+                                <td colSpan="4" style={{ textAlign: "center" }}>Даних не знайдено</td>
                             </tr>
                         )}
 
@@ -449,8 +421,8 @@ const AdminPanel = ({ setUser }) => {
                                     <td>{user.userName}</td>
                                     <td>{user.emailAddress}</td>
                                     <td>
-                                        <button className="edit-btn" onClick={() => setEditingUser(user)}>Edit</button>
-                                        <button className="delete-btn" onClick={() => handleDelete(user.userID, "user")}>Delete</button>
+                                        <button className="edit-btn" onClick={() => setEditingUser(user)}>Редагувати</button>
+                                        <button className="delete-btn" onClick={() => handleDelete(user.userID, "user")}>Видалити</button>
                                     </td>
                                 </tr>
                             ))
@@ -464,15 +436,15 @@ const AdminPanel = ({ setUser }) => {
                                     <td>{admin.salt}</td>
                                     {adminRole !== "Site Admin" && (
                                         <td>
-                                            <button className="edit-btn" onClick={() => setEditingAdmin(admin)}>Edit</button>
-                                            <button className="delete-btn" onClick={() => handleDelete(admin.adminID, "admin")}>Delete</button>
+                                            <button className="edit-btn" onClick={() => setEditingAdmin(admin)}>Редагувати</button>
+                                            <button className="delete-btn" onClick={() => handleDelete(admin.adminID, "admin")}>Видалити</button>
                                         </td>
                                     )}
                                 </tr>
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="6" style={{ textAlign: "center" }}>No data found</td>
+                                        <td colSpan="6" style={{ textAlign: "center" }}>Даних не знайдено</td>
                             </tr>
                         )}
                     </tbody>
@@ -483,12 +455,9 @@ const AdminPanel = ({ setUser }) => {
             {(editingUser !== null || editingAdmin !== null) && (
                 <div className="modal">
                     <div className="modal-content">
-                        <h3>Edit {editingUser ? "User" : "Admin"}</h3>
+                        <h3>Редагувати {editingUser ? "User" : "Admin"}</h3>
                         <label>Name:</label>
-                        <input
-                            required
-                            type="text"
-                            value={editingUser ? editingUser.userName : editingAdmin.adminName}
+                        <input required type="text" value={editingUser ? editingUser.userName : editingAdmin.adminName}
                             onChange={(e) => {
                                 if (editingUser) {
                                     setEditingUser({ ...editingUser, userName: e.target.value });
@@ -498,10 +467,7 @@ const AdminPanel = ({ setUser }) => {
                             }}
                         />
                         <label>Email/Login:</label>
-                        <input
-                            required
-                            type="text"
-                            value={editingUser ? editingUser.emailAddress : editingAdmin.adminLogin}
+                        <input required type="text" value={editingUser ? editingUser.emailAddress : editingAdmin.adminLogin}
                             onChange={(e) => {
                                 if (editingUser) {
                                     setEditingUser({ ...editingUser, emailAddress: e.target.value });
@@ -510,8 +476,8 @@ const AdminPanel = ({ setUser }) => {
                                 }
                             }}
                         />
-                        <button onClick={handleSave} className="save-btn">Save</button>
-                        <button onClick={closeModal} className="cancel-btn">Cancel</button>
+                        <button onClick={handleSave} className="save-btn">Зберегти</button>
+                        <button onClick={closeModal} className="cancel-btn">Скасувати</button>
                     </div>
                 </div>
             )}
@@ -519,12 +485,12 @@ const AdminPanel = ({ setUser }) => {
             {addingData && (
                 <div className="modal">
                     <div className="modal-content">
-                        <h3>Add New {currentDataType}</h3>
+                        <h3>Додати нове значення {currentDataType}</h3>
 
                         {renderFormFields(currentDataType)}
 
-                        <button onClick={handleAddData}>Add</button>
-                        <button onClick={closeModal}>Cancel</button>
+                        <button onClick={handleAddData}>Зберегти</button>
+                        <button onClick={closeModal}>Скасувати</button>
                     </div>
                 </div>
             )}
