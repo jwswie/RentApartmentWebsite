@@ -402,8 +402,7 @@ const AdminPanel = ({ setUser }) => {
                                 <th>Name</th>
                                 <th>Login</th>
                                 <th>Password</th>
-                                <th>Salt</th>
-                                    {adminRole != "Site Admin" && (<th>Дії</th>)}
+                                {adminRole != "Site Admin" && (<th>Дії</th>)}
 
                             </tr>
                         ) : (
@@ -433,7 +432,6 @@ const AdminPanel = ({ setUser }) => {
                                     <td>{admin.adminName}</td>
                                     <td>{admin.adminLogin}</td>
                                     <td>{admin.hashedPassword}</td>
-                                    <td>{admin.salt}</td>
                                     {adminRole !== "Site Admin" && (
                                         <td>
                                             <button className="edit-btn" onClick={() => setEditingAdmin(admin)}>Редагувати</button>
