@@ -31,7 +31,6 @@ function ProfilePage({ setUser }) {
     const closeModal = () => {
         setEditingAdmin(null);
         setEditingUser(null);
-
     };
 
     const handleEditUserSave = async () => {
@@ -322,7 +321,7 @@ function ProfilePage({ setUser }) {
                         <img src="images/cross.png" className="close-btn" onClick={closeModal} />
                         <header>Редагування даних</header>
                         <div className="upload-photo-container">
-                            {editingUser.photo ? (
+                            {editingUser.photoBase64 || editingUser.photo ? (
                                 <img src={`data:image/jpeg;base64,${editingUser.photoBase64 || editingUser.photo}`} className="edit-photo" />
                             ) : (
                                 <div className="profile-picture-wrapper">

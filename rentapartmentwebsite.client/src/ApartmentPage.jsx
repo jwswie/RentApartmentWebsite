@@ -72,15 +72,19 @@ function ApartmentPage() {
             const response = await fetch("/api/apartment");
             if (!response.ok) throw new Error('Не вдалося завантажити житло');
             const data = await response.json();
+
+            // 1. Фільтрація по країні
             const filtered = country ? data.filter(ap => ap.apartmentCountry === decodeURIComponent(country)) : data;
             setAllApartments(filtered);
             setApartments(filtered);
 
+            // 2. Якщо є параметр категорії — додаткова фільтрація
             if (initialCategory) {
                 setSelectedCategories([initialCategory]);
                 const categoryFiltered = filtered.filter(ap => ap.categories?.includes(initialCategory));
                 setApartments(categoryFiltered);
             }
+
         } catch (error) {
             console.error('Помилка:', error);
         }

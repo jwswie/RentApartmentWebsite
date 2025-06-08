@@ -461,6 +461,7 @@ function App() {
                 <Route path="/apartments" element={<ApartmentPage />} />
                 <Route path="/detail" element={<ApartmentDetailPage />} />
                 <Route path="/apartment/:id" element={<ApartmentDetailPage />} />
+                <Route path="/apartments/:country" element={<ApartmentPage />} />
             </Routes>
 
             {!isAdminPage && (

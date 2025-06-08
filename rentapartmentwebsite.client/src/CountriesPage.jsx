@@ -68,14 +68,14 @@ function CountriesPage() {
             <div className="country-block">
                 <div className="country-container">
                     {displayedCountries.map((country, index) => (
-                        <div className="country-item" key={index} onClick={() => handleCountryClick(country.countryName)}>
+                        <div className="country-item" key={index}>
                             <div className="country-img-wrapper">
                                 <img src={`images/${country.countryPhoto}`} className="country-img" />
                             </div>
                             <div className="country-info">
                                 <h4 className="header">{country.countryName}</h4>
                                 <h4 className="sub-header">Від 98 €</h4>
-                                <div className="more-button-group">
+                                <div className="more-button-group" onClick={() => handleCountryClick(country.countryName)}>
                                     <p>Детальніше</p>
                                     <img src="images/arrow.svg" className="icon" />
                                 </div>
