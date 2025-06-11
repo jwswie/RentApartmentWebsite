@@ -39,7 +39,6 @@ function ApartmentDetailPage() {
     const [pets, setPets] = useState(0);
     const totalPrice = apartment.apartmentPrice * adults;
 
-
     const handleDateChange1 = (e) => {
         setArrivalDate(e.target.value);
     };
@@ -139,6 +138,24 @@ function ApartmentDetailPage() {
         if (value > min) setter(value - 1);
     };
 
+    const getGuestsSummary = () => {
+        const parts = [];
+
+        if (adults > 0) {
+            parts.push(`${adults} ${adults === 1 ? 'гість' : (adults <= 4 ? 'гостя' : 'гостей')}`);
+        }
+
+        if (children > 0) {
+            parts.push(`${children} ${children === 1 ? 'дитина' : (children <= 4 ? 'дитини' : 'дітей')}`);
+        }
+
+        if (pets > 0) {
+            parts.push(`${pets} ${pets === 1 ? 'домашня тварина' : 'домашнi тварини'}`);
+        }
+
+        return parts.length > 0 ? parts.join(', ') : 'Хто вирушає з вами?';
+    };
+
 
     return (
         <div className="main-container">
@@ -209,11 +226,11 @@ function ApartmentDetailPage() {
                         <img src="/images/search-icon3.png" style={{ marginLeft: "5px" }} className="label-search" />
                         <div className="label-group">
                             <h6 className="label-title">Гості</h6>
-                            <p className="label-subtitle" style={{ whiteSpace: "nowrap" }}>Хто вирушає з вами?</p>
+                            <p className="label-subtitle" style={{ whiteSpace: "nowrap" }}>{getGuestsSummary()}</p>
                         </div>
                     </div>
 
-                    <button className="search-btn">Перевірити наявність</button>
+                    <button className="search-btn" onClick={() => navigate('/book', { state: { apartment, arrivalDate, departureDate, guestsSummary: getGuestsSummary(), totalPrice } }) }>Перевірити наявність</button>
 
                     <div className="total-group">
                         <p className="text">Всього:</p>

@@ -1,13 +1,39 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import './css/booking-style.css';
 
-function BookingPage() {
+const monthsUA = ["січня", "лютого", "березня", "квітня", "травня", "червня", "липня", "серпня", "вересня", "жовтня", "листопада", "грудня"];
+function BookingPage({ setUser }) {
     const [selectedPayment, setSelectedPayment] = useState(null);
     const [cardNumber, setCardNumber] = useState("");
     const [expiry, setExpiry] = useState("");
     const [cvv, setCvv] = useState("");
     const [postalCode, setPostalCode] = useState("");
+    const location = useLocation();
+    const apartment = location.state?.apartment;
+    const arrivalDate = location.state?.arrivalDate;
+    const departureDate = location.state?.departureDate;
+    const guestsSummary = location.state?.guestsSummary;
+    const totalPrice = location.state?.totalPrice;
+    const [user, setLocalUser] = useState(null);
+    const [countries, setCountries] = useState([]);
+
+    useEffect(() => {
+        fetch("/api/countries")
+            .then(res => res.json())
+            .then(data => setCountries(data))
+            .catch(error => console.error('Помилка:', error));
+    }, []);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            setLocalUser(parsedUser);
+        } else {
+            navigate('/');
+        }
+    }, []);
 
     const formatCardNumber = (value) => {
         return value
@@ -41,6 +67,19 @@ function BookingPage() {
             setPostalCode(value);
         }
     };
+
+    const formatDate = (isoDate) => {
+        const [year, month, day] = isoDate.split("-");
+        return `${parseInt(day)} ${monthsUA[parseInt(month) - 1]}`;
+    };
+
+    function getWeekday(dateString) {
+        if (!dateString) return "";
+
+        const days = ['нд', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+        const date = new Date(dateString);
+        return days[date.getDay()];
+    }
 
     return (
         <div className="main-container">
@@ -91,11 +130,11 @@ function BookingPage() {
                         <p className='input-header'>Країна</p>
                         <select className="book-input" required>
                             <option value="">Оберіть країну</option>
-                            <option value="ukraine">Україна</option>
-                            <option value="poland">Польща</option>
-                            <option value="germany">Німеччина</option>
-                            <option value="italy">Італія</option>
-                            <option value="france">Франція</option>
+                            {countries.slice().sort((a, b) => a.countryName.localeCompare(b.countryName)).map(country => (
+                                <option key={country.countryID}>
+                                        {country.countryName}
+                                    </option>
+                                ))}
                         </select>
                     </div>
                 </div>
@@ -124,7 +163,7 @@ function BookingPage() {
                 <div className="big-container">
                     <div className="main-container">
                         <div className="photo-container">
-                            <img src="images/apartment-image1.png" className='ap-photo'></img>
+                            <img src={`/images/${apartment?.apartmentPhoto}`} className="ap-photo" />
                             <div className="more-photo-btn">
                                 <img src="images/photo-icon.png" style={{ width: "27px", height: "27px" }}></img>
                                 <p className="text">27+</p>
@@ -132,11 +171,12 @@ function BookingPage() {
                         </div>
 
                         <div className="ap-info-group">
-                            <h2 className='ap-name'>Hus med grillterrass i Joncheping County</h2>
-                            <p className="ap-loc">Швеція, Округ Йончепінг, Tånnö</p>
+                            <h2 className="ap-name">{apartment?.apartmentName}</h2>
+                            <p className="ap-loc">{apartment?.apartmentCountry}, {apartment?.apartmentLocation}</p>
+
                             <div className="review-group">
                                 <img src="images/rate-icon.png" className="icon"></img>
-                                <p>4,9</p>
+                                <p>{apartment?.apartmentRate}</p>
                                 <p className='reviews'>(176 відгуків)</p>
                             </div>
                         </div>
@@ -144,17 +184,17 @@ function BookingPage() {
                         <div className="booking-info">
                             <div className="book-group">
                                 <p className='header'>Реєстрація:</p>
-                                <p className='subheader'>сб, 22 червня, 13:00</p>
+                                <p className='subheader'>{getWeekday(arrivalDate)}, {formatDate(arrivalDate)}, 13:00</p>
                             </div>
 
                             <div className="book-group">
                                 <p className='header'>Оформити замовлення:</p>
-                                <p className='subheader'>ср, 26 червня, 10:00</p>
+                                <p className='subheader'>{getWeekday(departureDate)}, {formatDate(departureDate)}, 10:00</p>
                             </div>
 
                             <div className="book-group">
                                 <p className='header'>Гості:</p>
-                                <p className='subheader'>2 гостя, 1 дитина, 1 домашня тварина</p>
+                                <p className='subheader'>{guestsSummary}</p>
                             </div>
                         </div>
 
@@ -163,7 +203,7 @@ function BookingPage() {
                         <div className="total-group">
                             <p className="text">Всього:</p>
                             <div className="price">
-                                <h5 className="text">142 €</h5>
+                                <h5 className="text">{totalPrice} €</h5>
                             </div>
                         </div>
                     </div>

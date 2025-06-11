@@ -363,7 +363,7 @@ function App() {
                                     <span className="line"></span>
                                 </div>
 
-                                div className="other">
+                                <div className="other">
                                     <div className="other-item">
                                         <img src="/images/google-icon.png" className="other-icon"></img>
                                         <p className="other-text">Увійти з Google</p>
@@ -438,7 +438,6 @@ function App() {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/about" element={<AboutPage />} />
-                <Route path="/contact" element={<ContactPage />} />
                 <Route path="/countries" element={<CountriesPage />} />
                 <Route path="/notfound" element={<NotFoundPage />} />
                 <Route path="/admin" element={<AdminProtectedRoute user={user}><AdminPanel setUser={updateUser} /></AdminProtectedRoute>} />
@@ -447,7 +446,7 @@ function App() {
                 <Route path="/apartments" element={<ApartmentPage />} />
                 <Route path="/detail" element={<ApartmentDetailPage />} />
                 <Route path="/apartment/:id" element={<ApartmentDetailPage />} />
-                <Route path="/book" element={<BookingPage />} />
+                <Route path="/book" element={<ProfileProtectedRoute user={user}><BookingPage setUser={updateUser} /></ProfileProtectedRoute>} />
             </Routes>
 
             {!isAdminPage && (

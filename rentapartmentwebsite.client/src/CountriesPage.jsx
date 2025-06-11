@@ -10,14 +10,32 @@ function CountriesPage() {
     const [searchResults, setSearchResults] = useState([]);
     const visibleCountries = showAll ? countries : countries.slice(0, 16);
     const displayedCountries = searchResults.length > 0 ? searchResults : visibleCountries;
+    const [apartments, setApartments] = useState([]);
+    const [minPrices, setMinPrices] = useState({});
 
     useEffect(() => {
         fetch("/api/countries")
             .then(res => res.json())
             .then(data => setCountries(data))
             .catch(error => console.error('Помилка:', error));
+
+        fetch("/api/apartment")
+            .then(res => res.json())
+            .then(data => {
+                setApartments(data);
+                const prices = {};
+                data.forEach(ap => {
+                    if (!prices[ap.apartmentCountry] || ap.apartmentPrice < prices[ap.apartmentCountry]) {
+                        prices[ap.apartmentCountry] = ap.apartmentPrice;
+                    }
+                });
+                setMinPrices(prices);
+            })
+            .catch(error => console.error("Помилка завантаження житла:", error));
+
         window.scrollTo(0, 0);
     }, []);
+
 
     const toggleShowAll = () => setShowAll(prev => !prev);
 
@@ -74,7 +92,7 @@ function CountriesPage() {
                             </div>
                             <div className="country-info">
                                 <h4 className="header">{country.countryName}</h4>
-                                <h4 className="sub-header">Від 98 €</h4>
+                                <h4 className="sub-header"> {minPrices[country.countryName] ? `Від ${minPrices[country.countryName]} €` : 'Немає даних'} </h4>
                                 <div className="more-button-group">
                                     <p>Детальніше</p>
                                     <img src="images/arrow.svg" className="icon" />
