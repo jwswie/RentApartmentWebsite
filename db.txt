@@ -427,6 +427,12 @@ INSERT INTO Countries (CountryName, CountryPhoto) VALUES
 ('Польща', 'poland.jpg'),
 ('Хорватія', 'croatia.jpg')
 
+CREATE TABLE Booking (
+    BookingID INT PRIMARY KEY IDENTITY(1,1),
+    ArrivalDate DATE NOT NULL,
+    DepartureDate DATE NOT NULL
+)
+
 SELECT * FROM Apartments
 SELECT * FROM Users
 SELECT * FROM Admins
