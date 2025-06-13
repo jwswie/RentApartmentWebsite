@@ -6,7 +6,7 @@ function ProfilePage({ setUser }) {
     const navigate = useNavigate();
     const [user, setLocalUser] = useState(null);
     const [adminRole, setAdminRole] = useState(null);
-    const [editingAdminName, setEditingAdminName] = useState(null);
+    const [editingAdmin, setEditingAdmin] = useState(null);
     const [editingUser, setEditingUser] = useState(null);
     const [editingAdminPassword, setEditingAdminPassword] = useState(null);
 
@@ -18,9 +18,9 @@ function ProfilePage({ setUser }) {
 
             if ("adminLogin" in parsedUser) {
                 if (parsedUser.adminLogin.includes("org")) {
-                    setAdminRole("Organisation Admin");
+                    setAdminRole("Головний адміністратор");
                 } else if (parsedUser.adminLogin.includes("site")) {
-                    setAdminRole("Site Admin");
+                    setAdminRole("Адміністратор");
                 }
             }
         } else {
@@ -29,7 +29,7 @@ function ProfilePage({ setUser }) {
     }, []);
 
     const closeModal = () => {
-        setEditingAdminName(null);
+        setEditingAdmin(null);
         setEditingUser(null);
 
     };
@@ -54,6 +54,43 @@ function ProfilePage({ setUser }) {
 
         } catch (error) {
             alert("Помилка оновлення даних:", error);
+        }
+    };
+
+    const handleEditAdminSave = async () => {
+        try {
+            if (!editingAdmin || !editingAdmin.adminName || !editingAdmin.hashedPassword) {
+                alert("Будь ласка, введіть ім’я та пароль");
+                return;
+            }
+
+            let url = `/api/admins/new-password/${editingAdmin.adminID}`;
+            let method = "PUT";
+            let body = { password: editingAdmin.hashedPassword };
+
+            const password_response = await fetch(url, {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body),
+            });
+
+            if (!password_response.ok) throw new Error("Failed to update password");
+
+            const response = await fetch(`/api/admins/${editingAdmin.adminID}`, {
+                method: 'PUT',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ...editingAdmin }),
+            });
+
+            if (!response.ok) throw new Error("Помилка при збереженні");
+
+            const updatedAdmin = await response.json();
+            closeModal();
+            setLocalUser(updatedAdmin);
+            setUser(updatedAdmin);
+            localStorage.setItem("user", JSON.stringify(updatedAdmin));
+        } catch (error) {
+            alert("Помилка збереження даних адміністратора:", error.message);
         }
     };
 
@@ -142,17 +179,14 @@ function ProfilePage({ setUser }) {
 
                 <p className="user-name">{user?.userName || user?.adminName || 'User not found'}</p>
                 <p className="role">{adminRole ? adminRole : "Гість"}</p>
-                <div className="edit-name-button">
-                    <img src="images/edit-icon.svg" className="edit-pictire"
-                        onClick={() => {
-                            if (adminRole) {
-                                setEditingAdminName(user);
-                            } else {
-                                setEditingUser(user);
-                            }
-                        }}
-                    />
-                </div>
+                {user && (
+                    <div className="edit-name-button" onClick={() => {
+                        adminRole ? setEditingAdmin(user) : setEditingUser(user);
+                    }}>
+                        <img src="images/edit-icon.svg" className="edit-pictire" />
+                    </div>
+                )}
+
             </div>
 
             <div className="info-profile-block">
@@ -282,49 +316,89 @@ function ProfilePage({ setUser }) {
                 </div>
             </div>
 
-            {editingAdminName !== null || editingUser !== null && (
+            {editingUser !== null ? (
                 <div className="modal-window">
                     <div className="edit-photo-name">
-                        <img src="images/cross.png" className="close-btn" onClick={closeModal}></img>
+                        <img src="images/cross.png" className="close-btn" onClick={closeModal} />
                         <header>Редагування даних</header>
-                        <div class="upload-photo-container">
-                            {editingUser?.photo ? (
-                                <img src={`data:image/jpeg;base64,${editingUser?.photoBase64 || editingUser?.photo}`} className="edit-photo"></img>
+                        <div className="upload-photo-container">
+                            {editingUser.photo ? (
+                                <img src={`data:image/jpeg;base64,${editingUser.photoBase64 || editingUser.photo}`} className="edit-photo" />
                             ) : (
                                 <div className="profile-picture-wrapper">
-                                    <img src="images/no-pfp.png" className="no-profile-picture" />
+                                    <img src="images/no-pfp.png" className="no-profile-picture" alt="No profile" />
                                 </div>
                             )}
 
-                            <p className="note-text">Доступний розмір файлу не більше 6 МБ<br></br>у форматі JPEG, PNG або GIF.</p>
+                            <p className="note-text"> Доступний розмір файлу не більше 6 МБ<br />у форматі JPEG, PNG або GIF. </p>
                             <label className="upload-button">
                                 Завантажити фото
-                                <input
-                                    type="file"
-                                    accept="image/jpeg, image/png, image/gif"
-                                    onChange={handlePhotoUpload}
-                                    className="hidden-file-input"
-                                />
+                                <input type="file" accept="image/jpeg, image/png, image/gif" onChange={handlePhotoUpload} className="hidden-file-input" />
                             </label>
 
-
-                            <div className='btn-border' onClick={handleDeletePhoto}>
-                                <img src="images/delete-photo-icon.png" className="delete-photo"></img>
+                            <div className="btn-border" onClick={handleDeletePhoto}>
+                                <img src="images/delete-photo-icon.png" className="delete-photo" alt="Delete" />
                             </div>
 
                             <form>
                                 <p className="form-header">Ім’я</p>
-                                <input required type="text" className="form-input" value={editingUser.userName} onChange={(e) => { setEditingUser({ ...editingUser, userName: e.target.value }); }} placeholder="Введіть і'мя" />
+                                <input
+                                    required
+                                    type="text"
+                                    className="form-input"
+                                    value={editingUser.userName}
+                                    onChange={(e) => setEditingUser({ ...editingUser, userName: e.target.value })}
+                                    placeholder="Введіть ім’я"
+                                />
 
                                 <p className="form-header">Прізвище</p>
-                                <input type="text" className="form-input" placeholder="Введіть прізвище" required value={editingUser.lastName} onChange={(e) => { setEditingUser({ ...editingUser, lastName: e.target.value }); }} />
+                                <input
+                                    required
+                                    type="text"
+                                    className="form-input"
+                                    value={editingUser.lastName}
+                                    onChange={(e) => setEditingUser({ ...editingUser, lastName: e.target.value })}
+                                    placeholder="Введіть прізвище"
+                                />
 
                                 <input type="button" onClick={handleEditUserSave} className="button" value="Зберегти зміни" />
                             </form>
                         </div>
                     </div>
                 </div>
-            )}
+            ) : editingAdmin !== null ? (
+                <div className="modal-window">
+                        <div className="edit-photo-name" style={{ height: "500px" }}>
+                            <img src="images/cross.png" className="close-btn" onClick={closeModal} />
+                            <header>Редагування даних</header>
+                            <div className="upload-photo-container" style={{ marginTop: "100px" }}>
+                                <form>
+                                    <p className="form-header">Ім’я</p>
+                                    <input
+                                        required
+                                        type="text"
+                                        className="form-input"
+                                        value={editingAdmin.adminName}
+                                        onChange={(e) => setEditingAdmin({ ...editingAdmin, adminName: e.target.value })}
+                                        placeholder="Введіть ім’я"
+                                    />
+
+                                    <p className="form-header">Пароль</p>
+                                    <input
+                                        required
+                                        type="text"
+                                        className="form-input"
+                                        onChange={(e) => setEditingAdmin({ ...editingAdmin, hashedPassword: e.target.value })}
+                                        placeholder="Введіть новий пароль"
+                                    />
+
+                                    <input type="button" onClick={handleEditAdminSave} className="button" value="Зберегти зміни" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            ) : null}
+
         </div>
     );
 }

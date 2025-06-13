@@ -57,7 +57,7 @@ function AccountPage({ setUser }) {
 
                 <div className='block'>
                     <img src="images/block-icon2.png" className="block-icon"></img>
-                    <p className='block-header' >Безпека та налаштування</p>
+                    <p className='block-header' style={{ top: "125px" }}>Безпека та налаштування</p>
                     <p className='block-subheader' style={{ top: "145px" }}>Захистіть свій обліковий запис, керуйте<br></br>особистими даними, під’єднаними сервісами<br></br>та налаштуваннями обміну даними.</p>
                 </div>
 

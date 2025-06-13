@@ -4,7 +4,6 @@ import './css/apartment-detail-style.css';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 function chunkArray(array, size) {
     const chunked = [];
     for (let i = 0; i < array.length; i += size) {
@@ -118,7 +117,7 @@ function ApartmentDetailPage() {
                 guestsBlock.style.top = `300px`;
             } else {
                 guestsBlock.classList.remove("sticky-guests", "stop-guests");
-                guestsBlock.style.top = `850px`;
+                guestsBlock.style.top = `1010px`;
             }
         };
 
@@ -155,7 +154,6 @@ function ApartmentDetailPage() {
 
         return parts.length > 0 ? parts.join(', ') : 'Хто вирушає з вами?';
     };
-
 
     return (
         <div className="main-container">

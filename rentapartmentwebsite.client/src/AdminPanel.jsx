@@ -418,6 +418,7 @@ const AdminPanel = ({ setUser }) => {
                     ) : (
                     <>
                         <h2 style={{ margin: "20px", marginLeft: "0px" }}>Панель адміністратора</h2>
+
                         <div className="filters">
                             <input type="text" placeholder="Пошук..." />
                             <select>

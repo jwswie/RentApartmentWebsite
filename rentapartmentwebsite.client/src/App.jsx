@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation, useNavigate } from 'react-router-dom';
 import HomePage from './HomePage';
 import AboutPage from './AboutPage';
+import ContactPage from './ContactPage';
 import CountriesPage from './CountriesPage';
 import NotFoundPage from './NotFoundPage';
 import AccountPage from './AccountPage';
@@ -37,7 +38,6 @@ function UserProtectedRoute({ user, children }) {
 function App() {
     //#region Variables
     const location = useLocation();
-    const navigate = useNavigate();
     const isAdminPage = location.pathname.startsWith('/admin');
     const [isRegisterWindow, setIsRegisterWindow] = useState(null);
 
@@ -53,7 +53,8 @@ function App() {
     const [isVerifying, setIsVerifying] = useState(false);
     const [resendTimer, setResendTimer] = useState(0);
     const [isAdmin, setIsAdmin] = useState(false);
-    
+    const navigate = useNavigate();
+
     const [user, setUser] = useState(() => {
         const storedUser = localStorage.getItem("user");
         return storedUser ? JSON.parse(storedUser) : null;
@@ -311,28 +312,31 @@ function App() {
             {!isAdminPage && (
                 <nav className="navbar">
                     <div className="container">
-                        <Link to="/"><img src="/images/logo.png" className="logo"/></Link>
+                        <Link to="/"><img src="/images/logo.png" className="logo"></img></Link>
                     </div>
 
                     <div className="navigation">
                         <p className={location.pathname === "/" ? "nav-active" : "nav-li"}><Link to="/">Головна</Link></p>
                         <p className={location.pathname === "/about" ? "nav-active" : "nav-li"}><Link to="/about">Про нас</Link></p>
-                        <p className={location.pathname === "/apartments" || location.pathname.startsWith("/apartments") ? "nav-active" : "nav-li"}><Link to="/apartments">Житло</Link></p>
+                        <p className={location.pathname === "/apartments" ? "nav-active" : "nav-li"}><Link to="/apartments">Житло</Link></p>
                         <p className={location.pathname === "/countries" ? "nav-active" : "nav-li"}><Link to="/countries">Країни</Link></p>
-
                     </div>
 
                     <div className="icon-container">
-                        <img src="/images/wish-icon.svg" className="icon" style={{ width: "26px", height: "26px" }}/>
+                        {user && !("emailAddress" in user) ? (
+                            <Link to="/admin"><img src="/images/block-icon1.png" className="icon" style={{ width: "27px", height: "27px" }}></img></Link>
+                        ) : (
+                            <img src="/images/wish-icon.svg" className="icon" style={{ width: "26px", height: "26px" }}></img>
+                        )}
                         {user ? (
                             <div className="profile-picture-wrapper">
                                 {user?.photo ? (
-                                    <Link to="/account" state={{ user: user }}><img src={`data:image/jpeg;base64,${user.photo}`}  className="profile-pictire"></img></Link>
+                                    <Link to="/account" state={{ user: user }}><img src={`data:image/jpeg;base64,${user.photo}`} className="profile-pictire"></img></Link>
                                 ) : (
-                                        <Link to="/account" state={{ user: user }}><img src="/images/no-pfp.png" style={{ width: "24px", height: "24px" }} className="profile-pictire"></img></Link>
+                                    <Link to="/account" state={{ user: user }}><img src="/images/no-pfp.svg" style={{ width: "24px", height: "24px" }} className="profile-pictire"></img></Link>
                                 )}
-                                
-                            </div>  
+
+                            </div>
                         ) : (
                             <img src="/images/profile-icon.svg" onClick={() => setIsRegisterWindow(true)} className="icon" style={{ width: "24px", height: "24px" }}></img>
                         )}
@@ -347,7 +351,7 @@ function App() {
                     {!isAdmin && !isVerifying ? ( // Если входит пользователь и не стоит проверка кода
                         <div className="login-container">
                             <div className="login form">
-                                <img src="/images/cross.png" onClick={() => setIsRegisterWindow(false)} className="close-btn"></img>
+                                <img src="/images/cross.png" alt="Cross image" onClick={() => setIsRegisterWindow(false)} className="close-btn"></img>
                                 <header>Вхід / Реєстрація</header>
                                 <form onSubmit={handleLogin}>
                                     <p className="form-header">Електронна пошта</p>
@@ -365,15 +369,15 @@ function App() {
 
                                 <div className="other">
                                     <div className="other-item">
-                                        <img src="/images/google-icon.png" className="other-icon"></img>
+                                        <img src="/images/google-icon.png" alt="Google image" className="other-icon"></img>
                                         <p className="other-text">Увійти з Google</p>
                                     </div>
                                     <div className="other-item">
-                                        <img src="/images/facebook-icon.png" className="other-icon" style={{ width: "14px" }}></img>
+                                        <img src="/images/facebook-icon.png" alt="Facebook image" className="other-icon" style={{ width: "14px" }}></img>
                                         <p className="other-text">Увійти з Facebook</p>
                                     </div>
                                     <div className="other-item">
-                                        <img src="/images/apple-icon.png" className="other-icon"></img>
+                                        <img src="/images/apple-icon.png" alt="Apple image" className="other-icon"></img>
                                         <p className="other-text">Увійти з Apple</p>
                                     </div>
                                 </div>
@@ -382,13 +386,13 @@ function App() {
                             </div>
                         </div>
 
-                    ) : isVerifying && isAdmin ? ( // Если стоит проверка кода и входит админ
+                    ) : isVerifying && isAdmin ? ( // Если стоит проверка пароля и входит админ
 
                         <div className="code-container">
                             <div className="login form">
-                                <img src="/images/cross.png" onClick={() => setIsRegisterWindow(false)} className="close-btn"></img>
-                                <img src="/images/arrow.png" onClick={() => setIsVerifying(false)} className="back-btn"></img>
-                                <header>Введіть пароль</header>
+                                <img src="/images/cross.png" onClick={() => setIsRegisterWindow(false)} alt="Cross image" className="close-btn"></img>
+                                    <img src="/images/arrow.png" onClick={() => (setIsVerifying(false), setIsAdmin(false))} alt="Arrow image" className="back-btn"></img>
+                                    <header style={{ marginLeft: "15px" }}>Введіть пароль</header>
                                 <form onSubmit={handleAdminLogin} style={{ marginTop: "70px" }}>
                                     <input type="password" className="form-input" placeholder="Введіть пароль" value={password}
                                         onChange={(e) => setPassword(e.target.value)} required />
@@ -401,18 +405,29 @@ function App() {
                     ) : isVerifying && !isAdmin ? ( // Если стоит проверка кода и входит пользователь
                         <div className="code-container">
                             <div className="login form">
-                                <img src="/images/cross.png" onClick={() => setIsRegisterWindow(false)} className="close-btn"></img>
-                                <img src="/images/arrow.png" onClick={() => setIsVerifying(false)} className="back-btn"></img>
+                                <img src="/images/cross.png" onClick={() => setIsRegisterWindow(false)} alt="Cross image" className="close-btn"></img>
+                                <img src="/images/arrow.png" onClick={() => setIsVerifying(false)} alt="Arrow image" className="back-btn"></img>
                                 <header id='code-header'>Введіть код перевірки</header>
                                 <p className="code-header">Ми надіслали код перевірки на <b>Вашу електронну пошту</b>.<br></br>Перевірте папку з вхідними повідомленнями<br></br>та введіть код нижче.</p>
                                 <p className="code-subheader">*Код підтвердження дійсний протягом 20 хвилин після його отримання.</p>
                                 <form onSubmit={handleVerifyCode} style={{ marginTop: "70px" }} className="code-input-form">
                                     <div className="code-inputs">
                                         {codeArray.map((char, i) => (
-                                            <input key={i} id={`code-input-${i}`} type="text" maxLength="1" className="code-input" value={char} onChange={(e) => handleChange(e.target.value, i)} onKeyDown={(e) => handleKeyDown(e, i)} onPaste={(e) => handlePaste(e)} />
+                                            <input
+                                                key={i}
+                                                id={`code-input-${i}`}
+                                                type="text"
+                                                maxLength="1"
+                                                className="code-input"
+                                                value={char}
+                                                onChange={(e) => handleChange(e.target.value, i)}
+                                                onKeyDown={(e) => handleKeyDown(e, i)}
+                                                onPaste={(e) => handlePaste(e)}
+                                            />
                                         ))}
                                     </div>
 
+                                    {errorMessage && <p className="error-message">{errorMessage}</p>}
                                     <p
                                         className="resend-btn"
                                         onClick={resendVerificationCode}
@@ -453,7 +468,7 @@ function App() {
                 <div className="footer-area">
                     <div className="container">
                         <div className="col">
-                            <img src="images/footer-logo.png" className="footer-logo"></img>
+                            <img src="/images/footer-logo.png" alt="Logo image" className="footer-logo"></img>
                             <div className="col-group">
                                 <p id='copyright'>© 2025 Dwell. Всі права захищені.</p>
                                 <p className='group1-item'>Налаштування файлів cookie</p>
