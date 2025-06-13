@@ -17,6 +17,7 @@ function BookingPage({ setUser }) {
     const totalPrice = location.state?.totalPrice;
     const [user, setLocalUser] = useState(null);
     const [countries, setCountries] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         fetch("/api/countries")
@@ -80,6 +81,58 @@ function BookingPage({ setUser }) {
         const date = new Date(dateString);
         return days[date.getDay()];
     }
+
+    const getFreeCancelDate = (arrivalDate) => {
+        if (!arrivalDate) return null;
+
+        const date = new Date(arrivalDate);
+        date.setDate(date.getDate() - 1);
+
+        return date.toLocaleDateString("uk-UA", {
+            day: "numeric",
+            month: "long"
+        });
+    };
+
+    const handleBookingSubmit = async () => {
+        if (!selectedPayment || !cardNumber || !expiry || !cvv || !postalCode) {
+            alert("Будь ласка, заповніть всі платіжні поля.");
+            return;
+        }
+
+        try {
+            const response = await fetch("/api/booking", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    apartmentID: apartment.apartmentID,
+                    arrivalDate: arrivalDate,
+                    departureDate: departureDate,
+                    userID: user.userID
+                })
+            });
+
+            if (response.status === 409) {
+                const msg = await response.text();
+                alert(msg);
+                return;
+            }
+
+            if (!response.ok) throw new Error("Помилка під час бронювання");
+
+            setShowModal(true);
+
+        } catch (error) {
+            console.error("Помилка:", error);
+            alert("Не вдалося оформити бронювання. Спробуйте пізніше.");
+        }
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
 
     return (
         <div className="main-container">
@@ -217,7 +270,9 @@ function BookingPage({ setUser }) {
             <div className="block-container">
                 <div className="block-elem">
                     <img src="images/canscel-icon.svg" className="icon" />
-                    <h3 className="header">Безкоштовне скасування<br></br>бронювання до 21 червня</h3>
+                    <h3 className="header"> Безкоштовне скасування<br /> бронювання до {arrivalDate ? getFreeCancelDate(arrivalDate) : "виберіть дату"}
+                    </h3>
+
                 </div>
                 <div className="block-elem">
                     <img src="images/soon-icon.svg" className="icon" />
@@ -249,7 +304,33 @@ function BookingPage({ setUser }) {
                 <p className="text-2">Я також приймаю оновлені <u style={{ color: "#E84E0F" }}>Умови обслуговування</u>, <u style={{ color: "#E84E0F" }}>Умови здійснення платежів</u> і визнаю <u style={{ color: "#E84E0F" }}>Політику конфіденційності</u>.</p>
             </div>
 
-            <button className="book-btn">Надіслати запит на бронювання</button>
+            <button className="book-btn" onClick={handleBookingSubmit}>Надіслати запит на бронювання</button>
+
+            {showModal && (
+                <div className="book-modal">
+                    <div className="container">
+                        <img
+                            src="/images/cross.png"
+                            className="book-close-btn"
+                            onClick={closeModal}
+                            style={{ cursor: "pointer" }}
+                        />
+                        <img src="/images/booking-modal-icon.svg" className="book-icon" />
+                        <h3 className="booking-header">Запит надіслано!</h3>
+                        <p className="booking-note">
+                            Ми повідомили господаря про ваше бажання забронювати житло. Ви отримаєте сповіщення,
+                            щойно він підтвердить або відхилить запит.
+                            Бажаєте перейти на головну сторінку чи перейти
+                            до списку ваших бронювань?
+                        </p>
+                        <div className='book-btns-container'>
+                            <button className="btn-1" onClick={() => window.location.href = "/"}>На головну</button>
+                            <button className="btn-2" onClick={() => window.location.href = "/profile/bookings"}>До списку бронювань</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 }

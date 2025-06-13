@@ -59,5 +59,7 @@ namespace RentApartmentWebsite.Server.Models
         public ICollection<ApartmentInfrastructure> Infrastructures { get; set; } = new List<ApartmentInfrastructure>();
         public ICollection<ApartmentCategory> Categories { get; set; } = new List<ApartmentCategory>();
         public ICollection<ApartmentAmenity> Amenities { get; set; } = new List<ApartmentAmenity>();
+
+        public ICollection<Booking> Bookngs { get; set; } = new List<Booking>();
     }
 }

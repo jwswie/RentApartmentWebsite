@@ -9,7 +9,6 @@ function CountriesPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const visibleCountries = showAll ? countries : countries.slice(0, 16);
-    const displayedCountries = searchResults.length > 0 ? searchResults : visibleCountries;
     const [apartments, setApartments] = useState([]);
     const [minPrices, setMinPrices] = useState({});
 
@@ -36,6 +35,26 @@ function CountriesPage() {
         window.scrollTo(0, 0);
     }, []);
 
+    //#region SortVariables
+    const [isSortOpen, setIsSortOpen] = useState(false);
+    const [sortOption, setSortOption] = useState(null);
+    const getSortedCountries = () => {
+        let sorted = [...countries];
+
+        if (sortOption === "priceHigh" || sortOption === "priceLow") {
+            const comparator = {
+                priceHigh: (a, b) => (minPrices[b.countryName] || 0) - (minPrices[a.countryName] || 0),
+                priceLow: (a, b) => (minPrices[a.countryName] || 0) - (minPrices[b.countryName] || 0),
+            }[sortOption];
+
+            sorted.sort(comparator);
+        }
+
+        return sorted;
+    };
+
+    const displayedCountries = searchResults.length > 0 ? searchResults : getSortedCountries().slice(0, showAll ? countries.length : 16);
+    //#endregion
 
     const toggleShowAll = () => setShowAll(prev => !prev);
 
@@ -50,6 +69,8 @@ function CountriesPage() {
         );
         setSearchResults(results);
     };
+
+    const toggleSort = () => setIsSortOpen(prev => !prev);
 
     return (
         <div className="main-container">
@@ -77,10 +98,29 @@ function CountriesPage() {
                     <p className="text">Перейти до карти</p>
                 </div>
 
-                <div className="sort-btn">
-                    <p className="text">Сортувати за популярністю</p>
-                    <img className="icon" style={{ transform: "rotate(90deg)" }} src="images/orange-arrow.png" />
+                <div className="sort-btn" onClick={toggleSort}>
+                    <p className="text">Сортувати за {sortOption === "rate" ? "популярним" : sortOption === "priceHigh" ? "найдорожчими" : sortOption === "priceLow" ? "найдешевшими" : "рекомендаціями"}</p>
+                    <img className="icon" style={{ transform: isSortOpen ? "rotate(270deg)" : "rotate(90deg)", transition: "transform 0.3s" }} src="/images/orange-arrow.png" />
                 </div>
+
+                {isSortOpen && (
+                    <div className="sort-window" style={{ left: "1140px", top: "100px", width: "240px", height: "200px" }}>
+                        <div className="sort-container">
+                            <div className={`sort-item ${sortOption === "rate" ? "active" : ""}`} onClick={() => { setSortOption("rate"); setIsSortOpen(false); }} >
+                                <p className="text">Популярним</p>
+                            </div>
+                            <div className={`sort-item ${sortOption === "default" || sortOption === null ? "active" : ""}`} onClick={() => { setSortOption("default"); setIsSortOpen(false); }} >
+                                <p className="text">Рекомендаціями</p>
+                            </div>
+                            <div className={`sort-item ${sortOption === "priceHigh" ? "active" : ""}`} onClick={() => { setSortOption("priceHigh"); setIsSortOpen(false); }} >
+                                <p className="text">Найдорожчими цінами</p>
+                            </div>
+                            <div className={`sort-item ${sortOption === "priceLow" ? "active" : ""}`} onClick={() => { setSortOption("priceLow"); setIsSortOpen(false); }} >
+                                <p className="text">Найдешевшими цінами</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
 
             <div className="country-block">

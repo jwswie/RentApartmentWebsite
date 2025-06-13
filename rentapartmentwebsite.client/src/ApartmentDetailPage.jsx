@@ -230,7 +230,14 @@ function ApartmentDetailPage() {
                         </div>
                     </div>
 
-                    <button className="search-btn" onClick={() => navigate('/book', { state: { apartment, arrivalDate, departureDate, guestsSummary: getGuestsSummary(), totalPrice } }) }>Перевірити наявність</button>
+                    <button className="search-btn"
+                        onClick={() => {
+                            if (!arrivalDate || !departureDate) {
+                                alert("Будь ласка, вкажіть дати приїзду та виїзду");
+                                return;
+                            }
+
+                            navigate('/book', {state: {apartment, arrivalDate, departureDate, guestsSummary: getGuestsSummary(), totalPrice }});}}>Перевірити наявність</button>
 
                     <div className="total-group">
                         <p className="text">Всього:</p>
