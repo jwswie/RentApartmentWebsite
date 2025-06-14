@@ -43,5 +43,7 @@ namespace RentApartmentWebsite.Server.Models
 
         [MaxLength(30)]
         public string? BadHabits { get; set; }
+
+        public ICollection<Booking> Bookngs { get; set; } = new List<Booking>();
     }
 }

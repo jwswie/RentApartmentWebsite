@@ -1,5 +1,20 @@
 CREATE DATABASE RentApartmentDatabase
 
+CREATE TABLE TestApartments(
+	TestID INT IDENTITY(1,1) PRIMARY KEY,
+    TestName NVARCHAR(255) NOT NULL,
+    TestPrice DECIMAL(10, 2) NOT NULL,
+    TestLocation NVARCHAR(50)
+)
+
+INSERT INTO TestApartments (TestName, TestPrice, TestLocation)
+VALUES 
+    ('Luxury Loft', 1200.50, 'New York'),
+    ('Cozy Studio', 850.00, 'Los Angeles'),
+    ('Modern Apartment', 950.75, 'Chicago'),
+    ('Spacious Condo', 1100.00, 'Miami'),
+    ('Budget Room', 600.00, 'Houston')
+
 CREATE TABLE ApartmentInfrastructures (
     InfrastructureID INT IDENTITY(1,1) PRIMARY KEY,
     InfrastructureName NVARCHAR(255) NOT NULL,
@@ -10,6 +25,11 @@ CREATE TABLE ApartmentInfrastructures (
 
 INSERT INTO ApartmentInfrastructures (InfrastructureName, InfrastructureDistance, MeasureUnit, ApartmentID)
 VALUES
+    ('Luxury Loft', 1200.50, 'New York'),
+    ('Cozy Studio', 850.00, 'Los Angeles'),
+    ('Modern Apartment', 950.75, 'Chicago'),
+    ('Spacious Condo', 1100.00, 'Miami'),
+    ('Budget Room', 600.00, 'Houston')
 ('аеропорту', 70, 'км', 1),
 ('ресторану', 17, 'км', 1),
 ('озера', 20, 'м', 1),
@@ -373,6 +393,7 @@ CREATE TABLE Users (
     BadHabits NVARCHAR(30) 
 )
 
+=======
 INSERT INTO Users (UserName, LastName, EmailAddress, Photo)
 VALUES 
 ('John', 'Reynolds', 'john.reynolds@gmail.com', NULL),

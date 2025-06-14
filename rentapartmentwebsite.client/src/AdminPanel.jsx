@@ -7,6 +7,7 @@ const AdminPanel = ({ setUser }) => {
     const [menu, setMenu] = useState({ users: false, apartments: false });
     const [users, setUsers] = useState([]);
     const [admins, setAdmins] = useState([]);
+    const [countries, setCountries] = useState([]);
     const [editingUser, setEditingUser] = useState(null);
     const [editingAdmin, setEditingAdmin] = useState(null);
     const [addingData, setAddingData] = useState(false);
@@ -70,6 +71,22 @@ const AdminPanel = ({ setUser }) => {
         }
     };
 
+    const fetchCountries = async () => {
+        try {
+            setAdmins([]);
+            setUsers([]);
+            setCountries([]);
+            const response = await fetch("/api/countries");
+            if (!response.ok) {
+                throw new Error("Failed to fetch countries");
+            }
+            const data = await response.json();
+            setCountries(data);
+        } catch (error) {
+            console.error("Error fetching countries:", error);
+        }
+    };
+
     const renderFormFields = (type) => {
         const fields = [
             { label: "Name", value: newData.name, onChange: (e) => setNewData({ ...newData, name: e.target.value }) },
@@ -118,7 +135,6 @@ const AdminPanel = ({ setUser }) => {
         setEditingUser(null);
         setEditingAdmin(null);
         setAddingData(null);
-
     };
 
     const handleSave = async () => {
@@ -248,6 +264,7 @@ const AdminPanel = ({ setUser }) => {
     const menuItems = [
         { key: "users", label: "Users" },
         { key: "apartments", label: "Apartments" },
+        { key: "countries", label: "Країни" },
     ];
 
     const filteredMenuItems = menuItems.filter(item =>
@@ -264,6 +281,10 @@ const AdminPanel = ({ setUser }) => {
         } else if (admins.length > 0) {
             filteredData = admins.filter(a =>
                 a.adminName.toLowerCase().includes(tableSearchQuery.toLowerCase())
+            );
+        } else if (countries.length > 0) {
+            filteredData = countries.filter(c =>
+                c.countryName.toLowerCase().includes(tableSearchQuery.toLowerCase())
             );
         }
 
@@ -320,9 +341,15 @@ const AdminPanel = ({ setUser }) => {
                 <input type="text" className="search-input" placeholder="Пошук..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                 {filteredMenuItems.map(item => (
                     <div key={item.key}>
-                        <div className="menu-item" onClick={() => toggleMenu(item.key)}>
-                            {item.label} ▼
-                        </div>
+                        {item.label == "Країни" ? (
+                            <div className="menu-item" onClick={fetchCountries}>
+                                {item.label}
+                            </div>
+                        ) : (
+                            <div className="menu-item" onClick={() => toggleMenu(item.key)}>
+                                {item.label} ▼
+                            </div>
+                        )}
                         {menu[item.key] && item.key === "users" && (
                             <div className="submenu">
                                 <div style={{ cursor: "pointer" }} onClick={fetchUsers}>Користувачі</div>
@@ -374,7 +401,21 @@ const AdminPanel = ({ setUser }) => {
 
                         </div>
                     </>
-                ) : (
+                    ) : countries.length > 0 ? (
+                        <>
+                            <h2 style={{ margin: "20px", marginLeft: "0px" }}>Countries</h2>
+                            <div className="filters">
+                                <input style={{ color: "black" }} type="text" placeholder="Пошук за назвою..." value={tableSearchQuery} onChange={(e) => setTableSearchQuery(e.target.value)} />
+                                <select onChange={(e) => handleFilterChange(e.target.value)}>
+                                    <option value="">Фільтри</option>
+                                    <option value="nameAToZ">Назва, А до Я</option>
+                                    <option value="nameZToA">Назва, Я до А</option>
+                                </select>
+                                <button className="add-btn" onClick={() => handleAdd("Admin")}>+ Додати</button>
+
+                            </div>
+                        </>
+                    ) : (
                     <>
                         <h2 style={{ margin: "20px", marginLeft: "0px" }}>Панель адміністратора</h2>
                         <div className="filters">
@@ -402,11 +443,17 @@ const AdminPanel = ({ setUser }) => {
                                 <th>Name</th>
                                 <th>Login</th>
                                 <th>Password</th>
-                                <th>Salt</th>
-                                {adminRole != "Site Admin" && (<th>Дії</th>)}
+                                {adminRole != "Site Admin" && (<th>Actions</th>)}
 
                             </tr>
-                        ) : (
+                            ) : countries.length > 0 ? (
+                                <tr>
+                                    <th>ID</th>
+                                    <th>CountryName</th>
+                                    <th>CountryPhoto</th>
+                                    <th>Дії</th>
+                                </tr>
+                            ) : (
                             <tr>
                                 <td colSpan="4" style={{ textAlign: "center" }}>Даних не знайдено</td>
                             </tr>
@@ -433,7 +480,6 @@ const AdminPanel = ({ setUser }) => {
                                     <td>{admin.adminName}</td>
                                     <td>{admin.adminLogin}</td>
                                     <td>{admin.hashedPassword}</td>
-                                    <td>{admin.salt}</td>
                                     {adminRole !== "Site Admin" && (
                                         <td>
                                             <button className="edit-btn" onClick={() => setEditingAdmin(admin)}>Редагувати</button>
@@ -442,7 +488,19 @@ const AdminPanel = ({ setUser }) => {
                                     )}
                                 </tr>
                             ))
-                        ) : (
+                            ) : Array.isArray(filteredData) && countries.length > 0 && filteredData.length > 0 ? (
+                                filteredData.map((country) => (
+                                    <tr key={country.countryID}>
+                                        <td>{country.countryID}</td>
+                                        <td>{country.countryName}</td>
+                                        <td>{country.countryPhoto}</td>
+                                        <td>
+                                            <button className="edit-btn" onClick={() => setEditingAdmin(country)}>Редагувати</button>
+                                            <button className="delete-btn" onClick={() => handleDelete(country.countryID, "admin")}>Видалити</button>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
                             <tr>
                                 <td colSpan="6" style={{ textAlign: "center" }}>Даних не знайдено</td>
                             </tr>
