@@ -67,6 +67,23 @@ function ApartmentPage() {
     const [selectedSafeties, setSelectedSafeties] = useState([]);
     //#endregion
 
+    const [allReviews, setAllReviews] = useState([]);
+
+    useEffect(() => {
+        const fetchAllReviews = async () => {
+            try {
+                const response = await fetch('/api/reviews');
+                const data = await response.json();
+                setAllReviews(data);
+            } catch (error) {
+                console.error("Error fetching all reviews:", error);
+            }
+        };
+
+        fetchAllReviews();
+    }, []);
+
+
     const fetchApartments = async () => {
         try {
             const response = await fetch("/api/apartment");
@@ -208,6 +225,11 @@ function ApartmentPage() {
             container.scrollTo({ top: scrollOffset, behavior: "smooth", });
         }
     }; // Прокрутка right-filter-container до нужной категории фильтров
+
+    const getReviewCount = (apartmentID) => {
+        return allReviews.filter(review => review.apartmentID === apartmentID).length;
+    };
+
 
     return (
         <div className="main-container">
@@ -472,7 +494,7 @@ function ApartmentPage() {
                             <div className="info">
                                 <h4 className="header">{apartment.apartmentName}</h4>
                                 <h4 className="sub-header">{apartment.apartmentCountry}, {apartment.apartmentLocation}</h4>
-                                <div className="container" style={apartment.apartmentName.length < 25 ? { top: '20px' } : {}} >
+                                <div className="container" style={apartment.apartmentName.length < 25 ? { top: '30px' } : {}} >
 
                                     <h4 className="price-big">€ {apartment.apartmentPrice}</h4>
                                     <p className='price-small'>/ ніч</p>
@@ -481,12 +503,12 @@ function ApartmentPage() {
                                         <img src="/images/arrow.svg" className="icon"></img>
                                     </Link>
                                 </div>
-                                <div className="review-container">
+                                <div className="review-container" style={apartment.apartmentName.length < 25 ? { top: '-145px' } : {}}>
                                     <div className='rate-group'>
                                         <img src="/images/rate-icon.png" className="icon"></img>
                                         <p>{apartment.apartmentRate}</p>
                                     </div>
-                                    <p className='reviews'>(176 відгуків)</p>
+                                    <p className='reviews'>({getReviewCount(apartment.apartmentID)} відгуків)</p>
                                 </div>
                             </div>
                         </div>

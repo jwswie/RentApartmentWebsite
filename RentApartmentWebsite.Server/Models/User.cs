@@ -45,5 +45,6 @@ namespace RentApartmentWebsite.Server.Models
         public string? BadHabits { get; set; }
 
         public ICollection<Booking> Bookngs { get; set; } = new List<Booking>();
+        public ICollection<Review> Revies { get; set; } = new List<Review>();
     }
 }

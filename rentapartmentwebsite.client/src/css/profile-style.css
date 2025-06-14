@@ -78,10 +78,9 @@ body {
 
 .account-header {
     position: relative;
-    left: 70px;
+    left: 80px;
     height: 220px;
-    width: 1420px;
-    font-family: 'Source Sans Pro';
+    width: 1375px;
     margin-top: 105px;
 }
 
@@ -98,7 +97,7 @@ body {
 
     .account-header .underline {
         position: relative;
-        width: auto;
+        width: 1300px;
         height: 1px;
         top: 180px;
         background-color: #E6E6E6;
@@ -164,7 +163,7 @@ body {
     position: relative;
     width: 220px;
     height: auto;
-    left: 1190px;
+    left: 1130px;
     top: 60px;
     display: flex;
     flex-direction: row;
@@ -188,9 +187,9 @@ body {
 
 .block-container {
     position: relative;
-    top: 60px;
+    top: 270px;
     left: 70px;
-    width: 93.5%;
+    width: 90.5%;
     height: auto;
     display: flex;
     flex-direction: row;
@@ -200,7 +199,7 @@ body {
 
     .block-container .block {
         position: relative;
-        width: 460px;
+        width: 445px;
         height: 250px;
         background: #FCFCFC;
         box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
@@ -248,11 +247,11 @@ body {
 
 .deactivate-buttons {
     position: relative;
-    top: 120px;
+    top: 370px;
     left: 70px;
     width: 93.5%;
     height: auto;
-    margin-bottom: 300px;
+    margin-bottom: 500px;
 }
 
     .deactivate-buttons p {
@@ -261,8 +260,6 @@ body {
         height: 18px;
         left: calc(50% - 426px/2);
         top: 0px;
-        font-family: 'Source Sans Pro';
-        font-style: normal;
         font-weight: 400;
         font-size: 22px;
         line-height: 28px;
@@ -294,7 +291,6 @@ body {
             background: #CA4008;
         }
 
-
 .profile-banner {
     position: relative;
     width: auto;
@@ -312,15 +308,13 @@ body {
     position: relative;
     width: 244px;
     height: 12px;
-    left: 70px;
+    left: 80px;
     top: -250px;
 }
 
     .profile-nav .nav {
         width: 143px;
         height: 12px;
-        font-family: 'Source Sans Pro';
-        font-style: normal;
         font-weight: 600;
         font-size: 18px;
         line-height: 12px;
@@ -348,9 +342,9 @@ body {
 
 .profile-block {
     position: relative;
-    width: 820px;
+    width: 775px;
     height: 200px;
-    left: 70px;
+    left: 80px;
     top: -120px;
     background: #FCFCFC;
     box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
@@ -411,8 +405,6 @@ body {
         height: 25px;
         left: 180px;
         top: -50px;
-        font-family: 'Source Sans Pro';
-        font-style: normal;
         font-weight: 400;
         font-size: 20px;
         line-height: 25px;
@@ -428,7 +420,7 @@ body {
         position: relative;
         width: 62px;
         height: 62px;
-        left: 725px;
+        left: 675px;
         top: -135px;
         border-radius: 50%;
         cursor: pointer;
@@ -453,7 +445,7 @@ body {
     position: relative;
     width: 580px;
     height: 200px;
-    left: 910px;
+    left: 875px;
     top: -320px;
     background: #FCFCFC;
     box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
@@ -487,8 +479,6 @@ body {
             .info-profile-block .info-container .info-item .header {
                 position: relative;
                 top: 10px;
-                font-family: 'Source Sans Pro';
-                font-style: normal;
                 font-weight: 700;
                 font-size: 48px;
                 line-height: 26px;
@@ -502,8 +492,6 @@ body {
             .info-profile-block .info-container .info-item .subheader {
                 position: relative;
                 top: 20px;
-                font-family: 'Source Sans Pro';
-                font-style: normal;
                 font-weight: 400;
                 font-size: 16px;
                 line-height: 26px;
@@ -519,14 +507,12 @@ body {
     position: relative;
     width: 1425px;
     height: 31px;
-    left: 70px;
+    left: 80px;
     top: -250px;
 }
 
     .about-block-header .header {
         position: relative;
-        font-family: 'Source Sans Pro';
-        font-style: normal;
         font-weight: 600;
         font-size: 44px;
         line-height: 31px;
@@ -538,10 +524,8 @@ body {
     .about-block-header .edit-button {
         position: relative;
         width: 103px;
-        left: calc(95% - 103px/2);
+        left: calc(95% - 195px/2);
         top: -35px;
-        font-family: 'Source Sans Pro';
-        font-style: normal;
         font-weight: 600;
         font-size: 20px;
         line-height: 25px;
@@ -556,7 +540,7 @@ body {
 .user-info {
     position: relative;
     width: 1425px;
-    left: 70px;
+    left: 80px;
     top: -160px;
     display: flex;
     flex-wrap: wrap;
@@ -615,9 +599,9 @@ body {
 
 .user-bio {
     position: relative;
-    width: 1425px;
+    width: 1380px;
     height: 198px;
-    left: 70px;
+    left: 80px;
     top: -110px;
     background: #FCFCFC;
     box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
@@ -627,11 +611,9 @@ body {
     .user-bio .bio-text {
         position: relative;
         left: 40px;
-        top: 40px;
-        font-family: 'Source Sans Pro';
-        font-style: normal;
+        top: 30px;
         font-weight: 400;
-        font-size: 24px;
+        font-size: 23px;
         line-height: 46px;
         display: flex;
         align-items: center;
@@ -641,16 +623,16 @@ body {
 .underline {
     position: relative;
     top: -20px;
-    width: 1425px;
+    width: 1380px;
     height: 1px;
-    left: 70px;
+    left: 80px;
     background-color: #E6E6E6;
 }
 
 .interests-info {
     position: relative;
     width: 1425px;
-    left: 70px;
+    left: 80px;
     top: 180px;
     display: flex;
     flex-wrap: wrap;
@@ -814,7 +796,12 @@ body {
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            transition: 0.1s all ease;
         }
+
+            .edit-photo-name .upload-photo-container .upload-button:hover {
+                background: #CA4008;
+            }
 
         .edit-photo-name .upload-photo-container .hidden-file-input {
             display: none;
@@ -898,5 +885,9 @@ body {
                 font-size: 16px;
                 letter-spacing: 0.5px;
                 border: none;
-                transition: ease all 1s;
+                transition: 0.1s all ease;
             }
+
+                .edit-photo-name .upload-photo-container form input.button:hover {
+                    background: #CA4008;
+                }

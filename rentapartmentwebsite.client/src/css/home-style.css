@@ -161,7 +161,7 @@
 
     .about-us-screen .side-group {
         position: relative;
-        left: 70px;
+        left: 80px;
         top: 300px;
     }
 
@@ -284,7 +284,7 @@
         align-items: center;
         gap: 85px;
         position: relative;
-        left: 10px;
+        left: 20px;
         width: 525px;
         height: 73px;
     }
@@ -324,15 +324,13 @@
 
 .category-block {
     position: relative;
-    left: 70px;
-    width: 93.5%;
+    left: 80px;
+    width: 90.5%;
 }
 
     .category-block .header {
         position: relative;
-        width: 700px;
-        height: 31px;
-        left: calc(50% - 700px/2 + 0.5px);
+        left: calc(50% - 700px/2);
         white-space: nowrap;
         font-weight: 600;
         font-size: 40px;
@@ -347,30 +345,30 @@
 
         .category-block .category-container .category-item {
             position: relative;
-            width: 340px;
+            width: 330px;
             height: 400px;
-            top: 60px;
+            top: 40px;
             border-radius: 20px;
             box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.25);
             background-color: #060606;
         }
 
 .category-item .category-img {
-    width: 340px;
+    width: 330px;
     height: auto;
     border-radius: 20px 20px 0px 0px;
 }
 
 .photo-wrapper {
     position: relative;
-    width: 340px;
-    height: 340px;
+    width: 330px;
+    height: 330px;
     overflow: hidden;
 }
 
 .category-item .photo-wrapper .category-img {
     position: relative;
-    width: 340px;
+    width: 330px;
     border-radius: 20px 20px 0px 0px;
 }
 
@@ -401,9 +399,9 @@
 
 .recomended-block {
     position: relative;
-    width: 93.5%;
-    left: 70px;
-    top: 170px;
+    left: 80px;
+    width: 90.5%;
+    top: 140px;
 }
 
     .recomended-block .header {
@@ -425,7 +423,7 @@
 
 .recomended-container .recomended-item {
     position: relative;
-    width: 460px;
+    width: 440px;
     height: 500px;
     top: 50px;
     border-radius: 20px;
@@ -440,7 +438,7 @@
 
     .recomended-container .recomended-item .favourite {
         position: relative;
-        top: -230px;
+        top: -220px;
         left: 40px;
         width: 50px;
         height: 50px;
@@ -595,7 +593,8 @@
 
 .review-container .reviews {
     position: relative;
-    top: 10px;
+    top: 15px;
+    left: 20px;
     width: 121px;
     height: 14px;
     font-weight: 400;
@@ -641,7 +640,7 @@
         position: relative;
         width: 650px;
         height: auto;
-        left: 70px;
+        left: 80px;
         top: 130px;
         color: #FCFCFC;
     }
@@ -719,14 +718,14 @@
         position: relative;
         width: 580px;
         height: 460px;
-        left: 910px;
+        left: 880px;
         top: -185px;
     }
 
 .countries-carousel-block {
     position: relative;
     width: 820px;
-    height: 800px;
+    height: 850px;
     left: calc(50% - 820px/2);
     top: 390px;
     background: #FCFCFC;
@@ -790,7 +789,7 @@
 .countries-carousel {
     width: 100%;
     height: 320px;
-    margin-top: -25px;
+    margin-top: -100px;
 }
 
     .countries-carousel .slider-item {
@@ -842,31 +841,31 @@
     top: 24px;
 }
 
-.carousel-btns .carousel-btn {
-    position: relative;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: 2px solid #E84E0F;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
 
-.carousel-btns {
+.home-carousel-btns {
     position: relative;
     width: 820px;
     left: calc(50% - 820px/2);
-    top: 20px;
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 50px;
     justify-content: center;
     align-items: center;
 }
 
-    .carousel-btns .carousel-btn .arrow-btn {
+    .home-carousel-btns .carousel-btn {
+        position: relative;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 2px solid #E84E0F;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .home-carousel-btns .carousel-btn .arrow-btn {
         width: 16px;
         height: 16px;
     }

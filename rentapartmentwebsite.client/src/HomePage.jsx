@@ -16,10 +16,30 @@ const countries = [
     { img: "images/chehia.jpg", name: "Чехія", style: { top: "-60px", height: "390px" } },
     { img: "images/spain.jpg", name: "Іспанія", style: { top: "-20px" } },
 ];
+
 function HomePage() {
     const navigate = useNavigate();
     const sliderRef = useRef();
     const [apartments, setApartments] = useState([]);
+    const [allReviews, setAllReviews] = useState([]);
+
+    useEffect(() => {
+        const fetchAllReviews = async () => {
+            try {
+                const response = await fetch('/api/reviews');
+                const data = await response.json();
+                setAllReviews(data);
+            } catch (error) {
+                console.error("Error fetching all reviews:", error);
+            }
+        };
+
+        fetchAllReviews();
+    }, []);
+
+    const getReviewCount = (apartmentID) => {
+        return allReviews.filter(review => review.apartmentID === apartmentID).length;
+    };
 
     const handleCategoryClick = (category) => {
         navigate(`/apartments?category=${encodeURIComponent(category)}`);
@@ -145,19 +165,19 @@ function HomePage() {
             <div className="recomended-block">
                 <h3 className="header">Рекомендоване житло для вас</h3>
                 <div className="recomended-container">
-                    {apartments.map((ap, index) => (
+                    {apartments.map((apartment, index) => (
                         <div className="recomended-item" key={index}>
-                            <img src={`images/${ap.apartmentPhoto}`} className="recomended-img" />
+                            <img src={`images/${apartment.apartmentPhoto}`} className="recomended-img" />
                             <div className="favourite">
                                 <img src="images/favourite-icon.png" className="favourite-btn" />
                             </div>
                             <div className="apartment-info">
-                                <h4 className="header">{ap.apartmentName}</h4>
-                                <h4 className="sub-header">{ap.apartmentCountry}, {ap.apartmentLocation}</h4>
+                                <h4 className="header">{apartment.apartmentName}</h4>
+                                <h4 className="sub-header">{apartment.apartmentCountry}, {apartment.apartmentLocation}</h4>
                                 <div className="container">
-                                    <h4 className="price-big">€ {ap.apartmentPrice}</h4>
+                                    <h4 className="price-big">€ {apartment.apartmentPrice}</h4>
                                     <p className='price-small'>/ ніч</p>
-                                    <Link to={`/apartment/${ap.apartmentID}`} state={{ ap }} className="more-button-group" >
+                                    <Link to={`/apartment/${apartment.apartmentID}`} state={{ apartment }} className="more-button-group" onClick={() => window.scrollTo(0, 0)}>
                                         <p>Детальніше</p>
                                         <img src="/images/arrow.svg" className="icon"></img>
                                     </Link>
@@ -165,9 +185,9 @@ function HomePage() {
                                 <div className="review-container">
                                     <div className='rate-group'>
                                         <img src="images/rate-icon.png" className="icon" />
-                                        <p>{ap.apartmentRate.toFixed(1)}</p>
+                                        <p>{apartment.apartmentRate.toFixed(1)}</p>
                                     </div>
-                                    <p className='reviews'>(176 відгуків)</p>
+                                    <p className='reviews'>({getReviewCount(apartment.apartmentID)} відгуків)</p>
                                 </div>
                             </div>
                         </div>
@@ -221,7 +241,7 @@ function HomePage() {
                 </Slider>
 
 
-                <div className="carousel-btns">
+                <div className="home-carousel-btns" style={{ marginTop: "40px" }}>
                     <div className="carousel-btn" onClick={() => sliderRef.current.slickPrev()}>
                         <img src="images/orange-arrow.png" style={{ transform: "scaleX(-1)" }} className="arrow-btn" />
                     </div>
@@ -232,7 +252,7 @@ function HomePage() {
 
             </div>
 
-            <div className="category-block" style={{ marginTop: "200px", marginBottom: "200px" }}>
+            <div className="category-block" style={{ marginTop: "-100px", marginBottom: "200px" }}>
                 <h3 className="header" style={{ left: "calc(50% - 186px /2 + 0.5px)" }}>Наш блог</h3>
                 <div className="category-container">
                     <div className="category-item">

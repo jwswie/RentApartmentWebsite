@@ -16,5 +16,7 @@ namespace RentApartmentWebsite.Server
         public DbSet<ApartmentCategory> ApartmentCategories { get; set; }
         public DbSet<ApartmentAmenity> ApartmentAmenities { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+
+        public DbSet<Review> Reviews { get; set; }
     }
 }

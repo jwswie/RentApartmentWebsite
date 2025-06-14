@@ -13,8 +13,11 @@
 
 .login-container {
     position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 480px;
-    height: 788px;
+    height: 748px;
     left: calc(50% - 480px/2);
     top: 3%;
     background: #060606;
@@ -35,33 +38,29 @@
 .form header {
     position: relative;
     width: 271px;
-    height: 24px;
-    left: calc(50% - 271px/2 + 15px);
+    left: calc(50% - 268px/2 + 15px);
     top: 100px;
     font-weight: 700;
     font-size: 30.5px;
-    line-height: 76px;
-    display: flex;
-    align-items: center;
     color: #FCFCFC;
 }
 
 .form .form-header {
     position: relative;
     left: 30px;
-    top: 150px;
+    top: 130px;
     font-weight: 400;
     font-size: 12px;
     line-height: 30px;
-    color: #FCFCFC;
+    color: #E5E5E5;
 }
 
 .form .form-input {
     position: relative;
     width: 420px;
-    height: 55px;
+    height: 50px;
     left: 30px;
-    top: 140px;
+    top: 120px;
     border: 1px solid #A0A0A0;
     border-radius: 8px;
     background-color: #060606;
@@ -81,7 +80,7 @@
     background: #E84E0F;
     border-radius: 8px;
     left: 30px;
-    top: 160px;
+    top: 140px;
     color: #fff;
     font-weight: 600;
     font-size: 16px;
@@ -161,7 +160,7 @@
     position: relative;
     width: 387px;
     left: calc(50% - 387px/2 + 0.5px);
-    top: -45px;
+    top: -65px;
     font-weight: 400;
     font-size: 14px;
     text-align: center;
@@ -194,10 +193,9 @@
     width: 310px;
     left: calc(50% - 310px/2);
     white-space: nowrap;
-    top: 100px;
+    top: 90px;
     font-weight: 700;
     font-size: 30px;
-    line-height: 76px;
     color: #FCFCFC;
 }
 
@@ -205,7 +203,7 @@
     position: relative;
     width: 486px;
     left: calc(50% - 486px/2);
-    top: 145px;
+    top: 155px;
     font-weight: 400;
     font-size: 15px;
     line-height: 20px;
@@ -243,7 +241,7 @@
     background-color: #060606;
     color: #f7f7f7;
     outline: none;
-    transition: border 0.2s;
+    transition: border 0.1s;
 }
 
     .code-input:focus {
@@ -270,3 +268,7 @@
     color: #E84E0F;
     cursor: pointer;
 }
+
+    .resend-btn:hover {
+        color: #CA4008;
+    }

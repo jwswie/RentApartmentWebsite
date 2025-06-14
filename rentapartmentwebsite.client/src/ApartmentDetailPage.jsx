@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import './css/apartment-detail-style.css';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -21,12 +21,13 @@ function ApartmentDetailPage() {
     const [showMore, setShowMore] = useState(false);
     const [showMore2, setShowMore2] = useState(false);
     const [showGuestsInfo, setShowGuestsInfo] = useState(false);
+    const [reviews, setReviews] = useState([]);
     //#region Slider variables
     const sliderRef = useRef();
     const slider2Ref = useRef();
     const [currentSlide, setCurrentSlide] = useState(0);
     const [currentSlide2, setCurrentSlide2] = useState(0);
-    const totalSlides = 7;
+    const totalSlides = reviews.length;
     const totalSlides2 = 6;
     const slidesToShow = 2.5;
     const slidesToShow2 = 3;
@@ -37,6 +38,42 @@ function ApartmentDetailPage() {
     const [children, setChildren] = useState(0);
     const [pets, setPets] = useState(0);
     const totalPrice = apartment.apartmentPrice * adults;
+    const [apartments, setApartments] = useState([]);
+    const [allReviews, setAllReviews] = useState([]);
+
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const response = await fetch(`/api/reviews/apartment/${apartment.apartmentID}`);
+                const data = await response.json();
+                setReviews(data);
+            } catch (error) {
+                console.error("Error fetching reviews:", error);
+            }
+        };
+
+        if (apartment?.apartmentID) {
+            fetchReviews();
+        }
+    }, [apartment]);
+
+    useEffect(() => {
+        const fetchAllReviews = async () => {
+            try {
+                const response = await fetch('/api/reviews');
+                const data = await response.json();
+                setAllReviews(data);
+            } catch (error) {
+                console.error("Error fetching all reviews:", error);
+            }
+        };
+
+        fetchAllReviews();
+    }, []);
+
+    const getReviewCount = (apartmentID) => {
+        return allReviews.filter(review => review.apartmentID === apartmentID).length;
+    };
 
     const handleDateChange1 = (e) => {
         setArrivalDate(e.target.value);
@@ -154,6 +191,13 @@ function ApartmentDetailPage() {
 
         return parts.length > 0 ? parts.join(', ') : 'Хто вирушає з вами?';
     };
+
+    useEffect(() => {
+        fetch("/api/apartment")
+            .then((res) => res.json())
+            .then((data) => setApartments(data.slice(0, 6)))
+            .catch((err) => console.error("Помилка завантаження:", err));
+    }, []);
 
     return (
         <div className="main-container">
@@ -481,162 +525,39 @@ function ApartmentDetailPage() {
 
             <div className='review-block' >
                 <div className="slider-wrapper">
-                    <Slider ref={sliderRef} slidesToShow={2.5} slidesToScroll={1} initialSlide={0} infinite={false} className="review-carousel" beforeChange={(oldIndex, newIndex) => setCurrentSlide(newIndex)}>
-                        <div className="slider-item">
-                            <div className="top-container">
-                                <div className="user-block">
-                                    <div className="profile-picture-wrapper">
-                                        <img src="/images/owner-pfp.jpg" className="picture" />
+                    <Slider
+                        ref={sliderRef}
+                        slidesToShow={2.5}
+                        slidesToScroll={1}
+                        initialSlide={0}
+                        infinite={false}
+                        className="review-carousel"
+                        beforeChange={(oldIndex, newIndex) => setCurrentSlide(newIndex)}
+                    >
+                        {reviews.map((review, index) => (
+                            <div className="slider-item" key={index}>
+                                <div className="top-container">
+                                    <div className="user-block">
+                                        <div className="profile-picture-wrapper">
+                                            <img src={review.userPhoto || "/images/no-pfp.svg"}  className="picture" />
+                                        </div>
+                                        <div className="text-wrapper">
+                                            <p className="user-name">{review.userName}</p>
+                                            <p className="time" style={{ whiteSpace: "nowrap" }}>{new Date(review.reviewDate).toLocaleDateString('uk-UA', { month: 'long', year: 'numeric' })}</p>
+                                        </div>
                                     </div>
-
-                                    <div className="text-wrapper">
-                                        <p className="user-name">John Reynolds</p>
-                                        <p className="time">Червень 2023</p>
-                                    </div>
-                                </div>
-
-                                <div className='mark-group'>
-                                    <img src="/images/rate-icon.png" className="icon"></img>
-                                    <p>5,0</p>
-                                </div>
-                            </div>
-                            <div className='text-container'>
-                                <p>Гостинність на найвищому рівні. Все було підготовлено заздалегідь, чисто і затишно. Господарка відповіла на всі наші питання, навіть допомогла викликати таксі. Відчував себе як удома. Рекомендую всім, хто цінує комфорт і щирість у спілкуванні</p>
-                            </div>
-                        </div>
-                        <div className="slider-item">
-                            <div className="top-container">
-                                <div className="user-block">
-                                    <div className="profile-picture-wrapper">
-                                        <img src="/images/owner-pfp.jpg" className="picture" />
-                                    </div>
-
-                                    <div className="text-wrapper">
-                                        <p className="user-name">Emily Carter</p>
-                                        <p className="time">Березень 2024</p>
+                                    <div className='mark-group'>
+                                        <img src="/images/rate-icon.png" className="icon" />
+                                        <p>{review.reviewRate.toFixed(1)}</p>
                                     </div>
                                 </div>
-
-                                <div className='mark-group'>
-                                    <img src="/images/rate-icon.png" className="icon"></img>
-                                    <p>4,6</p>
+                                <div className='text-container'>
+                                    <p>{review.reviewText}</p>
                                 </div>
                             </div>
-                            <div className='text-container'>
-                                <p>Квартира дуже простора і світла. Господарка завжди була на зв’язку, підказала гарні ресторани поблизу. Єдине — трохи шумно вранці через будівництво поруч, але це не зіпсувало враження. Усе інше було чудово. Дякую за прийом!</p>
-                            </div>
-                        </div>
-                        <div className="slider-item">
-                            <div className="top-container">
-                                <div className="user-block">
-                                    <div className="profile-picture-wrapper">
-                                        <img src="/images/owner-pfp.jpg" className="picture" />
-                                    </div>
-
-                                    <div className="text-wrapper">
-                                        <p className="user-name">Alejandro Torres</p>
-                                        <p className="time">Травень 2022</p>
-                                    </div>
-                                </div>
-
-                                <div className='mark-group'>
-                                    <img src="/images/rate-icon.png" className="icon"></img>
-                                    <p>5,0</p>
-                                </div>
-                            </div>
-                            <div className='text-container'>
-                                <p>Мені сподобалося буквально все: чистота, порядок, запах свіжої постільної білизни. Дуже приємно, коли видно, що господар дійсно дбає про комфорт гостей. Отримав чіткі інструкції, ключі передали вчасно. Без сумніву повернуся сюди ще раз.</p>
-                            </div>
-                        </div>
-                        <div className="slider-item">
-                            <div className="top-container">
-                                <div className="user-block">
-                                    <div className="profile-picture-wrapper">
-                                        <img src="/images/owner-pfp.jpg" className="picture" />
-                                    </div>
-
-                                    <div className="text-wrapper">
-                                        <p className="user-name">Natalie Moore</p>
-                                        <p className="time">Серпень 2023</p>
-                                    </div>
-                                </div>
-
-                                <div className='mark-group'>
-                                    <img src="/images/rate-icon.png" className="icon"></img>
-                                    <p>5,0</p>
-                                </div>
-                            </div>
-                            <div className='text-container'>
-                                <p>Дуже спокійне місце, саме те, що мені було потрібно. Усе відповідало опису. Господарка дуже уважна — навіть залишила невеликий подарунок. Приємно, коли про тебе так піклуються. Житло виглядає ще краще, ніж на фото. Абсолютно задоволена!</p>
-                            </div>
-                        </div>
-                        <div className="slider-item">
-                            <div className="top-container">
-                                <div className="user-block">
-                                    <div className="profile-picture-wrapper">
-                                        <img src="/images/owner-pfp.jpg" className="picture" />
-                                    </div>
-
-                                    <div className="text-wrapper">
-                                        <p className="user-name">Martin Klein</p>
-                                        <p className="time">Лютий 2022</p>
-                                    </div>
-                                </div>
-
-                                <div className='mark-group'>
-                                    <img src="/images/rate-icon.png" className="icon"></img>
-                                    <p>4,2</p>
-                                </div>
-                            </div>
-                            <div className='text-container'>
-                                <p>Житло було нормальне, але трохи прохолодне вночі. Добре, що дали додаткову ковдру. В іншому все ок. Господарка відповідальна, зустріла особисто. Мені не вистачило чайника, але це дрібниці. Загалом чудовий варіант на кілька днів.</p>
-                            </div>
-                        </div>
-                        <div className="slider-item">
-                            <div className="top-container">
-                                <div className="user-block">
-                                    <div className="profile-picture-wrapper">
-                                        <img src="/images/owner-pfp.jpg" className="picture" />
-                                    </div>
-
-                                    <div className="text-wrapper">
-                                        <p className="user-name">Sofia Evans</p>
-                                        <p className="time">Квітень 2024</p>
-                                    </div>
-                                </div>
-
-                                <div className='mark-group'>
-                                    <img src="/images/rate-icon.png" className="icon"></img>
-                                    <p>5,0</p>
-                                </div>
-                            </div>
-                            <div className='text-container'>
-                                <p>Абсолютно ідеально! Зустріли тепло, все підготовлено до приїзду. Місце дуже зручне для прогулянок, господарка порадила круті місця, яких не знайдеш у гуглі. Відчувала себе в безпеці й комфорті. Дуже вдячна за турботу та атмосферу.</p>
-                            </div>
-                        </div>
-                        <div className="slider-item">
-                            <div className="top-container">
-                                <div className="user-block">
-                                    <div className="profile-picture-wrapper">
-                                        <img src="/images/owner-pfp.jpg" className="picture" />
-                                    </div>
-
-                                    <div className="text-wrapper">
-                                        <p className="user-name">Oleg Romanov</p>
-                                        <p className="time">Жовтень 2022</p>
-                                    </div>
-                                </div>
-
-                                <div className='mark-group'>
-                                    <img src="/images/rate-icon.png" className="icon"></img>
-                                    <p>4,7</p>
-                                </div>
-                            </div>
-                            <div className='text-container'>
-                                <p>Гарне співвідношення ціни та якості. Є все необхідне для короткострокового перебування. Господарка ввічлива та пунктуальна. Єдине — хотілося б трохи більше посуду, бо ми готували самі. А так усе пройшло добре, претензій нема.</p>
-                            </div>
-                        </div>
+                        ))}
                     </Slider>
+
                 </div>
 
                 <div className="carousel-btns">
@@ -666,156 +587,33 @@ function ApartmentDetailPage() {
                     <h3 className="header">Схоже житло</h3>
                 </div>
                 <Slider ref={slider2Ref} slidesToShow={3} slidesToScroll={1} initialSlide={0} infinite={false} className="apartment-carousel" beforeChange={(oldIndex, newIndex) => setCurrentSlide2(newIndex)}>
-                    <div className="recomended-item">
-                        <img src="/images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
-                        <div className="favourite">
-                            <img src="/images/favourite-icon.png" className="favourite-btn" />
-                        </div>
-                        <div className="apartment-info">
-                            <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
-                            <h4 className="sub-header">Франція, Париж, Le Marais</h4>
-                            <div className="container" style={{top: "0px"} }>
-                                <h4 className="price-big">€ 123</h4>
-                                <p className='price-small'>/ ніч</p>
-                                <div className='more-button-group' onClick={() => navigate('/detail')}>
-                                    <p>Детальніше</p>
-                                    <img src="/images/arrow.svg" className="icon" />
+                    {apartments.map((apartment, index) => (
+                        <div className="recomended-item" key={index}>
+                            <img src={`/images/${apartment.apartmentPhoto}`} className="recomended-img" />
+                            <div className="favourite">
+                                <img src="/images/favourite-icon.png" className="favourite-btn" />
+                            </div>
+                            <div className="apartment-info">
+                                <h4 className="header">{apartment.apartmentName}</h4>
+                                <h4 className="sub-header">{apartment.apartmentCountry}, {apartment.apartmentLocation}</h4>
+                                <div className="container">
+                                    <h4 className="price-big">€ {apartment.apartmentPrice}</h4>
+                                    <p className='price-small'>/ ніч</p>
+                                    <Link to={`/apartment/${apartment.apartmentID}`} state={{ apartment }} className="more-button-group" onClick={() => window.scrollTo(0, 0)}>
+                                        <p>Детальніше</p>
+                                        <img src="/images/arrow.svg" className="icon"></img>
+                                    </Link>
+                                </div>
+                                <div className="review-container">
+                                    <div className='rate-group'>
+                                        <img src="/images/rate-icon.png" className="icon" />
+                                        <p>{apartment.apartmentRate.toFixed(1)}</p>
+                                    </div>
+                                    <p className='reviews'>({getReviewCount(apartment.apartmentID)} відгуків)</p>
                                 </div>
                             </div>
-                            <div className="review-container">
-                                <div className='rate-group'>
-                                    <img src="/images/rate-icon.png" className="icon" />
-                                    <p>2,3</p>
-                                </div>
-                                <p className='reviews'>(176 відгуків)</p>
-                            </div>
                         </div>
-                    </div>
-                    <div className="recomended-item">
-                        <img src="/images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
-                        <div className="favourite">
-                            <img src="/images/favourite-icon.png" className="favourite-btn" />
-                        </div>
-                        <div className="apartment-info">
-                            <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
-                            <h4 className="sub-header">Франція, Париж, Le Marais</h4>
-                            <div className="container" style={{ top: "0px" }}>
-                                <h4 className="price-big">€ 123</h4>
-                                <p className='price-small'>/ ніч</p>
-                                <div className='more-button-group' onClick={() => navigate('/detail')}>
-                                    <p>Детальніше</p>
-                                    <img src="/images/arrow.svg" className="icon" />
-                                </div>
-                            </div>
-                            <div className="review-container">
-                                <div className='rate-group'>
-                                    <img src="/images/rate-icon.png" className="icon" />
-                                    <p>2,3</p>
-                                </div>
-                                <p className='reviews'>(176 відгуків)</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="recomended-item">
-                        <img src="/images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
-                        <div className="favourite">
-                            <img src="/images/favourite-icon.png" className="favourite-btn" />
-                        </div>
-                        <div className="apartment-info">
-                            <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
-                            <h4 className="sub-header">Франція, Париж, Le Marais</h4>
-                            <div className="container" style={{ top: "0px" }}>
-                                <h4 className="price-big">€ 123</h4>
-                                <p className='price-small'>/ ніч</p>
-                                <div className='more-button-group' onClick={() => navigate('/detail')}>
-                                    <p>Детальніше</p>
-                                    <img src="/images/arrow.svg" className="icon" />
-                                </div>
-                            </div>
-                            <div className="review-container">
-                                <div className='rate-group'>
-                                    <img src="/images/rate-icon.png" className="icon" />
-                                    <p>2,3</p>
-                                </div>
-                                <p className='reviews'>(176 відгуків)</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="recomended-item">
-                        <img src="/images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
-                        <div className="favourite">
-                            <img src="/images/favourite-icon.png" className="favourite-btn" />
-                        </div>
-                        <div className="apartment-info">
-                            <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
-                            <h4 className="sub-header">Франція, Париж, Le Marais</h4>
-                            <div className="container" style={{ top: "0px" }}>
-                                <h4 className="price-big">€ 123</h4>
-                                <p className='price-small'>/ ніч</p>
-                                <div className='more-button-group' onClick={() => navigate('/detail')}>
-                                    <p>Детальніше</p>
-                                    <img src="/images/arrow.svg" className="icon" />
-                                </div>
-                            </div>
-                            <div className="review-container">
-                                <div className='rate-group'>
-                                    <img src="/images/rate-icon.png" className="icon" />
-                                    <p>2,3</p>
-                                </div>
-                                <p className='reviews'>(176 відгуків)</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="recomended-item">
-                        <img src="/images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
-                        <div className="favourite">
-                            <img src="/images/favourite-icon.png" className="favourite-btn" />
-                        </div>
-                        <div className="apartment-info">
-                            <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
-                            <h4 className="sub-header">Франція, Париж, Le Marais</h4>
-                            <div className="container" style={{ top: "0px" }}>
-                                <h4 className="price-big">€ 123</h4>
-                                <p className='price-small'>/ ніч</p>
-                                <div className='more-button-group' onClick={() => navigate('/detail')}>
-                                    <p>Детальніше</p>
-                                    <img src="/images/arrow.svg" className="icon" />
-                                </div>
-                            </div>
-                            <div className="review-container">
-                                <div className='rate-group'>
-                                    <img src="/images/rate-icon.png" className="icon" />
-                                    <p>2,3</p>
-                                </div>
-                                <p className='reviews'>(176 відгуків)</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="recomended-item">
-                        <img src="/images/apartment-image2.png" alt="Apartment Photo" className="recomended-img" />
-                        <div className="favourite">
-                            <img src="/images/favourite-icon.png" className="favourite-btn" />
-                        </div>
-                        <div className="apartment-info">
-                            <h4 className="header">Charmant appartement<br></br>au cœur du Marais</h4>
-                            <h4 className="sub-header">Франція, Париж, Le Marais</h4>
-                            <div className="container" style={{ top: "0px" }}>
-                                <h4 className="price-big">€ 123</h4>
-                                <p className='price-small'>/ ніч</p>
-                                <div className='more-button-group' onClick={() => navigate('/detail')}>
-                                    <p>Детальніше</p>
-                                    <img src="/images/arrow.svg" className="icon" />
-                                </div>
-                            </div>
-                            <div className="review-container">
-                                <div className='rate-group'>
-                                    <img src="/images/rate-icon.png" className="icon" />
-                                    <p>2,3</p>
-                                </div>
-                                <p className='reviews'>(176 відгуків)</p>
-                            </div>
-                        </div>
-                    </div>
+                    ))}
                 </Slider>
 
                 <div className="carousel-btns">

@@ -1,6 +1,6 @@
 .apartment-header {
     position: relative;
-    left: 70px;
+    left: 80px;
     top: 80px;
     height: 120px;
 }
@@ -30,7 +30,7 @@
 
     .apartment-header h2 {
         position: relative;
-        left: 39%;
+        left: 38%;
         top: 60px;
         font-weight: 600;
         font-size: 38px;
@@ -162,7 +162,7 @@
 .apartment-search {
     position: relative;
     width: 93.5%;
-    left: 70px;
+    left: 80px;
     top: 220px;
     display: flex;
     flex-direction: row;
@@ -212,7 +212,7 @@
 
         .apartment-search .map-btn .text {
             position: relative;
-            top: 7px;
+            top: 5px;
             font-weight: 600;
             font-size: 18px;
             line-height: 12px;
@@ -225,7 +225,7 @@
         }
 
     .apartment-search .filter-btn {
-        margin-left: 70px;
+        margin-left: 40px;
         width: 180px;
         height: 55px;
         display: flex;
@@ -259,8 +259,8 @@
 
 .apartment-block {
     position: relative;
-    width: 93.5%;
-    left: 70px;
+    width: 90.5%;
+    left: 80px;
     top: 200px;
     margin-bottom: 250px
 }
@@ -274,7 +274,7 @@
 
 .apartment-container .apartment-item {
     position: relative;
-    width: 460px;
+    width: 440px;
     height: 500px;
     top: 50px;
     border-radius: 20px;
@@ -284,7 +284,7 @@
 
     .apartment-container .apartment-item .apartment-img {
         position: relative;
-        width: 460px;
+        width: 440px;
         border-radius: 20px 20px 0px 0px;
     }
 
@@ -451,7 +451,8 @@
 
 .review-container .reviews {
     position: relative;
-    top: 10px;
+    top: 15px;
+    left: 20px;
     width: 121px;
     height: 14px;
     font-weight: 400;
@@ -490,7 +491,7 @@
 .sort-window {
     position: absolute;
     width: 280px;
-    height: 300px;
+    height: 340px;
     left: 80px;
     top: 840px;
     background: #FCFCFC;
@@ -502,6 +503,7 @@
     .sort-window .sort-container {
         display: flex;
         flex-direction: column;
+        padding: 20px;
     }
 
         .sort-window .sort-container .sort-item {
@@ -520,8 +522,8 @@
 
             .sort-window .sort-container .sort-item .text {
                 position: relative;
-                top: 8px;
-                left: 25px;
+                top: 5px;
+                left: 15px;
             }
 
             .sort-window .sort-container .sort-item:hover {
@@ -538,7 +540,7 @@
     position: absolute;
     width: 770px;
     height: 540px;
-    left: 690px;
+    left: 670px;
     top: 840px;
     z-index: 10;
     border-radius: 12px;

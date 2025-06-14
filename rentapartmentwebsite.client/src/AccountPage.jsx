@@ -98,7 +98,7 @@ function AccountPage({ setUser }) {
                 </div>
             </div>
 
-            <div className="deactivate-buttons" style={{ marginTop: "35px" }}>
+            <div className="deactivate-buttons">
                 <p>Бажаєте деактивувати обліковий запис?</p>
                 <button className="deactivate-btn" onClick={handleLogout}>Деактивувати</button>
             </div>

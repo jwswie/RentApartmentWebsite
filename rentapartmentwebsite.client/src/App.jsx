@@ -1,10 +1,10 @@
 import './css/login-style.css';
 import './App.css';
+import './css/bootstrap.min.css';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation, useNavigate } from 'react-router-dom';
 import HomePage from './HomePage';
 import AboutPage from './AboutPage';
-import ContactPage from './ContactPage';
 import CountriesPage from './CountriesPage';
 import NotFoundPage from './NotFoundPage';
 import AccountPage from './AccountPage';
@@ -328,6 +328,7 @@ function App() {
                         ) : (
                             <img src="/images/wish-icon.svg" className="icon" style={{ width: "26px", height: "26px" }}></img>
                         )}
+
                         {user ? (
                             <div className="profile-picture-wrapper">
                                 {user?.photo ? (
@@ -335,7 +336,6 @@ function App() {
                                 ) : (
                                     <Link to="/account" state={{ user: user }}><img src="/images/no-pfp.svg" style={{ width: "24px", height: "24px" }} className="profile-pictire"></img></Link>
                                 )}
-
                             </div>
                         ) : (
                             <img src="/images/profile-icon.svg" onClick={() => setIsRegisterWindow(true)} className="icon" style={{ width: "24px", height: "24px" }}></img>
@@ -351,13 +351,11 @@ function App() {
                     {!isAdmin && !isVerifying ? ( // Если входит пользователь и не стоит проверка кода
                         <div className="login-container">
                             <div className="login form">
-                                <img src="/images/cross.png" alt="Cross image" onClick={() => setIsRegisterWindow(false)} className="close-btn"></img>
+                                <img src="/images/cross.png" onClick={() => setIsRegisterWindow(false)} className="close-btn"></img>
                                 <header>Вхід / Реєстрація</header>
                                 <form onSubmit={handleLogin}>
                                     <p className="form-header">Електронна пошта</p>
-                                    <input type="text" className="form-input" placeholder="Введіть електронну пошту" value={emailAddress}
-                                        onChange={(e) => setEmailAddress(e.target.value)} required />
-                                    {errorMessage && <p className="error-message">{errorMessage}</p>}
+                                    <input type="text" className="form-input" placeholder="Введіть електронну пошту" value={emailAddress} onChange={(e) => setEmailAddress(e.target.value)} required />
                                     <input type="submit" className="button" value="Продовжити" />
                                 </form>
 
@@ -369,15 +367,15 @@ function App() {
 
                                 <div className="other">
                                     <div className="other-item">
-                                        <img src="/images/google-icon.png" alt="Google image" className="other-icon"></img>
+                                        <img src="/images/google-icon.png" className="other-icon"></img>
                                         <p className="other-text">Увійти з Google</p>
                                     </div>
                                     <div className="other-item">
-                                        <img src="/images/facebook-icon.png" alt="Facebook image" className="other-icon" style={{ width: "14px" }}></img>
+                                        <img src="/images/facebook-icon.png" className="other-icon" style={{ width: "14px" }}></img>
                                         <p className="other-text">Увійти з Facebook</p>
                                     </div>
                                     <div className="other-item">
-                                        <img src="/images/apple-icon.png" alt="Apple image" className="other-icon"></img>
+                                        <img src="/images/apple-icon.png" className="other-icon"></img>
                                         <p className="other-text">Увійти з Apple</p>
                                     </div>
                                 </div>
@@ -390,9 +388,9 @@ function App() {
 
                         <div className="code-container">
                             <div className="login form">
-                                <img src="/images/cross.png" onClick={() => setIsRegisterWindow(false)} alt="Cross image" className="close-btn"></img>
-                                    <img src="/images/arrow.png" onClick={() => (setIsVerifying(false), setIsAdmin(false))} alt="Arrow image" className="back-btn"></img>
-                                    <header style={{ marginLeft: "15px" }}>Введіть пароль</header>
+                                <img src="/images/cross.png" onClick={() => setIsRegisterWindow(false)} className="close-btn"></img>
+                                <img src="/images/arrow.png" onClick={() => (setIsVerifying(false), setIsAdmin(false))} className="back-btn"></img>
+                                <header style={{ marginLeft: "15px" }}>Введіть пароль</header>
                                 <form onSubmit={handleAdminLogin} style={{ marginTop: "70px" }}>
                                     <input type="password" className="form-input" placeholder="Введіть пароль" value={password}
                                         onChange={(e) => setPassword(e.target.value)} required />
@@ -405,44 +403,24 @@ function App() {
                     ) : isVerifying && !isAdmin ? ( // Если стоит проверка кода и входит пользователь
                         <div className="code-container">
                             <div className="login form">
-                                <img src="/images/cross.png" onClick={() => setIsRegisterWindow(false)} alt="Cross image" className="close-btn"></img>
-                                <img src="/images/arrow.png" onClick={() => setIsVerifying(false)} alt="Arrow image" className="back-btn"></img>
+                                <img src="/images/cross.png" onClick={() => (setIsVerifying(false), setIsRegisterWindow(false))} className="close-btn"></img>
+                                <img src="/images/arrow.png" onClick={() => setIsVerifying(false)} className="back-btn"></img>
                                 <header id='code-header'>Введіть код перевірки</header>
                                 <p className="code-header">Ми надіслали код перевірки на <b>Вашу електронну пошту</b>.<br></br>Перевірте папку з вхідними повідомленнями<br></br>та введіть код нижче.</p>
                                 <p className="code-subheader">*Код підтвердження дійсний протягом 20 хвилин після його отримання.</p>
                                 <form onSubmit={handleVerifyCode} style={{ marginTop: "70px" }} className="code-input-form">
                                     <div className="code-inputs">
                                         {codeArray.map((char, i) => (
-                                            <input
-                                                key={i}
-                                                id={`code-input-${i}`}
-                                                type="text"
-                                                maxLength="1"
-                                                className="code-input"
-                                                value={char}
-                                                onChange={(e) => handleChange(e.target.value, i)}
-                                                onKeyDown={(e) => handleKeyDown(e, i)}
-                                                onPaste={(e) => handlePaste(e)}
-                                            />
+                                            <input key={i} id={`code-input-${i}`} type="text" maxLength="1" className="code-input" value={char} onChange={(e) => handleChange(e.target.value, i)} onKeyDown={(e) => handleKeyDown(e, i)} onPaste={(e) => handlePaste(e)} />
                                         ))}
                                     </div>
 
-                                    {errorMessage && <p className="error-message">{errorMessage}</p>}
-                                    <p
-                                        className="resend-btn"
-                                        onClick={resendVerificationCode}
-                                        style={{
-                                            color: resendTimer > 0 ? "#A0A0A0" : "#E84E0F",
-                                            cursor: resendTimer > 0 ? "not-allowed" : "pointer",
-                                            pointerEvents: resendTimer > 0 ? "none" : "auto",
-                                        }}
-                                    >
+                                    <p className="resend-btn" onClick={resendVerificationCode} style={{ color: resendTimer > 0 ? "#A0A0A0" : "#E84E0F", cursor: resendTimer > 0 ? "not-allowed" : "pointer", pointerEvents: resendTimer > 0 ? "none" : "auto", whiteSpace: resendTimer > 0 ? 'nowrap' : 'none' }} >
                                         {resendTimer > 0 ? `Надіслати код перевірки ще раз (${resendTimer}с)` : "Надіслати код перевірки ще раз"}
                                     </p>
 
                                     <input type="submit" className="button" value="Увійти" />
                                 </form>
-
                             </div>
                         </div>
                     ) : null}
@@ -469,7 +447,7 @@ function App() {
                 <div className="footer-area">
                     <div className="container">
                         <div className="col">
-                            <img src="/images/footer-logo.png" alt="Logo image" className="footer-logo"></img>
+                            <img src="/images/footer-logo.png" className="footer-logo"></img>
                             <div className="col-group">
                                 <p id='copyright'>© 2025 Dwell. Всі права захищені.</p>
                                 <p className='group1-item'>Налаштування файлів cookie</p>

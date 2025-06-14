@@ -61,5 +61,6 @@ namespace RentApartmentWebsite.Server.Models
         public ICollection<ApartmentAmenity> Amenities { get; set; } = new List<ApartmentAmenity>();
 
         public ICollection<Booking> Bookngs { get; set; } = new List<Booking>();
+        public ICollection<Review> Revies { get; set; } = new List<Review>();
     }
 }

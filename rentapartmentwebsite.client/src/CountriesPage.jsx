@@ -84,27 +84,13 @@ function CountriesPage() {
             </div>
 
             <div className='country-search'>
-                <div className="search-container">
-                    <form onSubmit={handleSearch}>
-                        <input type="text" className="country-input" placeholder="Введіть потрібну країну" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} required />
-                        <button type="submit" className="country-search-btn">
-                            <img src="images/search-icon.svg" style={{ width: "23px", height: "23px" }} />
-                        </button>
-                    </form>
-                </div>
-
-                <div className="map-btn">
-                    <img className="icon" src="images/map-icon.png" />
-                    <p className="text">Перейти до карти</p>
-                </div>
-
                 <div className="sort-btn" onClick={toggleSort}>
                     <p className="text">Сортувати за {sortOption === "rate" ? "популярним" : sortOption === "priceHigh" ? "найдорожчими" : sortOption === "priceLow" ? "найдешевшими" : "рекомендаціями"}</p>
                     <img className="icon" style={{ transform: isSortOpen ? "rotate(270deg)" : "rotate(90deg)", transition: "transform 0.3s" }} src="/images/orange-arrow.png" />
                 </div>
 
                 {isSortOpen && (
-                    <div className="sort-window" style={{ left: "1140px", top: "100px", width: "240px", height: "200px" }}>
+                    <div className="sort-window" style={{ left: "0px", top: "100px", width: "240px", height: "200px" }}>
                         <div className="sort-container">
                             <div className={`sort-item ${sortOption === "rate" ? "active" : ""}`} onClick={() => { setSortOption("rate"); setIsSortOpen(false); }} >
                                 <p className="text">Популярним</p>
@@ -121,6 +107,30 @@ function CountriesPage() {
                         </div>
                     </div>
                 )}
+
+                <div className="country-search-container">
+                    <form onSubmit={handleSearch}>
+                        <div className="input-wrapper">
+                            <input
+                                type="text"
+                                className="country-input"
+                                placeholder="Введіть потрібну країну"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                required
+                            />
+                            <div className="map-btn">
+                                <img className="icon" src="images/map-icon.png" />
+                                <p className="text">Перейти до карти</p>
+                            </div>
+                        </div>
+
+                        <button type="submit" className="country-search-btn">
+                            <img src="images/search-icon.svg" style={{ width: "23px", height: "23px" }} />
+                        </button>
+                    </form>
+                </div>
+
             </div>
 
             <div className="country-block">
@@ -133,7 +143,7 @@ function CountriesPage() {
                             <div className="country-info">
                                 <h4 className="header">{country.countryName}</h4>
                                 <h4 className="sub-header"> {minPrices[country.countryName] ? `Від ${minPrices[country.countryName]} €` : 'Немає даних'} </h4>
-                                <div className="more-button-group">
+                                <div className="more-button-group" onClick={() => handleCountryClick(country.countryName)}>
                                     <p>Детальніше</p>
                                     <img src="images/arrow.svg" className="icon" />
                                 </div>

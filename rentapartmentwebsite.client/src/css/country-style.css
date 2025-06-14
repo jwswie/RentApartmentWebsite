@@ -31,7 +31,7 @@
     .countries-header h2 {
         position: relative;
         left: 39%;
-        top: 50px;
+        top: 30px;
         font-weight: 600;
         font-size: 38px;
         color: #060606;
@@ -41,15 +41,56 @@
     position: relative;
     width: 93.5%;
     left: 80px;
-    top: 150px;
+    top: 110px;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 20px;
 }
 
-.search-container {
-    width: 580px;
+    .country-search .sort-btn {
+        position: relative;
+        width: 280px;
+        height: 55px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 1px solid #E84E0F;
+        border-radius: 50px;
+        cursor: pointer;
+    }
+
+        .country-search .sort-btn .text {
+            position: relative;
+            top: 5px;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 12px;
+            color: #E84E0F;
+        }
+
+        .country-search .sort-btn .icon {
+            width: 12px;
+            height: 10px;
+        }
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.country-input {
+    width: 100%;
+    height: 50px;
+    padding-right: 150px;
+    padding-left: 15px;
+    font-size: 16px;
+}
+
+.country-search-container {
+    width: 870px;
     height: 105px;
     padding: 20px;
     display: flex;
@@ -57,10 +98,11 @@
     background: #FCFCFC;
     box-shadow: 0px 3px 20px 3px rgba(6, 6, 6, 0.14);
     border-radius: 20px;
+    margin-left: 200px;
 }
 
-    .search-container .country-input {
-        width: 440px;
+    .country-search-container .country-input {
+        width: 725px;
         height: 65px;
         padding: 20px;
         border: 1px solid #A0A0A0;
@@ -68,9 +110,9 @@
         color: #060606;
     }
 
-    .search-container .country-search-btn {
+    .country-search-container .country-search-btn {
         position: relative;
-        left: 460px;
+        left: 745px;
         top: -65px;
         display: flex;
         justify-content: center;
@@ -86,9 +128,9 @@
         transition: all 0.1s ease;
     }
 
-        .search-container .country-search-btn:hover {
-            background: #CA4008;
-        }
+.country-search-container .country-search-btn:hover {
+    background: #CA4008;
+}
 
 .country-search .map-btn {
     width: 220px;
@@ -98,9 +140,12 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    border: 1px solid #E84E0F;
     border-radius: 50px;
     cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
     .country-search .map-btn .text {
@@ -115,35 +160,6 @@
     .country-search .map-btn .icon {
         width: 22px;
         height: 22px;
-    }
-
-.country-search .sort-btn {
-    position: relative;
-    left: 250px;
-    width: 280px;
-    height: 55px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    border: 1px solid #E84E0F;
-    border-radius: 50px;
-    cursor: pointer;
-}
-
-    .country-search .sort-btn .text {
-        position: relative;
-        top: 5px;
-        font-weight: 600;
-        font-size: 18px;
-        line-height: 12px;
-        color: #E84E0F;
-    }
-
-    .country-search .sort-btn .icon {
-        width: 12px;
-        height: 10px;
     }
 
 .country-block {

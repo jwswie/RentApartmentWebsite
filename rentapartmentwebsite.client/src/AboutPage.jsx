@@ -1,5 +1,3 @@
-import './css/bootstrap.min.css';
-import './css/font-awesome.min.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
