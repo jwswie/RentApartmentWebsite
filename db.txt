@@ -373,6 +373,17 @@ CREATE TABLE Users (
     BadHabits NVARCHAR(30) 
 )
 
+INSERT INTO Users (UserName, LastName, EmailAddress, Photo)
+VALUES 
+('John', 'Reynolds', 'john.reynolds@gmail.com', NULL),
+('Emily', 'Carter', 'emily.carter@gmail.com', NULL),
+('Alejandro', 'Torres', 'alejandro.torres@gmail.com', NULL),
+('Natalie', 'Moore', 'natalie.moore@gmail.com', NULL),
+('Martin', 'Klein', 'martin.klein@gmail.com', NULL),
+('Sofia', 'Evans', 'sofia.evans@gmail.com', NULL),
+('Oleg', 'Romanov', 'oleg.romanov@gmail.com', NULL),
+('Lucía', 'Herrera', 'lucia.herrera@gmail.com', NULL)
+
 CREATE TABLE Admins (
     AdminId INT PRIMARY KEY IDENTITY(1,1),
     AdminName NVARCHAR(255) NOT NULL,
@@ -427,10 +438,28 @@ INSERT INTO Countries (CountryName, CountryPhoto) VALUES
 ('Польща', 'poland.jpg'),
 ('Хорватія', 'croatia.jpg')
 
+CREATE TABLE Bookings (
+    BookingID INT PRIMARY KEY IDENTITY(1,1),
+    ArrivalDate DATE NOT NULL,
+    DepartureDate DATE NOT NULL,
+	ApartmentID INT NOT NULL FOREIGN KEY REFERENCES Apartments(ApartmentID),
+	UserID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID)
+)
+
+CREATE TABLE Reviews (
+    ReviewID INT PRIMARY KEY IDENTITY(1,1),
+	UserID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID),
+    ReviewDate DATE NOT NULL,
+    ReviewText NVARCHAR(MAX),
+    ReviewRate INT NOT NULL,
+    ApartmentID INT NOT NULL FOREIGN KEY REFERENCES Apartments(ApartmentID)
+)
+
 SELECT * FROM Apartments
 SELECT * FROM Users
 SELECT * FROM Admins
 SELECT * FROM Countries
+SELECT * FROM Bookings
 
 TRUNCATE TABLE Users
 TRUNCATE TABLE Admins
@@ -439,4 +468,4 @@ TRUNCATE TABLE ApartmentAmenities
 drop table Users
 drop table Admins
 drop table ApartmentInfrastructures
-drop table Apartments
+drop table Bookings
