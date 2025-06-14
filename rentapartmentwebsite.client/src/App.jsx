@@ -12,6 +12,7 @@ import ProfilePage from './ProfilePage';
 import AdminPanel from './AdminPanel';
 import ApartmentPage from './ApartmentPage';
 import ApartmentDetailPage from './ApartmentDetailPage';
+import BookingPage from './BookingPage'
 
 function ProfileProtectedRoute({ user, children }) {
     if (!user) {
@@ -452,7 +453,6 @@ function App() {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/about" element={<AboutPage />} />
-                <Route path="/contact" element={<ContactPage />} />
                 <Route path="/countries" element={<CountriesPage />} />
                 <Route path="/notfound" element={<NotFoundPage />} />
                 <Route path="/admin" element={<AdminProtectedRoute user={user}><AdminPanel setUser={updateUser} /></AdminProtectedRoute>} />
@@ -461,6 +461,7 @@ function App() {
                 <Route path="/apartments" element={<ApartmentPage />} />
                 <Route path="/detail" element={<ApartmentDetailPage />} />
                 <Route path="/apartment/:id" element={<ApartmentDetailPage />} />
+                <Route path="/book" element={<ProfileProtectedRoute user={user}><BookingPage setUser={updateUser} /></ProfileProtectedRoute>} />
             </Routes>
 
             {!isAdminPage && (
